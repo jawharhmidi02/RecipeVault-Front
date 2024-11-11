@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav/Nav";
+import Footer from "@/components/Footer/Footer";
 import "./globals.css";
 import "/public/assets/fontawesome/css/fontawesome.css";
 import "/public/assets/fontawesome/css/brands.css";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
       <body className="font-geist">
         <Nav></Nav>
         {children}
+        <Footer/>
       </body>
     </html>
   );
