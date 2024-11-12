@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
           {/* Left Side: Project Name */}
           <div
-            className="mb-4 hover:cursor-pointer sm:col-span-2 md:col-span-1"
+            className="mb-4 hover:cursor-pointer sm:col-span-2 md:col-span-1 font-ubuntu"
             onClick={() => {
               router.push("/");
             }}
