@@ -16,12 +16,11 @@ import { cn } from "@/lib/utils";
 
 const FilterInterface = () => {
   const searchParams = useSearchParams();
-  const [buttonState, setButtonState] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   let search = searchParams.get("search") || "";
   let sortOption = searchParams.get("sortOption") || "name";
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState(searchParams.get("sortOrder") || "asc");
   const [cuisine, setCuisine] = useState(searchParams.get("cuisine") || "");
   const [ingredientsLocation, setIngredientsLocation] = useState(
     searchParams.get("ingredientsLocation") || "",
@@ -91,11 +90,21 @@ const FilterInterface = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex col-span-1 lg:col-span-3 xl:col-span-1 flex-row gap-4 items-center justify-center">
-        <button type="button" onClick={()=>{
-          setButtonState(!buttonState)
-          sortOrder == "asc" ? setSortOrder("desc") : setSortOrder("asc");
-        }} className="flex items-center justify-center bg-[var(--theme1)] py-2.5 px-3 rounded-lg transition-all duration-200 hover:bg-[var(--theme2)] hover:scale-105"><i className={cn("fa-solid fa-arrow-up text-xl self-center text-white transition-all duration-200", buttonState && "rotate-180")}></i></button>
+      <div className="col-span-1 flex flex-row items-center justify-center gap-4 lg:col-span-3 xl:col-span-1">
+        <button
+          type="button"
+          onClick={() => {
+            sortOrder == "asc" ? setSortOrder("desc") : setSortOrder("asc");
+          }}
+          className="flex items-center justify-center rounded-lg bg-[var(--theme1)] px-3 py-2.5 transition-all duration-200 hover:scale-105 hover:bg-[var(--theme2)]"
+        >
+          <i
+            className={cn(
+              "fa-solid fa-arrow-up self-center text-xl text-white transition-all duration-200",
+              sortOrder == "asc" ? "rotate-0" : "rotate-180",
+            )}
+          ></i>
+        </button>
         <button
           onClick={() => {
             router.push(
@@ -103,7 +112,7 @@ const FilterInterface = () => {
             );
           }}
           type="button"
-          className=" w-[200px] self-center justify-self-center rounded-lg bg-[var(--theme1)] px-3.5 py-2 text-xl font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[var(--theme2)]"
+          className="w-[200px] self-center justify-self-center rounded-lg bg-[var(--theme1)] px-3.5 py-2 text-xl font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[var(--theme2)]"
         >
           Apply
         </button>
