@@ -27,7 +27,7 @@ const Nav = () => {
   const router = useRouter();
   const closeButton = useRef(null);
   return (
-    <div className="mb-10 flex w-full flex-row items-center justify-between px-5 pb-4 pt-2 md:px-10">
+    <div className="mb-10 flex w-full flex-row items-center justify-between bg-white px-5 pb-4 pt-2 md:px-10">
       <div className="flex flex-row items-center gap-12 text-lg font-semibold">
         <div
           className="flex flex-row gap-1 font-ubuntu text-2xl font-semibold hover:cursor-pointer min-[500px]:flex-col min-[500px]:gap-0"

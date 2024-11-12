@@ -1,56 +1,103 @@
 // components/Footer.js
-import React from 'react';
+"use client";
+import React from "react";
+import { FaFacebook, FaYoutube, FaTwitter } from "react-icons/fa";
+import { cn } from "@/lib/utils";
+import "./Footer.css";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
-    return (
-        <footer className="bg-white text-orange-600 py-10 font-sans">
-            <div className="container mx-auto px-6">
-                <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
+  const router = useRouter();
+  return (
+    <footer className="bg-white py-10 font-sans mt-10">
+      <div className="container mx-auto px-6">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
+          {/* Left Side: Project Name */}
+          <div
+            className="mb-4 hover:cursor-pointer sm:col-span-2 md:col-span-1"
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            <h2 className="text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
+            <h2 className="text-2xl font-bold">Vault</h2>
+          </div>
 
-                    {/* Left Side: Project Name */}
-                    <div className="mb-4 sm:col-span-2 md:col-span-1">
-                        <h2 className="text-2xl font-bold">Recipe</h2>
-                        <h2 className="text-2xl font-bold">Vault</h2>
-                    </div>
-
-                    {/* Center Sections */}
-                    <div>
-                        <h3 className="text-lg font-semibold">Resources</h3>
-                        <ul className="mt-2 space-y-1">
-                            <li><a href="#" className="hover:underline">Documentation</a></li>
-                            <li><a href="#" className="hover:underline">Tutorials</a></li>
-                            <li><a href="#" className="hover:underline">Support</a></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="text-lg font-semibold">Support</h3>
-                        <ul className="mt-2 space-y-1">
-                            <li><a href="#" className="hover:underline">Help Center</a></li>
-                            <li><a href="#" className="hover:underline">Privacy Policy</a></li>
-                            <li><a href="#" className="hover:underline">Terms & Conditions</a></li>
-                        </ul>
-                    </div>
-
-                    {/* Right Side: Contact Us */}
-                    <div>
-                        <h3 className="text-lg font-semibold">Contact Us</h3>
-                        <ul className="mt-2 space-y-1">
-                            <li>4100, Medenine</li>
-                            <li>RecipeVault@gmail.com</li>
-                        </ul>
-                    </div>
+          {/* Center Sections */}
+          <div>
+            <h3 className="text-lg font-semibold">Resources</h3>
+            <ul className="mt-2 space-y-1">
+              <li>
+                <div className={cn("link text-neutral-700")}>
+                  <a className="hover:cursor-pointer">Documentation</a>
                 </div>
-
-                {/* Social Media Icons */}
-                <div className="flex justify-center space-x-6 mt-10">
-                    <a href="#" className="hover:text-orange-400"><FaFacebook size={24} /></a>
-                    <a href="#" className="hover:text-orange-400"><FaYoutube size={24} /></a>
-                    <a href="#" className="hover:text-orange-400"><FaTwitter size={24} /></a>
+              </li>
+              <li>
+                <div className={cn("link text-neutral-700")}>
+                  <a className="hover:cursor-pointer">Tutorials</a>
                 </div>
-            </div>
-        </footer>
-    );
+              </li>
+              <li>
+                <div className={cn("link text-neutral-700")}>
+                  <a className="hover:cursor-pointer">Support</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold">Support</h3>
+            <ul className="mt-2 space-y-1">
+              <li>
+                <div className={cn("link text-neutral-700")}>
+                  <a className="hover:cursor-pointer">Help Center</a>
+                </div>
+              </li>
+              <li>
+                <div className={cn("link text-neutral-700")}>
+                  <a className="hover:cursor-pointer">Privacy Policy</a>
+                </div>
+              </li>
+              <li>
+                <div className={cn("link text-neutral-700")}>
+                  <a className="hover:cursor-pointer">Terms & Conditions</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* Right Side: Contact Us */}
+          <div>
+            <h3 className="text-lg font-semibold">Contact Us</h3>
+            <ul className="mt-2 space-y-1">
+              <li className="pb-2">4100, Medenine</li>
+              <li
+                className="transition-all duration-100 hover:cursor-pointer hover:text-[var(--theme1)]"
+                onClick={() => {
+                  window.open("mailto:recipevault@gmail.com");
+                }}
+              >
+                RecipeVault@gmail.com
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Social Media Icons */}
+        <div className="mt-10 flex justify-center space-x-6">
+          <a href="#" className="hover:text-[var(--theme2)]">
+            <FaFacebook size={24} />
+          </a>
+          <a href="#" className="hover:text-[var(--theme2)]">
+            <FaYoutube size={24} />
+          </a>
+          <a href="#" className="hover:text-[var(--theme2)]">
+            <FaTwitter size={24} />
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;
