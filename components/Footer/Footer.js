@@ -22,7 +22,7 @@ const Footer = () => {
             <h2 className="text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
             <h2 className="text-2xl font-bold">Vault</h2>
             <p className="text-neutral-400 mt-4 text-center mx-auto">
-            RecipeVault offers a vibrant community <br/> platform where culinary enthusiasts can discover, share, and explore <br/>a wide variety of recipes from around the world. <br/> Join us to find inspiration for every meal and  <br/>connect with others who share your passion for cooking.
+            RecipeVault offers a vibrant community <br/> platform where culinary enthusiasts can discover, share, and explore a wide <br/> variety of recipes from around the world. <br/> Join us to find inspiration for every meal and  <br/>connect with others who share your passion for cooking.
             </p>
           </div>
 
