@@ -9,10 +9,10 @@ const Menu = ({ orientation, closeButton}) => {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <div className={cn("flex-row items-center gap-8 hidden min-[1060px]:flex", orientation == "col" && "flex-col flex")}>
+    <div className={cn("flex-row items-center gap-8 hidden min-[1060px]:flex text-[15px]", orientation == "col" && "flex-col flex items-start gap-7 text-lg")}>
       <div
         className={cn(
-          "link text-neutral-700 text-[15px]",
+          "link text-neutral-700",
           pathname === "/" && "active"
         )}
       >
@@ -27,16 +27,16 @@ const Menu = ({ orientation, closeButton}) => {
           Home
         </a>
       </div>
-      <div className={cn("link text-neutral-700 text-[15px]")}>
+      <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 1</a>
       </div>
-      <div className={cn("link text-neutral-700 text-[15px]")}>
+      <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 2</a>
       </div>
-      <div className={cn("link text-neutral-700 text-[15px]")}>
+      <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 3</a>
       </div>
-      <div className={cn("link text-neutral-700 text-[15px]")}>
+      <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 4</a>
       </div>
     </div>

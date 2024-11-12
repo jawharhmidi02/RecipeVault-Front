@@ -20,7 +20,7 @@
   width: 100%;
   bottom: -5px;
   left: -100%;
-  @apply bg-amber-400
+  background: var(--theme1);
 }
 
 .link.active a::before {

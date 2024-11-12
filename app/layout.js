@@ -22,9 +22,9 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body className="font-geist">
+      <body className="font-geist bg-[var(--bg)]">
         <Nav></Nav>
-        {children}
+        <>{children}</>
         <Footer/>
       </body>
     </html>
