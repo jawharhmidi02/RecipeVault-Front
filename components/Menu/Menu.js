@@ -32,7 +32,7 @@ const Menu = ({ orientation, closeButton }) => {
       </div>
       <div className={cn("link text-neutral-700", pathname.includes("recipes") && "active")}>
         <a onClick={() => {
-            router.push("/recipes ");
+            router.push("/recipes?search=");
             setTimeout(() => {
               closeButton?.current.click();
             }, 500);
