@@ -9,14 +9,14 @@
 .link a {
   position: relative;
   /* overflow-x: hidden; */
-  transition: all 0.5s;
+  transition: all 0.4s;
 }
 
 .link a::before {
   content: "";
   position: absolute;
   height: 2px;
-  transition: all 0.5s;
+  transition: all 0.4s;
   width: 100%;
   bottom: -5px;
   left: -100%;
