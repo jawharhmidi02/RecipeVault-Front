@@ -10,7 +10,7 @@ const Menu = ({ orientation, closeButton }) => {
   return (
     <div
       className={cn(
-        "hidden flex-row items-center gap-8 text-[15px] min-[1060px]:flex",
+        "hidden flex-row items-center gap-8 text-[15px] min-[1180px]:flex",
         orientation == "col" && "flex flex-col items-start gap-7 text-lg",
       )}
     >
@@ -30,8 +30,13 @@ const Menu = ({ orientation, closeButton }) => {
           Home
         </a>
       </div>
-      <div className={cn("link text-neutral-700")}>
-        <a className="hover:cursor-pointer">Page 1</a>
+      <div className={cn("link text-neutral-700", pathname.includes("recipes") && "active")}>
+        <a onClick={() => {
+            router.push("/recipes?search=");
+            setTimeout(() => {
+              closeButton?.current.click();
+            }, 500);
+          }} className="hover:cursor-pointer">Recipes</a>
       </div>
       <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 2</a>

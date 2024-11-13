@@ -4,12 +4,13 @@ import React from "react";
 import { FaFacebook, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import "./Footer.css";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Footer = () => {
   const router = useRouter();
+  const pathname = usePathname();
   return (
-    <footer className="bg-white py-10 font-sans mt-10">
+    <footer className={cn("bg-white py-10 font-sans mt-10", pathname.includes('create') && "hidden")}>
       <div className="container mx-auto px-6">
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
           {/* Left Side: Project Name */}
@@ -19,8 +20,11 @@ const Footer = () => {
               router.push("/");
             }}
           >
-            <h2 className="text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
-            <h2 className="text-2xl font-bold">Vault</h2>
+            <h2 className="ml-32 text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
+            <h2 className="ml-32 text-2xl font-bold">Vault</h2>
+            <p class="mt-10  max-w-xs text-black-800 text-center">
+            RecipeVault offers a vibrant community platform where culinary enthusiasts can discover, share, and explore a wide variety of recipes from around the world. Join us to find inspiration for every meal and connect with others who share your passion for cooking.
+            </p>
           </div>
 
           {/* Center Sections */}
@@ -59,7 +63,7 @@ const Footer = () => {
                 </div>
               </li>
               <li>
-                <div className={cn("link text-neutral-700")}>
+                <div onClick={() => { router.push('/terms-and-conditions')}} className={cn("link text-neutral-700")}>
                   <a className="hover:cursor-pointer">Terms & Conditions</a>
                 </div>
               </li>
@@ -95,6 +99,7 @@ const Footer = () => {
             <FaTwitter size={24} />
           </a>
         </div>
+        <div class="text-black text-center  pb-3 pt-3">Copyright © 2024 <a class="font-bold hover:cursor-pointer">Recipe Vault</a>. All rights reserved.</div>
       </div>
     </footer>
   );
