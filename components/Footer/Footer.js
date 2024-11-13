@@ -20,10 +20,10 @@ const Footer = () => {
               router.push("/");
             }}
           >
-            <h2 className="text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
-            <h2 className="text-2xl font-bold">Vault</h2>
-            <p className="text-neutral-400 mt-4 text-center mx-auto">
-            RecipeVault offers a vibrant community <br/> platform where culinary enthusiasts can discover, share, and explore a wide <br/> variety of recipes from around the world. <br/> Join us to find inspiration for every meal and  <br/>connect with others who share your passion for cooking.
+            <h2 className="ml-32 text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
+            <h2 className="ml-32 text-2xl font-bold">Vault</h2>
+            <p class="mt-10  max-w-xs text-black-800 text-center">
+            RecipeVault offers a vibrant community platform where culinary enthusiasts can discover, share, and explore a wide variety of recipes from around the world. Join us to find inspiration for every meal and connect with others who share your passion for cooking.
             </p>
           </div>
 
@@ -99,6 +99,7 @@ const Footer = () => {
             <FaTwitter size={24} />
           </a>
         </div>
+        <div class="text-black text-center  pb-3 pt-3">Copyright © 2024 <a class="font-bold hover:cursor-pointer">Recipe Vault</a>. All rights reserved.</div>
       </div>
     </footer>
   );
