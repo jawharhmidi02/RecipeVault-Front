@@ -3,15 +3,15 @@ import React from 'react'
 const page = () => {
   return (
     <div>
-      <div class="mx-10 flex w-full flex-col items-center justify-center gap-10 self-center">
-  <div class="flex w-full flex-row items-center justify-center gap-3">
-    <div class="h-[2px] w-10 bg-[var(--theme)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20"></div>
-    <span class="text-center font-lato text-5xl font-bold text-neutral-800 sm:text-6xl">Terms & Conditions</span>
-    <div class="h-[2px] w-10 bg-[var(--theme)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20"></div>
+      <div className="mx-10 flex w-full flex-col items-center justify-center gap-10 self-center">
+  <div className="flex w-full flex-row items-center justify-center gap-3">
+    <div className="h-[2px] w-10 bg-[var(--theme)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20"></div>
+    <span className="text-center font-lato text-5xl font-bold text-neutral-800 sm:text-6xl">Terms & Conditions</span>
+    <div className="h-[2px] w-10 bg-[var(--theme)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20"></div>
   </div>
-  <div class="flex w-full max-w-[1300px] flex-col justify-center gap-6 font-lato text-neutral-600">
-    <span class="text-center">
-      <span class="text-lg font-semibold">Please read the terms carefully before using the store or any of its services.</span> 
+  <div className="flex w-full max-w-[1300px] flex-col justify-center gap-6 font-lato text-neutral-600">
+    <span className="text-center">
+      <span className="text-lg font-semibold">Please read the terms carefully before using the store or any of its services.</span> 
       This agreement defines legally binding terms and conditions.
     </span> 
     <span>RecipeVault is a community-driven platform designed to allow users to easily share and discover new recipes online. Whether you’re a professional chef or a home cook, RecipeVault offers a space to upload your favorite recipes, explore culinary creations from around the world, and connect with other food enthusiasts. Our mission is to build a global kitchen where everyone can contribute their knowledge and passion for food, making it accessible to all.</span>
