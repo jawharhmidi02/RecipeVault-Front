@@ -2,17 +2,11 @@
 import React, { useState } from "react";
 import SelectInterface from "../SelectInterface/SelectInterface";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import countries from "@/lib/countries";
+import categories from "@/lib/categories";
+import difficulties from "@/lib/difficulties";
 import { cn } from "@/lib/utils";
+import ScrollableSelect from "../ScrollableSelect/ScrollableSelect";
 
 const FilterInterface = () => {
   const searchParams = useSearchParams();
@@ -20,7 +14,13 @@ const FilterInterface = () => {
   const router = useRouter();
   let search = searchParams.get("search") || "";
   let sortOption = searchParams.get("sortOption") || "name";
-  const [sortOrder, setSortOrder] = useState(searchParams.get("sortOrder") || "asc");
+  const [difficulty, setDifficulty] = useState(
+    searchParams.get("difficutly") || "",
+  );
+  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const [sortOrder, setSortOrder] = useState(
+    searchParams.get("sortOrder") || "asc",
+  );
   const [cuisine, setCuisine] = useState(searchParams.get("cuisine") || "");
   const [ingredientsLocation, setIngredientsLocation] = useState(
     searchParams.get("ingredientsLocation") || "",
@@ -29,9 +29,9 @@ const FilterInterface = () => {
     sortOption = option;
   };
   return (
-    <div className="grid grid-cols-1 place-content-center gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-1 place-content-start md:place-items-start gap-6 md:grid-cols-2 lg:grid-cols-3 min-[1500px]:grid-cols-5">
       <div className="flex flex-row items-center justify-center gap-4">
-        <span className="text-xl font-semibold">Sort By:</span>
+        <span className="text-nowrap text-xl font-semibold">Sort By:</span>
         <SelectInterface
           placeholder="Name"
           changeSortOption={(sortOption) => {
@@ -45,52 +45,47 @@ const FilterInterface = () => {
       </div>
       <div className="flex flex-row items-center justify-center gap-4">
         <span className="text-xl font-semibold">Cuisine: </span>
-        <Select value={cuisine} onValueChange={setCuisine}>
-          <SelectTrigger className="border-neutral-300 bg-transparent focus:ring-[var(--theme2)]">
-            <SelectValue placeholder="Select a country.." />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            <SelectGroup>
-              <SelectLabel>Country</SelectLabel>
-              {countries.map((country, index) => (
-                <SelectItem
-                  className="hover:cursor-pointer"
-                  key={index}
-                  value={country.value}
-                >
-                  {country.text}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <ScrollableSelect
+          state={cuisine}
+          setState={setCuisine}
+          label="Country"
+          placeHolder="Select a cuisine.."
+          items={countries}
+        />
       </div>
       <div className="flex flex-row items-center justify-center gap-4">
         <span className="text-nowrap text-xl font-semibold">Made In: </span>
-        <Select
-          value={ingredientsLocation}
-          onValueChange={setIngredientsLocation}
-        >
-          <SelectTrigger className="border-neutral-300 bg-transparent focus:ring-[var(--theme2)]">
-            <SelectValue placeholder="Select a country.." />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            <SelectGroup>
-              <SelectLabel>Country</SelectLabel>
-              {countries.map((country, index) => (
-                <SelectItem
-                  className="hover:cursor-pointer"
-                  key={index}
-                  value={country.value}
-                >
-                  {country.text}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <ScrollableSelect
+          state={ingredientsLocation}
+          setState={setIngredientsLocation}
+          label="Country"
+          placeHolder="Select ingredients location.."
+          items={countries}
+        />
       </div>
-      <div className="col-span-1 flex flex-row items-center justify-center gap-4 lg:col-span-3 xl:col-span-1">
+      <div className="flex flex-row items-center justify-center gap-4">
+        <span className="text-xl font-semibold">Category: </span>
+        <ScrollableSelect
+          state={category}
+          setState={setCategory}
+          label="Category"
+          placeHolder="Select a category.."
+          items={categories}
+        />
+      </div>
+
+      <div className="col-span-1 flex flex-row items-center justify-center gap-4 min-[900px]:col-span-2 min-[1500px]:col-span-1">
+        <span className="text-xl font-semibold">Difficulty: </span>
+        <ScrollableSelect
+          state={difficulty}
+          setState={setDifficulty}
+          label="Difficulty"
+          placeHolder="Select a difficulty.."
+          items={difficulties}
+        />
+      </div>
+
+      <div className="flex flex-row items-center justify-center place-self-center gap-4 min-[900px]:col-span-2 min-[1500px]:col-span-5">
         <button
           type="button"
           onClick={() => {
@@ -108,7 +103,7 @@ const FilterInterface = () => {
         <button
           onClick={() => {
             router.push(
-              `${pathname}?search=${search}&sortOption=${sortOption}&sortOrder=${sortOrder}&cuisine=${cuisine}&ingredientsLocation=${ingredientsLocation}`,
+              `${pathname}?search=${search}&sortOption=${sortOption}&sortOrder=${sortOrder}&cuisine=${cuisine}&ingredientsLocation=${ingredientsLocation}&category=${category}&difficulty=${difficulty}`,
             );
           }}
           type="button"

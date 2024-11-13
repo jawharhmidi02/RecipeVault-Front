@@ -4,12 +4,13 @@ import React from "react";
 import { FaFacebook, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import "./Footer.css";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Footer = () => {
   const router = useRouter();
+  const pathname = usePathname();
   return (
-    <footer className="bg-white py-10 font-sans mt-10">
+    <footer className={cn("bg-white py-10 font-sans mt-10", pathname.includes('create') && "hidden")}>
       <div className="container mx-auto px-6">
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
           {/* Left Side: Project Name */}

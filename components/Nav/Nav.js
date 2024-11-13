@@ -23,6 +23,7 @@ import {
   DialogClose,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 const Nav = () => {
   const searchInputPC = useRef("");
@@ -32,7 +33,7 @@ const Nav = () => {
   const closeDialog = useRef(null);
   const pathname = usePathname();
   return (
-    <div className="mb-10 flex w-full flex-row items-center justify-between bg-white px-5 pb-4 pt-4 md:px-10">
+    <div className={cn("mb-10 flex w-full flex-row items-center justify-between bg-white px-5 pb-4 pt-4 md:px-10", pathname.includes("create") && "mb-0")}>
       <div className="flex flex-row items-center gap-12 text-lg font-semibold">
         <div
           className="flex flex-row gap-1 font-ubuntu text-2xl font-semibold hover:cursor-pointer min-[500px]:flex-col min-[500px]:gap-0"
@@ -65,7 +66,7 @@ const Nav = () => {
             </button>
           </div>
         )}
-
+        {!pathname.includes("recipes") && (
         <Dialog>
           <DialogTrigger>
             <div className="flex items-center justify-center rounded-md p-2 transition-all duration-200 active:scale-105 active:bg-zinc-100 min-[600px]:hidden">
@@ -109,6 +110,7 @@ const Nav = () => {
             </DialogClose>
           </DialogContent>
         </Dialog>
+        )}
         <div
           onClick={() => {
             router.push("/sign-in");
