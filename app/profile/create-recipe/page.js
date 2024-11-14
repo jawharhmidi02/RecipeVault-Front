@@ -8,6 +8,7 @@ import amounts from "@/lib/amounts";
 import units from "@/lib/units";
 import utensils from "@/lib/utensils";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const { toast } = useToast();
@@ -37,58 +38,95 @@ const page = () => {
   const [utensilsList, setUtensilsList] = useState([]);
   const recipeDescriptionInput = useRef("");
   const [catRadio, setCatRadio] = useState(2);
+  const tagInput = useRef("");
+  const [tags, setTags] = useState([])
+  const router = useRouter();
+
+  const parseIngredients = (items) => {
+    let final = [];
+    items.map((item) => {
+      final.push(item.amount + ":" + item.secondAmount + ":" + item.unit + ":" + item.ingredient)
+    })
+    return final
+  }
 
   const verifyInformation = () => {
     if (step == 1) {
-      // if (nameInput.current.value == "") {
-      //   toast({
-      //     description: "Verify the Name!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      //   return false;
-      // } else if (!fileInput.current.files[0]) {
-      //   toast({
-      //     description: "You need to choose an Image!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      //   return false;
-      // } else {
-      //   setStep(step + 1);
-      // }
-      setStep(step + 1);
+      if (nameInput.current.value == "") {
+        toast({
+          description: "Verify the Name!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      } else if (!fileInput.current.files[0]) {
+        toast({
+          description: "You need to choose an Image!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      } else {
+        setStep(step + 1);
+      }
     } else if (step == 2) {
-      // if (ingredients.length == 0) {
-      //   toast({
-      //     description: "You need at least one ingredient to continue!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      // }
-      // else{
-      //   setStep(step + 1);
-      // }
-      setStep(step + 1);
+      if (ingredients.length == 0) {
+        toast({
+          description: "You need at least one ingredient to continue!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      }
+      else{
+        setStep(step + 1);
+      }
     } else if (step == 3) {
-      // if (recipeSteps.length == 0){
-      //   toast({
-      //     description: "You need at least 1 step to submit your recipe!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      // }
-      // else if(utensilsList.length == 0){
-      //   toast({
-      //     description: "You need at least 1 utensil to submit your recipe!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      // }
-      // else{
-      //   setStep(step + 1)
-      // }
-      setStep(step + 1);
+      if (recipeSteps.length == 0){
+        toast({
+          description: "You need at least 1 step to submit your recipe!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      }
+      else if(utensilsList.length == 0){
+        toast({
+          description: "You need at least 1 utensil to submit your recipe!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      }
+      else{
+        setStep(step + 1)
+      }
+    }
+    else{
+      if(recipeDescriptionInput.current.value == ""){
+        toast({
+          description: "Your meal needs a description!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      }
+      else{
+        toast({
+          description: "Your meal has been submitted!",
+          variant: "success",
+          duration: 2000,
+        });
+        // SUBMIT RECIPE HERE !!
+        
+        const difficulty =  document.querySelector("input[name='difficulty']:checked");
+        const category = document.querySelector("input[name='category']:checked");
+        const prepTime = prepHour * 60 + prepMin;
+        const bakeTime = bakeHour * 60 + bakeMin;
+        const restTime = restHour * 60 + restMin;
+        const ings = parseIngredients(ingredients);
+        
+      }
     }
   };
 
@@ -147,6 +185,19 @@ const page = () => {
       setUtensilsList([...utensilsList, utensil]);
     }
   };
+
+  const addTag = () => {
+    if (tagInput.current.value == ""){
+      toast({
+        description: "Tags can't be empty!",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
+    else{
+      setTags([...tags, tagInput.current.value]);
+    }
+  }
   return (
     <div className="flex flex-col gap-4">
       <div className="sticky top-0 z-20 mb-6 flex items-center justify-center border-b border-b-zinc-100 bg-white pt-3 sm:border-t sm:border-t-zinc-100">
@@ -209,7 +260,7 @@ const page = () => {
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <div className="flex w-full flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">
+              <span className="text-[14px] tracking-wider text-neutral-600">
                 NAME YOUR RECIPE <font className="text-rose-500">*</font>
               </span>
               <input
@@ -217,7 +268,7 @@ const page = () => {
                 required
                 className="rounded-md border border-neutral-700 bg-[var(--bg)] p-3 outline-[var(--theme2)]"
                 maxLength="60"
-                placeholder="E.g Grandma's applie pie"
+                placeholder="E.g Grandma's apple pie"
                 ref={nameInput}
               />
               <span className="text-end text-[12px] text-neutral-600">
@@ -228,7 +279,9 @@ const page = () => {
             {/* Input Done  */}
 
             <div className="flex w-full flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">ADD A PHOTO</span>
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                ADD A PHOTO
+              </span>
               <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
                 <div
                   onClick={() => {
@@ -299,7 +352,9 @@ const page = () => {
             {/* Upload camera done  */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">PORTION</span>
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                PORTION
+              </span>
               <span className="text-[13px] font-light text-neutral-500">
                 Put ingredient quantities relevant to a single serving please.
               </span>
@@ -311,7 +366,9 @@ const page = () => {
             {/* Portion Done */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">DIFFICULTY</span>
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                DIFFICULTY
+              </span>
               <span className="text-[13px] font-light text-neutral-500">
                 How complicated is your dish?
               </span>
@@ -331,7 +388,7 @@ const page = () => {
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         radio == 1 && "border-neutral-700",
                       )}
                     >
@@ -353,7 +410,7 @@ const page = () => {
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         radio == 2 && "border-neutral-700",
                       )}
                     >
@@ -375,7 +432,7 @@ const page = () => {
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         radio == 3 && "border-neutral-700",
                       )}
                     >
@@ -389,7 +446,7 @@ const page = () => {
             {/* Difficulty Done  */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">
+              <span className="text-[14px] tracking-wider text-neutral-600">
                 PREP TIME<font className="text-rose-500"> *</font>
               </span>
               <span className="text-[13px] font-light text-neutral-500">
@@ -423,7 +480,9 @@ const page = () => {
             {/* Prep Time Done */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">BAKING TIME</span>
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                BAKING TIME
+              </span>
               <span className="text-[13px] font-light text-neutral-500">
                 How long does the dish need to bake for?
               </span>
@@ -454,7 +513,9 @@ const page = () => {
             {/* Bake Time Done */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600 tracking-wider">RESTING TIME</span>
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                RESTING TIME
+              </span>
               <span className="text-[13px] font-light text-neutral-500">
                 Does the dish need to rest at any point? E.g. marinating,
                 chilling, rising time...
@@ -499,7 +560,7 @@ const page = () => {
           step != 2 && "hidden",
         )}
       >
-        <span className=" px-4 text-center text-lg sm:px-0 sm:text-start">
+        <span className="px-4 text-center text-lg sm:px-0 sm:text-start">
           A recipe is nothing without the ingredients! What's in your recipe?
         </span>
         <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
@@ -509,7 +570,9 @@ const page = () => {
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <div className="flex w-full flex-col gap-4 md:flex-row">
               <div className="flex flex-col gap-4">
-                <span className="text-[14px] text-neutral-600 tracking-wider">AMOUNT</span>
+                <span className="text-[14px] tracking-wider text-neutral-600">
+                  AMOUNT
+                </span>
                 <div className="flex w-full flex-row gap-2">
                   <input
                     ref={amountInput}
@@ -530,7 +593,9 @@ const page = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-                <span className="text-[14px] text-neutral-600 tracking-wider">UNIT</span>
+                <span className="text-[14px] tracking-wider text-neutral-600">
+                  UNIT
+                </span>
                 <ScrollableSelect
                   ref={unitInput}
                   border="border-neutral-700"
@@ -542,7 +607,7 @@ const page = () => {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <span className="text-[14px] text-neutral-600 tracking-wider">
+                <span className="text-[14px] tracking-wider text-neutral-600">
                   INGREDIENT<font className="text-rose-500"> *</font>
                 </span>
                 <input
@@ -651,7 +716,7 @@ const page = () => {
           step != 3 && "hidden",
         )}
       >
-        <span className=" px-4 text-center text-lg sm:px-0 sm:text-start">
+        <span className="px-4 text-center text-lg sm:px-0 sm:text-start">
           Sounds delicious! Now, it’s time to add the recipe steps and the
           utensils.
         </span>
@@ -662,7 +727,7 @@ const page = () => {
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <span className="text-xl font-semibold text-neutral-600">{`Step ${recipeSteps.length + 1}`}</span>
             <div className="flex flex-col gap-3">
-              <span className="text-[14px] text-neutral-600 tracking-wider">
+              <span className="text-[14px] tracking-wider text-neutral-600">
                 STEP DESCRIPTION <font className="text-rose-500"> *</font>
               </span>
               <span className="text-[15px] text-neutral-500">
@@ -674,7 +739,7 @@ const page = () => {
                 pepper. To serve, garnish with basil and more cheese. Enjoy!
               </span>
               <textarea
-                className="rounded-md border border-neutral-700 py-3 px-5 bg-[var(--bg)] outline-[var(--theme2)] h-[200px]"
+                className="h-[200px] rounded-md border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
                 maxLength={500}
                 placeholder="What needs to be done in this step?"
                 ref={stepDescriptionInput}
@@ -755,7 +820,7 @@ const page = () => {
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <span className="text-xl font-semibold text-neutral-600">{`Utensil ${utensilsList.length + 1}`}</span>
             <div className="flex flex-col gap-3">
-              <span className="text-[14px] text-neutral-600 tracking-wider">
+              <span className="text-[14px] tracking-wider text-neutral-600">
                 Utensil <font className="text-rose-500"> *</font>
               </span>
               <ScrollableSelect
@@ -843,7 +908,7 @@ const page = () => {
           step != 4 && "hidden",
         )}
       >
-        <span className=" px-4 text-center text-lg sm:px-0 sm:text-start">
+        <span className="px-4 text-center text-lg sm:px-0 sm:text-start">
           Almost done, chef!
         </span>
         <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
@@ -852,10 +917,14 @@ const page = () => {
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <div className="flex flex-col gap-3">
-              <span className="text-[14px] text-neutral-600 tracking-wider">CHEF'S NOTE</span>
-              <span className="text-[13px] text-light text-neutral-600">Tell us the story behind your dish or share some tips...</span>
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                CHEF'S NOTE
+              </span>
+              <span className="text-light text-[13px] text-neutral-600">
+                Tell us the story behind your dish or share some tips...
+              </span>
               <textarea
-                className="rounded-md border border-neutral-700 px-5 py-3 bg-[var(--bg)] outline-[var(--theme2)] h-[200px]"
+                className="h-[200px] rounded-md border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
                 maxLength={500}
                 placeholder="This is my favourite dessert, exactly how my Grandma used to make it. Try it with whipped cream on top!"
                 ref={recipeDescriptionInput}
@@ -863,8 +932,6 @@ const page = () => {
               <span className="border-neutral-700 text-end text-[12px] font-light">
                 500 Chars max
               </span>
-              
-
             </div>
           </div>
         </div>
@@ -875,9 +942,13 @@ const page = () => {
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <div className="flex flex-col gap-3">
-              <span className="text-[14px] text-neutral-600 tracking-wider">DISH TYPE</span>
-              <span className="text-[13px] text-light text-neutral-600">Let's add a category to make your recipe easier to find!</span>
-              <div className="grid grid-cols-1 min-[450px]:grid-cols-2 min-[550px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                DISH TYPE
+              </span>
+              <span className="text-light text-[13px] text-neutral-600">
+                Let's add a category to make your recipe easier to find!
+              </span>
+              <div className="grid grid-cols-1 gap-4 min-[450px]:grid-cols-2 min-[550px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 <div>
                   <label htmlFor="starter">
                     <input
@@ -887,12 +958,12 @@ const page = () => {
                       value="starter"
                       className="hidden"
                       onChange={() => {
-                        setCatRadio(1)
+                        setCatRadio(1);
                       }}
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         catRadio == 1 && "border-neutral-700",
                       )}
                     >
@@ -910,12 +981,12 @@ const page = () => {
                       className="hidden"
                       defaultChecked
                       onChange={() => {
-                        setCatRadio(2)
+                        setCatRadio(2);
                       }}
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         catRadio == 2 && "border-neutral-700",
                       )}
                     >
@@ -932,12 +1003,12 @@ const page = () => {
                       value="dessert"
                       className="hidden"
                       onChange={() => {
-                        setCatRadio(3)
+                        setCatRadio(3);
                       }}
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         catRadio == 3 && "border-neutral-700",
                       )}
                     >
@@ -954,12 +1025,12 @@ const page = () => {
                       value="snack"
                       className="hidden"
                       onChange={() => {
-                        setCatRadio(4)
+                        setCatRadio(4);
                       }}
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         catRadio == 4 && "border-neutral-700",
                       )}
                     >
@@ -976,12 +1047,12 @@ const page = () => {
                       value="breakfast"
                       className="hidden"
                       onChange={() => {
-                        setCatRadio(5)
+                        setCatRadio(5);
                       }}
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         catRadio == 5 && "border-neutral-700",
                       )}
                     >
@@ -998,12 +1069,12 @@ const page = () => {
                       value="beverage"
                       className="hidden"
                       onChange={() => {
-                        setCatRadio(6)
+                        setCatRadio(6);
                       }}
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-center text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
                         catRadio == 6 && "border-neutral-700",
                       )}
                     >
@@ -1011,35 +1082,99 @@ const page = () => {
                     </div>
                   </label>
                 </div>
-                
-                
               </div>
-              
-              
-
             </div>
           </div>
         </div>
-
 
         <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
           <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
-            Tags
+            Add a Tag
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <span className="text-xl font-semibold text-neutral-600">{`Tag ${tags.length + 1}`}</span>
             <div className="flex flex-col gap-3">
-              <span className="text-[14px] text-neutral-600 tracking-wider">Tags</span>
-              <span className="text-[13px] text-light text-neutral-600">You can add some tags to make your recipe easier to find.</span>
-              
-              
-
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                Tags
+              </span>
+              <span className="text-light text-[13px] text-neutral-600">
+                You can add some tags to make your recipe easier to find!
+              </span>
+              <input
+                type="text"
+                maxLength={20}
+                ref={tagInput}
+                className="rounded-lg border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
+                placeholder="E.g Dairy Free"
+              />
+              <span className="border-neutral-700 text-end text-[12px] font-light">
+                20 Chars max
+              </span>
+              <button
+                onClick={() => addTag()}
+                type="button"
+                className="w-[130px] self-end rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
+              >
+                Add tag
+              </button>
             </div>
           </div>
         </div>
 
-
-
-
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Tags List
+          </span>
+          {tags.length != 0 ? (
+            <div className="flex flex-col gap-3">
+              {tags.map((tag, index) => (
+                <div
+                  key={index}
+                  className="flex w-full flex-col gap-4 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"
+                >
+                  <div className="font-semibold text-neutral-600">{`Tag ${index + 1}`}</div>
+                  <div className="flex flex-row items-center justify-between">
+                    <div>{tag}</div>
+                    <div
+                      onClick={() => {
+                        let arr = [...tags];
+                        arr.splice(index, 1);
+                        setTags(arr);
+                      }}
+                      className="grid place-items-center px-1.5 py-1 hover:cursor-pointer"
+                    >
+                      <i className="fa-solid fa-x text-rose-500"></i>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="80"
+                    height="80"
+                    fill="currentColor"
+                    className="bi bi-slash-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708" />
+                  </svg>
+                </div>
+                <div className="text-center text-xl font-semibold">
+                  You have no tags on your list.
+                </div>
+                <div className="text-center font-light">
+                  Tags are optional.
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* STEP 4 PAGE DONE */}
