@@ -5,25 +5,51 @@ import { FaFacebook, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import "./Footer.css";
 import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect, useTransition } from "react";
 
 const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+  const [loadingPage, setLoadingPage] = useState(false);
+
+  useEffect(() => {
+    setLoadingPage(isPending);
+  }, [isPending]);
+
   return (
-    <footer className={cn("bg-white py-10 font-sans mt-10", pathname.includes('create') && "hidden")}>
+    <footer
+      className={cn(
+        "mt-10 bg-white py-10 font-sans",
+        pathname.includes("create") && "hidden",
+      )}
+    >
+      {loadingPage && (
+        <div className="justify-cente fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
+          <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
+        </div>
+      )}
       <div className="container mx-auto px-6">
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
           {/* Left Side: Project Name */}
           <div
-            className="mb-4 hover:cursor-pointer sm:col-span-2 md:col-span-1 font-ubuntu"
+            className="mb-4 font-ubuntu hover:cursor-pointer sm:col-span-2 md:col-span-1"
             onClick={() => {
-              router.push("/");
+              startTransition(() => {
+                router.push("/");
+              });
             }}
           >
-            <h2 className="ml-32 text-2xl font-bold text-[var(--theme1)]">Recipe</h2>
+            <h2 className="ml-32 text-2xl font-bold text-[var(--theme1)]">
+              Recipe
+            </h2>
             <h2 className="ml-32 text-2xl font-bold">Vault</h2>
-            <p className="mt-10  max-w-xs text-black-800 text-center">
-            RecipeVault offers a vibrant community platform where culinary enthusiasts can discover, share, and explore a wide variety of recipes from around the world. Join us to find inspiration for every meal and connect with others who share your passion for cooking.
+            <p className="text-black-800 mt-10 max-w-xs text-center">
+              RecipeVault offers a vibrant community platform where culinary
+              enthusiasts can discover, share, and explore a wide variety of
+              recipes from around the world. Join us to find inspiration for
+              every meal and connect with others who share your passion for
+              cooking.
             </p>
           </div>
 
@@ -63,7 +89,14 @@ const Footer = () => {
                 </div>
               </li>
               <li>
-                <div onClick={() => { router.push('/terms-and-conditions')}} className={cn("link text-neutral-700")}>
+                <div
+                  onClick={() => {
+                    startTransition(() => {
+                      router.push("/terms-and-conditions");
+                    });
+                  }}
+                  className={cn("link text-neutral-700")}
+                >
                   <a className="hover:cursor-pointer">Terms & Conditions</a>
                 </div>
               </li>
@@ -99,7 +132,11 @@ const Footer = () => {
             <FaTwitter size={24} />
           </a>
         </div>
-        <div className="text-black text-center  pb-3 pt-3">Copyright © 2024 <a className="font-bold hover:cursor-pointer">Recipe Vault</a>. All rights reserved.</div>
+        <div className="pb-3 pt-3 text-center text-black">
+          Copyright © 2024{" "}
+          <a className="font-bold hover:cursor-pointer">Recipe Vault</a>. All
+          rights reserved.
+        </div>
       </div>
     </footer>
   );

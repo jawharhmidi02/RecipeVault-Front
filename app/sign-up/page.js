@@ -1,8 +1,92 @@
+"use client";
 import AccountDecoration from "@/components/AccountDecoration/AccountDecoration";
-import React from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
+import { useRef } from "react";
 
 const page = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const nameRef = useRef(null);
+  const phoneRef = useRef(null);
+
+  const login = async () => {
+    if (
+      emailRef.current.value === "" ||
+      passwordRef.current.value === "" ||
+      nameRef.current.value === "" ||
+      phoneRef.current.value === ""
+    ) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields.",
+        variant: "destructive",
+        duration: 2500,
+      });
+      return;
+    }
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            full_name: nameRef.current.value,
+            phone: phoneRef.current.value,
+          }),
+        },
+      );
+      const data = await response.json();
+
+      if (data.data === null) {
+        if (data.message === "Email already exists") {
+          toast({
+            title: "Error",
+            description: "Email already exists, Please use another email!",
+            variant: "destructive",
+            duration: 2500,
+          });
+          setLoading(false);
+          return;
+        }
+        throw new Error(data.message);
+      }
+
+      toast({
+        title: "Success",
+        description: "Your account has been created successfully!",
+        variant: "success",
+        duration: 2500,
+      });
+
+      router.push("/sign-in");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+
+      toast({
+        title: "Error",
+        description: "An error occurred while logging in.",
+        variant: "destructive",
+        duration: 2500,
+      });
+
+      console.log(error);
+    }
+    setLoading(false);
+  };
   return (
     <div className="mx-auto mt-10 flex h-full w-full items-center justify-center">
       <div
@@ -24,6 +108,7 @@ const page = () => {
                 FULL NAME
               </label>
               <input
+                ref={nameRef}
                 type="text"
                 placeholder="Full Name"
                 id="fullName"
@@ -37,6 +122,7 @@ const page = () => {
                 PHONE
               </label>
               <input
+                ref={phoneRef}
                 type="tel"
                 placeholder="+216 12 345 678"
                 id="phone"
@@ -50,6 +136,7 @@ const page = () => {
                 EMAIL
               </label>
               <input
+                ref={emailRef}
                 type="email"
                 placeholder="Example@domain.com"
                 id="email"
@@ -63,6 +150,7 @@ const page = () => {
                 PASSWORD
               </label>
               <input
+                ref={passwordRef}
                 type="password"
                 placeholder="Password"
                 id="password"
@@ -72,9 +160,22 @@ const page = () => {
 
             <button
               type="button"
-              className="font-lato w-full max-w-[400px] rounded-full border-2 border-[#ffffff] border-[var(--theme1)] bg-[var(--theme1)] py-3 text-[#ffffff] outline-none transition-colors duration-200 hover:bg-[var(--hover-theme2)] hover:text-[var(--theme1)]"
+              onClick={() => {
+                login();
+              }}
+              disabled={loading}
+              className={cn(
+                "font-lato w-full max-w-[400px] rounded-full border-2 border-[#ffffff] border-[var(--theme1)] bg-[var(--theme1)] py-3 text-[#ffffff] outline-none transition-colors duration-200 hover:bg-[var(--hover-theme2)] hover:text-[var(--theme1)]",
+                loading && "cursor-not-allowed",
+              )}
             >
-              Sign Up
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
+                </div>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </div>
         </div>

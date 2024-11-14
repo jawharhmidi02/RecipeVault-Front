@@ -1,12 +1,17 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import { useEffect, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import "./Menu.css";
 
-const Menu = ({ orientation, closeButton }) => {
+const Menu = ({ orientation, closeButton, setLoadingPage }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setLoadingPage(isPending);
+  }, [isPending]);
   return (
     <div
       className={cn(
@@ -19,7 +24,10 @@ const Menu = ({ orientation, closeButton }) => {
       >
         <a
           onClick={() => {
-            router.push("/");
+            setLoadingPage(true);
+            startTransition(() => {
+              router.push("/");
+            });
             setTimeout(() => {
               closeButton?.current.click();
             }, 500);
@@ -30,13 +38,26 @@ const Menu = ({ orientation, closeButton }) => {
           Home
         </a>
       </div>
-      <div className={cn("link text-neutral-700", pathname.includes("recipes") && "active")}>
-        <a onClick={() => {
-            router.push("/recipes?search=");
+      <div
+        className={cn(
+          "link text-neutral-700",
+          pathname.includes("recipes") && "active",
+        )}
+      >
+        <a
+          onClick={() => {
+            setLoadingPage(true);
+            startTransition(() => {
+              router.push("/recipes?search=");
+            });
             setTimeout(() => {
               closeButton?.current.click();
             }, 500);
-          }} className="hover:cursor-pointer">Recipes</a>
+          }}
+          className="hover:cursor-pointer"
+        >
+          Recipes
+        </a>
       </div>
       <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 2</a>
