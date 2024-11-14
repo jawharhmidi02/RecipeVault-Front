@@ -48,7 +48,6 @@ const page = () => {
       } else {
         setStep(step + 1);
       }
-      setStep(step + 1);
     } else if (step == 2) {
       if (ingredients.length == 0) {
         toast({
