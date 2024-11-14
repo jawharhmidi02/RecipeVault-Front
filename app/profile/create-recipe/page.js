@@ -25,6 +25,11 @@ const page = () => {
   const [imageValue, setImageValue] = useState(null);
   const [secondAmount, setSecondAmount] = useState("0");
   const [unit, setUnit] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const amountInput = useRef("");
+  const secondAmountInput = useRef("");
+  const unitInput = useRef("");
+  const ingredientInput = useRef("");
 
   const verifyInformation = () => {
     if (step == 1) {
@@ -44,6 +49,50 @@ const page = () => {
       //   setStep(step + 1);
       // }
       setStep(step + 1);
+    } else if (step == 2) {
+      // if (ingredients.length == 0) {
+      //   toast({
+      //     description: "You need at least one ingredient to continue!",
+      //     variant: "destructive",
+      //     duration: 2000,
+      //   });
+      // }
+      // else{
+      //   setStep(step + 1);
+      // }
+      setStep(step + 1);
+    }
+  };
+
+  const addIngredient = () => {
+    if (!amountInput.current.value) {
+      toast({
+        description: "You need to choose an amount..",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } else if (unit == "") {
+      toast({
+        description: "You need to choose a unit!",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } else if (ingredientInput.current.value == "") {
+      toast({
+        description: "You need to choose an ingredient!",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } else {
+      setIngredients([
+        ...ingredients,
+        {
+          amount: amountInput.current.value,
+          secondAmount: secondAmount,
+          unit: unit,
+          ingredient: ingredientInput.current.value,
+        },
+      ]);
     }
   };
 
@@ -395,7 +444,7 @@ const page = () => {
 
       <div
         className={cn(
-          "mb-28 flex w-full flex-col gap-14 items-center sm:px-4",
+          "mb-28 flex w-full flex-col items-center gap-14 sm:px-4",
           step != 2 && "hidden",
         )}
       >
@@ -412,11 +461,13 @@ const page = () => {
                 <span className="text-[14px] text-neutral-600">AMOUNT</span>
                 <div className="flex w-full flex-row gap-2">
                   <input
+                    ref={amountInput}
                     type="number"
                     placeholder="0"
                     className="w-11/12 rounded-md border border-neutral-700 bg-white px-4 py-1.5 outline-[var(--theme2)]"
                   />
                   <ScrollableSelect
+                    ref={secondAmountInput}
                     border="border-neutral-700"
                     state={secondAmount}
                     setState={setSecondAmount}
@@ -429,6 +480,7 @@ const page = () => {
               <div className="flex flex-col gap-4">
                 <span className="text-[14px] text-neutral-600">UNIT</span>
                 <ScrollableSelect
+                  ref={unitInput}
                   border="border-neutral-700"
                   state={unit}
                   setState={setUnit}
@@ -442,6 +494,7 @@ const page = () => {
                   INGREDIENT<font className="text-rose-500"> *</font>
                 </span>
                 <input
+                  ref={ingredientInput}
                   type="text"
                   className="rounded-md border border-neutral-700 bg-white px-4 py-[7px] outline-[var(--theme2)]"
                   maxLength={60}
@@ -453,6 +506,7 @@ const page = () => {
               </div>
             </div>
             <button
+              onClick={() => addIngredient()}
               type="button"
               className="w-[130px] self-end rounded-md bg-[var(--theme1)] px-3 py-2 font-semibold text-white"
             >
@@ -468,7 +522,70 @@ const page = () => {
           <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
             Ingredient List
           </span>
-          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"></div>
+
+          {ingredients.length != 0 ? (
+            <div className="flex flex-col gap-3">
+              {ingredients.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex w-full flex-row items-center justify-between rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"
+                >
+                  <div className="flex flex-row gap-12">
+                    <div className="flex flex-row gap-1">
+                      <div>{item.amount}</div>
+                      <div
+                        className={cn(
+                          "diagonal-fractions",
+                          item.secondAmount == 0 && "hidden",
+                        )}
+                      >
+                        {item.secondAmount}
+                      </div>
+                      <div>{item.unit}</div>
+                    </div>
+                    <div>{item.ingredient}</div>
+                  </div>
+                  <div
+                    onClick={() => {
+                      let arr = [...ingredients];
+                      arr.splice(index, 1);
+                      setIngredients(arr);
+                    }}
+                    className="grid place-items-center px-1.5 py-1 hover:cursor-pointer"
+                  >
+                    <i className="fa-solid fa-x text-rose-500"></i>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="80"
+                    height="80"
+                    fill="currentColor"
+                    className="bi bi-bag-x"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708"
+                    />
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                  </svg>
+                </div>
+                <div className="text-xl font-semibold text-center">
+                  You have no ingredients on your list.
+                </div>
+                <div className="font-light text-center">
+                  You need at least one ingredient to submit your recipe.
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -489,7 +606,7 @@ const page = () => {
                 }
               }}
               type="button"
-              className="mr-4 rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
+              className="ml-4 rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
             >
               Previous
             </button>
