@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "./RecipeCard.css";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const RecipeCard = ({ recipe }) => {
+  const router = useRouter();
   return (
-    <div className="flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer">
+    <div onClick={()=>{
+        router.push(`/recipes/${recipe.id}`)
+    }} className="flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer">
       <div className="relative overflow-hidden rounded-t-xl">
         <img
           src={recipe.img}
