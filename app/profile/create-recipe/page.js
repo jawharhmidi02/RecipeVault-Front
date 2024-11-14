@@ -33,34 +33,33 @@ const page = () => {
 
   const verifyInformation = () => {
     if (step == 1) {
-      // if (nameInput.current.value == "") {
-      //   toast({
-      //     description: "Verify the Name!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      // } else if (!fileInput.current.files[0]) {
-      //   toast({
-      //     description: "You need to choose an Image!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      // } else {
-      //   setStep(step + 1);
-      // }
+      if (nameInput.current.value == "") {
+        toast({
+          description: "Verify the Name!",
+          variant: "destructive",
+          duration: 2000,
+        });
+      } else if (!fileInput.current.files[0]) {
+        toast({
+          description: "You need to choose an Image!",
+          variant: "destructive",
+          duration: 2000,
+        });
+      } else {
+        setStep(step + 1);
+      }
       setStep(step + 1);
     } else if (step == 2) {
-      // if (ingredients.length == 0) {
-      //   toast({
-      //     description: "You need at least one ingredient to continue!",
-      //     variant: "destructive",
-      //     duration: 2000,
-      //   });
-      // }
-      // else{
-      //   setStep(step + 1);
-      // }
-      setStep(step + 1);
+      if (ingredients.length == 0) {
+        toast({
+          description: "You need at least one ingredient to continue!",
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
+      else{
+        setStep(step + 1);
+      }
     }
   };
 
@@ -577,15 +576,36 @@ const page = () => {
                     <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
                   </svg>
                 </div>
-                <div className="text-xl font-semibold text-center">
+                <div className="text-center text-xl font-semibold">
                   You have no ingredients on your list.
                 </div>
-                <div className="font-light text-center">
+                <div className="text-center font-light">
                   You need at least one ingredient to submit your recipe.
                 </div>
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* STEP 2 PAGE DONE */}
+
+      {/* STEP 3 PAGE BELOW */}
+
+      <div
+        className={cn(
+          "mb-28 flex w-full flex-col items-center gap-14 sm:px-4",
+          step != 3 && "hidden",
+        )}
+      >
+        <span className="mb-14 px-4 text-center text-lg sm:px-0 sm:text-start">
+        Sounds delicious! Now, it’s time to add the recipe steps.
+        </span>
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Add a Step
+          </span>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"></div>
         </div>
       </div>
 
