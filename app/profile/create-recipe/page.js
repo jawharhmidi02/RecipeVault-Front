@@ -5,6 +5,7 @@ import ScrollableSelect from "@/components/ScrollableSelect/ScrollableSelect";
 import hours from "@/lib/hours";
 import minutes from "@/lib/minutes";
 import amounts from "@/lib/amounts";
+import units from "@/lib/units";
 import { useToast } from "@/hooks/use-toast";
 
 const page = () => {
@@ -23,6 +24,7 @@ const page = () => {
   const nameInput = useRef("");
   const [imageValue, setImageValue] = useState(null);
   const [secondAmount, setSecondAmount] = useState("0");
+  const [unit, setUnit] = useState("");
 
   const verifyInformation = () => {
     if (step == 1) {
@@ -393,7 +395,7 @@ const page = () => {
 
       <div
         className={cn(
-          "mb-28 flex w-full flex-col items-center sm:px-4",
+          "mb-28 flex w-full flex-col gap-14 items-center sm:px-4",
           step != 2 && "hidden",
         )}
       >
@@ -405,25 +407,80 @@ const page = () => {
             Add an Ingredient
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
-            <div className="flex w-full flex-row gap-4">
+            <div className="flex w-full flex-col gap-4 md:flex-row">
               <div className="flex flex-col gap-4">
                 <span className="text-[14px] text-neutral-600">AMOUNT</span>
                 <div className="flex w-full flex-row gap-2">
-                  <input type="number" placeholder="0" className="px-4 py-1.5 bg-[var(--bg)] border w-11/12 border-neutral-700 rounded-md outline-[var(--theme2)]"/>
-                  <ScrollableSelect border="border-neutral-700" bg="bg-[var(--bg)]" state={secondAmount} setState={setSecondAmount} label="Specific Amounts" placeHolder={secondAmount} items={amounts}/>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    className="w-11/12 rounded-md border border-neutral-700 bg-white px-4 py-1.5 outline-[var(--theme2)]"
+                  />
+                  <ScrollableSelect
+                    border="border-neutral-700"
+                    state={secondAmount}
+                    setState={setSecondAmount}
+                    label="Specific Amounts"
+                    placeHolder={secondAmount}
+                    items={amounts}
+                  />
                 </div>
-
               </div>
-              
+              <div className="flex flex-col gap-4">
+                <span className="text-[14px] text-neutral-600">UNIT</span>
+                <ScrollableSelect
+                  border="border-neutral-700"
+                  state={unit}
+                  setState={setUnit}
+                  label="Unit"
+                  placeHolder="Please choose a unit.."
+                  items={units}
+                />
+              </div>
+              <div className="flex flex-col gap-4">
+                <span className="text-[14px] text-neutral-600">
+                  INGREDIENT<font className="text-rose-500"> *</font>
+                </span>
+                <input
+                  type="text"
+                  className="rounded-md border border-neutral-700 bg-white px-4 py-[7px] outline-[var(--theme2)]"
+                  maxLength={60}
+                  placeholder="E.g flour"
+                />
+                <span className="text-end text-[12px] text-neutral-600">
+                  60 Chars max
+                </span>
+              </div>
             </div>
+            <button
+              type="button"
+              className="w-[130px] self-end rounded-md bg-[var(--theme1)] px-3 py-2 font-semibold text-white"
+            >
+              ADD TO LIST
+            </button>
           </div>
+          <span className="text-lg font-semibold">
+            <font className="text-rose-500">* </font> Required
+          </span>
+        </div>
+
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Ingredient List
+          </span>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"></div>
         </div>
       </div>
 
       {/* Footer below */}
 
       <div className="fixed bottom-0 z-20 flex h-[80px] w-full items-center justify-center border-t border-zinc-100 bg-white">
-        <div className={cn("mx-auto flex flex-row w-full max-w-[800px] justify-end", step > 1 && "justify-between")}>
+        <div
+          className={cn(
+            "mx-auto flex w-full max-w-[800px] flex-row justify-end",
+            step > 1 && "justify-between",
+          )}
+        >
           {step > 1 && (
             <button
               onClick={() => {
@@ -442,7 +499,7 @@ const page = () => {
               verifyInformation();
             }}
             type="button"
-            className="mr-4  rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
+            className="mr-4 rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
           >
             {step < 4 ? <>Next</> : <>Create</>}
           </button>
