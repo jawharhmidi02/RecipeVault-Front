@@ -6,6 +6,7 @@ import hours from "@/lib/hours";
 import minutes from "@/lib/minutes";
 import amounts from "@/lib/amounts";
 import units from "@/lib/units";
+import utensils from "@/lib/utensils";
 import { useToast } from "@/hooks/use-toast";
 
 const page = () => {
@@ -30,35 +31,64 @@ const page = () => {
   const secondAmountInput = useRef("");
   const unitInput = useRef("");
   const ingredientInput = useRef("");
+  const [recipeSteps, setRecipeSteps] = useState([]);
+  const stepDescriptionInput = useRef("");
+  const [utensil, setUtensil] = useState("");
+  const [utensilsList, setUtensilsList] = useState([]);
+  const recipeDescriptionInput = useRef("");
+  const [catRadio, setCatRadio] = useState(2);
 
   const verifyInformation = () => {
     if (step == 1) {
-      if (nameInput.current.value == "") {
-        toast({
-          description: "Verify the Name!",
-          variant: "destructive",
-          duration: 2000,
-        });
-      } else if (!fileInput.current.files[0]) {
-        toast({
-          description: "You need to choose an Image!",
-          variant: "destructive",
-          duration: 2000,
-        });
-      } else {
-        setStep(step + 1);
-      }
+      // if (nameInput.current.value == "") {
+      //   toast({
+      //     description: "Verify the Name!",
+      //     variant: "destructive",
+      //     duration: 2000,
+      //   });
+      //   return false;
+      // } else if (!fileInput.current.files[0]) {
+      //   toast({
+      //     description: "You need to choose an Image!",
+      //     variant: "destructive",
+      //     duration: 2000,
+      //   });
+      //   return false;
+      // } else {
+      //   setStep(step + 1);
+      // }
+      setStep(step + 1);
     } else if (step == 2) {
-      if (ingredients.length == 0) {
-        toast({
-          description: "You need at least one ingredient to continue!",
-          variant: "destructive",
-          duration: 2000,
-        });
-      }
-      else{
-        setStep(step + 1);
-      }
+      // if (ingredients.length == 0) {
+      //   toast({
+      //     description: "You need at least one ingredient to continue!",
+      //     variant: "destructive",
+      //     duration: 2000,
+      //   });
+      // }
+      // else{
+      //   setStep(step + 1);
+      // }
+      setStep(step + 1);
+    } else if (step == 3) {
+      // if (recipeSteps.length == 0){
+      //   toast({
+      //     description: "You need at least 1 step to submit your recipe!",
+      //     variant: "destructive",
+      //     duration: 2000,
+      //   });
+      // }
+      // else if(utensilsList.length == 0){
+      //   toast({
+      //     description: "You need at least 1 utensil to submit your recipe!",
+      //     variant: "destructive",
+      //     duration: 2000,
+      //   });
+      // }
+      // else{
+      //   setStep(step + 1)
+      // }
+      setStep(step + 1);
     }
   };
 
@@ -94,11 +124,34 @@ const page = () => {
     }
   };
 
+  const addRecipeStep = () => {
+    if (stepDescriptionInput.current.value == "") {
+      toast({
+        description: "You need to describe your step!",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } else {
+      setRecipeSteps([...recipeSteps, stepDescriptionInput.current.value]);
+    }
+  };
+
+  const addUtensil = () => {
+    if (utensil == "") {
+      toast({
+        description: "You need to choose a utensil!",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } else {
+      setUtensilsList([...utensilsList, utensil]);
+    }
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="sticky top-0 z-20 mb-6 flex items-center justify-center border-b border-b-zinc-100 bg-white pt-3 sm:border-t sm:border-t-zinc-100">
         <div className="flex w-full max-w-[800px] flex-row items-center justify-center gap-2 px-5">
-          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 hover:cursor-pointer sm:pt-0">
+          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 sm:pt-0">
             <span className="hidden font-light sm:block">1. Basics</span>
             <div
               className={cn(
@@ -107,7 +160,7 @@ const page = () => {
               )}
             ></div>
           </div>
-          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 hover:cursor-pointer sm:pt-0">
+          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 sm:pt-0">
             <span className="hidden font-light sm:block">2. Ingredients</span>
             <div
               className={cn(
@@ -116,7 +169,7 @@ const page = () => {
               )}
             ></div>
           </div>
-          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 hover:cursor-pointer sm:pt-0">
+          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 sm:pt-0">
             <span className="hidden font-light sm:block">3. RecipeSteps</span>
             <div
               className={cn(
@@ -125,7 +178,7 @@ const page = () => {
               )}
             ></div>
           </div>
-          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 hover:cursor-pointer sm:pt-0">
+          <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 sm:pt-0">
             <span className="hidden font-light sm:block">4. Extra Details</span>
             <div
               className={cn(
@@ -143,7 +196,7 @@ const page = () => {
 
       <div
         className={cn(
-          "mb-28 flex w-full flex-col items-center sm:px-4",
+          "mb-40 flex w-full flex-col items-center sm:px-4",
           step != 1 && "hidden",
         )}
       >
@@ -156,7 +209,7 @@ const page = () => {
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <div className="flex w-full flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">
+              <span className="text-[14px] text-neutral-600 tracking-wider">
                 NAME YOUR RECIPE <font className="text-rose-500">*</font>
               </span>
               <input
@@ -175,7 +228,7 @@ const page = () => {
             {/* Input Done  */}
 
             <div className="flex w-full flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">ADD A PHOTO</span>
+              <span className="text-[14px] text-neutral-600 tracking-wider">ADD A PHOTO</span>
               <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
                 <div
                   onClick={() => {
@@ -246,7 +299,7 @@ const page = () => {
             {/* Upload camera done  */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">PORTION</span>
+              <span className="text-[14px] text-neutral-600 tracking-wider">PORTION</span>
               <span className="text-[13px] font-light text-neutral-500">
                 Put ingredient quantities relevant to a single serving please.
               </span>
@@ -258,7 +311,7 @@ const page = () => {
             {/* Portion Done */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">DIFFICULTY</span>
+              <span className="text-[14px] text-neutral-600 tracking-wider">DIFFICULTY</span>
               <span className="text-[13px] font-light text-neutral-500">
                 How complicated is your dish?
               </span>
@@ -278,7 +331,7 @@ const page = () => {
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
                         radio == 1 && "border-neutral-700",
                       )}
                     >
@@ -300,7 +353,7 @@ const page = () => {
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
                         radio == 2 && "border-neutral-700",
                       )}
                     >
@@ -322,7 +375,7 @@ const page = () => {
                     />
                     <div
                       className={cn(
-                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer",
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
                         radio == 3 && "border-neutral-700",
                       )}
                     >
@@ -336,7 +389,7 @@ const page = () => {
             {/* Difficulty Done  */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">
+              <span className="text-[14px] text-neutral-600 tracking-wider">
                 PREP TIME<font className="text-rose-500"> *</font>
               </span>
               <span className="text-[13px] font-light text-neutral-500">
@@ -370,7 +423,7 @@ const page = () => {
             {/* Prep Time Done */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">BAKING TIME</span>
+              <span className="text-[14px] text-neutral-600 tracking-wider">BAKING TIME</span>
               <span className="text-[13px] font-light text-neutral-500">
                 How long does the dish need to bake for?
               </span>
@@ -401,7 +454,7 @@ const page = () => {
             {/* Bake Time Done */}
 
             <div className="flex flex-col gap-2">
-              <span className="text-[14px] text-neutral-600">RESTING TIME</span>
+              <span className="text-[14px] text-neutral-600 tracking-wider">RESTING TIME</span>
               <span className="text-[13px] font-light text-neutral-500">
                 Does the dish need to rest at any point? E.g. marinating,
                 chilling, rising time...
@@ -442,11 +495,11 @@ const page = () => {
 
       <div
         className={cn(
-          "mb-28 flex w-full flex-col items-center gap-14 sm:px-4",
+          "mb-40 flex w-full flex-col items-center gap-14 sm:px-4",
           step != 2 && "hidden",
         )}
       >
-        <span className="mb-14 px-4 text-center text-lg sm:px-0 sm:text-start">
+        <span className=" px-4 text-center text-lg sm:px-0 sm:text-start">
           A recipe is nothing without the ingredients! What's in your recipe?
         </span>
         <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
@@ -456,12 +509,13 @@ const page = () => {
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
             <div className="flex w-full flex-col gap-4 md:flex-row">
               <div className="flex flex-col gap-4">
-                <span className="text-[14px] text-neutral-600">AMOUNT</span>
+                <span className="text-[14px] text-neutral-600 tracking-wider">AMOUNT</span>
                 <div className="flex w-full flex-row gap-2">
                   <input
                     ref={amountInput}
                     type="number"
                     placeholder="0"
+                    min={0}
                     className="w-11/12 rounded-md border border-neutral-700 bg-white px-4 py-1.5 outline-[var(--theme2)]"
                   />
                   <ScrollableSelect
@@ -476,7 +530,7 @@ const page = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-                <span className="text-[14px] text-neutral-600">UNIT</span>
+                <span className="text-[14px] text-neutral-600 tracking-wider">UNIT</span>
                 <ScrollableSelect
                   ref={unitInput}
                   border="border-neutral-700"
@@ -488,7 +542,7 @@ const page = () => {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <span className="text-[14px] text-neutral-600">
+                <span className="text-[14px] text-neutral-600 tracking-wider">
                   INGREDIENT<font className="text-rose-500"> *</font>
                 </span>
                 <input
@@ -593,20 +647,402 @@ const page = () => {
 
       <div
         className={cn(
-          "mb-28 flex w-full flex-col items-center gap-14 sm:px-4",
+          "mb-40 flex w-full flex-col items-center gap-14 sm:px-4",
           step != 3 && "hidden",
         )}
       >
-        <span className="mb-14 px-4 text-center text-lg sm:px-0 sm:text-start">
-        Sounds delicious! Now, it’s time to add the recipe steps.
+        <span className=" px-4 text-center text-lg sm:px-0 sm:text-start">
+          Sounds delicious! Now, it’s time to add the recipe steps and the
+          utensils.
         </span>
         <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
           <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
             Add a Step
           </span>
-          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"></div>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <span className="text-xl font-semibold text-neutral-600">{`Step ${recipeSteps.length + 1}`}</span>
+            <div className="flex flex-col gap-3">
+              <span className="text-[14px] text-neutral-600 tracking-wider">
+                STEP DESCRIPTION <font className="text-rose-500"> *</font>
+              </span>
+              <span className="text-[15px] text-neutral-500">
+                Each recipe step should be helpful, easy to understand, and
+                focus on clear actions related to the recipe. As an example,
+                here's the final step for our Rigatoni with broccoli and
+                sausage: Add broccoli, rigatoni, pasta water, chili flakes,
+                lemon zest and juice, and Parmesan cheese. Season with salt and
+                pepper. To serve, garnish with basil and more cheese. Enjoy!
+              </span>
+              <textarea
+                className="rounded-md border border-neutral-700 py-3 px-5 bg-[var(--bg)] outline-[var(--theme2)] h-[200px]"
+                maxLength={500}
+                placeholder="What needs to be done in this step?"
+                ref={stepDescriptionInput}
+              ></textarea>
+              <span className="border-neutral-700 text-end text-[12px] font-light">
+                500 Chars max
+              </span>
+              <button
+                onClick={() => addRecipeStep()}
+                type="button"
+                className="w-[130px] self-end rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
+              >
+                Add step
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Steps List
+          </span>
+          {recipeSteps.length != 0 ? (
+            <div className="flex flex-col gap-3">
+              {recipeSteps.map((recipeStep, index) => (
+                <div
+                  key={index}
+                  className="flex w-full flex-col gap-4 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"
+                >
+                  <div className="font-semibold text-neutral-600">{`Step ${index + 1}`}</div>
+                  <div className="flex flex-row items-center justify-between">
+                    <div>{recipeStep}</div>
+                    <div
+                      onClick={() => {
+                        let arr = [...recipeSteps];
+                        arr.splice(index, 1);
+                        setRecipeSteps(arr);
+                      }}
+                      className="grid place-items-center px-1.5 py-1 hover:cursor-pointer"
+                    >
+                      <i className="fa-solid fa-x text-rose-500"></i>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="80"
+                    height="80"
+                    fill="currentColor"
+                    className="bi bi-slash-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708" />
+                  </svg>
+                </div>
+                <div className="text-center text-xl font-semibold">
+                  You have no steps on your list.
+                </div>
+                <div className="text-center font-light">
+                  You need at least one step to submit your recipe.
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Add a Utensil
+          </span>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <span className="text-xl font-semibold text-neutral-600">{`Utensil ${utensilsList.length + 1}`}</span>
+            <div className="flex flex-col gap-3">
+              <span className="text-[14px] text-neutral-600 tracking-wider">
+                Utensil <font className="text-rose-500"> *</font>
+              </span>
+              <ScrollableSelect
+                state={utensil}
+                setState={setUtensil}
+                label="Utensil"
+                placeHolder="Select a utensil.."
+                items={utensils}
+              />
+
+              <button
+                onClick={() => addUtensil()}
+                type="button"
+                className="w-[150px] self-end rounded-md bg-[var(--theme1)] px-4 py-2 text-xl font-semibold text-white transition-all duration-200 hover:bg-[var(--theme2)] active:scale-95"
+              >
+                Add utensil
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Utensils List
+          </span>
+          {utensilsList.length != 0 ? (
+            <div className="flex flex-col gap-3">
+              {utensilsList.map((utl, index) => (
+                <div
+                  key={index}
+                  className="flex w-full flex-col gap-4 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10"
+                >
+                  <div className="font-semibold text-neutral-600">{`Utensil ${index + 1}`}</div>
+                  <div className="flex flex-row items-center justify-between">
+                    <div>{utl.charAt(0).toUpperCase() + utl.slice(1)}</div>
+                    <div
+                      onClick={() => {
+                        let arr = [...utensilsList];
+                        arr.splice(index, 1);
+                        setUtensilsList(arr);
+                      }}
+                      className="grid place-items-center px-1.5 py-1 hover:cursor-pointer"
+                    >
+                      <i className="fa-solid fa-x text-rose-500"></i>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="80"
+                    height="80"
+                    fill="currentColor"
+                    className="bi bi-slash-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708" />
+                  </svg>
+                </div>
+                <div className="text-center text-xl font-semibold">
+                  You have no utensils on your list.
+                </div>
+                <div className="text-center font-light">
+                  You need at least one utensil to submit your recipe.
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* STEP 3 PAGE DONE */}
+
+      {/* STEP 4 PAGE BELOW */}
+
+      <div
+        className={cn(
+          "mb-40 flex w-full flex-col items-center gap-14 sm:px-4",
+          step != 4 && "hidden",
+        )}
+      >
+        <span className=" px-4 text-center text-lg sm:px-0 sm:text-start">
+          Almost done, chef!
+        </span>
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Extra Details
+          </span>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <div className="flex flex-col gap-3">
+              <span className="text-[14px] text-neutral-600 tracking-wider">CHEF'S NOTE</span>
+              <span className="text-[13px] text-light text-neutral-600">Tell us the story behind your dish or share some tips...</span>
+              <textarea
+                className="rounded-md border border-neutral-700 px-5 py-3 bg-[var(--bg)] outline-[var(--theme2)] h-[200px]"
+                maxLength={500}
+                placeholder="This is my favourite dessert, exactly how my Grandma used to make it. Try it with whipped cream on top!"
+                ref={recipeDescriptionInput}
+              ></textarea>
+              <span className="border-neutral-700 text-end text-[12px] font-light">
+                500 Chars max
+              </span>
+              
+
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Category
+          </span>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <div className="flex flex-col gap-3">
+              <span className="text-[14px] text-neutral-600 tracking-wider">DISH TYPE</span>
+              <span className="text-[13px] text-light text-neutral-600">Let's add a category to make your recipe easier to find!</span>
+              <div className="grid grid-cols-1 min-[450px]:grid-cols-2 min-[550px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div>
+                  <label htmlFor="starter">
+                    <input
+                      type="radio"
+                      id="starter"
+                      name="category"
+                      value="starter"
+                      className="hidden"
+                      onChange={() => {
+                        setCatRadio(1)
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        catRadio == 1 && "border-neutral-700",
+                      )}
+                    >
+                      Starter
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label htmlFor="main">
+                    <input
+                      type="radio"
+                      id="main"
+                      name="category"
+                      value="main"
+                      className="hidden"
+                      defaultChecked
+                      onChange={() => {
+                        setCatRadio(2)
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        catRadio == 2 && "border-neutral-700",
+                      )}
+                    >
+                      Main
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label htmlFor="dessert">
+                    <input
+                      type="radio"
+                      id="dessert"
+                      name="category"
+                      value="dessert"
+                      className="hidden"
+                      onChange={() => {
+                        setCatRadio(3)
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        catRadio == 3 && "border-neutral-700",
+                      )}
+                    >
+                      Dessert
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label htmlFor="snack">
+                    <input
+                      type="radio"
+                      id="snack"
+                      name="category"
+                      value="snack"
+                      className="hidden"
+                      onChange={() => {
+                        setCatRadio(4)
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        catRadio == 4 && "border-neutral-700",
+                      )}
+                    >
+                      Snack
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label htmlFor="breakfast">
+                    <input
+                      type="radio"
+                      id="breakfast"
+                      name="category"
+                      value="breakfast"
+                      className="hidden"
+                      onChange={() => {
+                        setCatRadio(5)
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        catRadio == 5 && "border-neutral-700",
+                      )}
+                    >
+                      Breakfast
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label htmlFor="beverage">
+                    <input
+                      type="radio"
+                      id="beverage"
+                      name="category"
+                      value="beverage"
+                      className="hidden"
+                      onChange={() => {
+                        setCatRadio(6)
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "rounded-sm border border-transparent bg-[var(--bg)] px-4 py-3 text-lg font-semibold transition-all duration-100 hover:cursor-pointer text-center",
+                        catRadio == 6 && "border-neutral-700",
+                      )}
+                    >
+                      Beverage
+                    </div>
+                  </label>
+                </div>
+                
+                
+              </div>
+              
+              
+
+            </div>
+          </div>
+        </div>
+
+
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-4">
+          <span className="pl-4 font-roboto text-3xl font-semibold sm:pl-0">
+            Tags
+          </span>
+          <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <div className="flex flex-col gap-3">
+              <span className="text-[14px] text-neutral-600 tracking-wider">Tags</span>
+              <span className="text-[13px] text-light text-neutral-600">You can add some tags to make your recipe easier to find.</span>
+              
+              
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+      {/* STEP 4 PAGE DONE */}
 
       {/* Footer below */}
 
