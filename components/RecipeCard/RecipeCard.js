@@ -1,14 +1,24 @@
-import React, { useState } from "react";
 import "./RecipeCard.css";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useState, useEffect, useTransition } from "react";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, openRecipe, liked }) => {
+  const [loadingPage, setLoadingPage] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
+  useEffect(() => {
+    setLoadingPage(isPending);
+  }, [isPending]);
+
   return (
-    <div onClick={()=>{
-        router.push(`/recipes/${recipe.id}`)
-    }} className="flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer">
+    <div
+      onClick={() => {
+        openRecipe(recipe.id);
+      }}
+      className="flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer"
+    >
       <div className="relative overflow-hidden rounded-t-xl">
         <img
           src={recipe.img}
@@ -18,7 +28,10 @@ const RecipeCard = ({ recipe }) => {
         <div className="absolute bottom-2 right-3 flex flex-row items-center justify-center gap-1 rounded-xl bg-white px-2 py-[3px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="duration-50 peer z-10 size-5 opacity-100 transition-all hover:opacity-0"
+            className={cn(
+              "duration-50 peer z-10 size-5 opacity-100 transition-all hover:opacity-0",
+              liked && "opacity-0",
+            )}
             viewBox="0 0 512 512"
           >
             <path
@@ -28,7 +41,10 @@ const RecipeCard = ({ recipe }) => {
           </svg>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="duration-50 peer absolute -left-[-8px] size-5 opacity-0 transition-all peer-hover:opacity-100"
+            className={cn(
+              "duration-50 peer absolute -left-[-8px] size-5 opacity-0 transition-all peer-hover:opacity-100",
+              liked && "opacity-100",
+            )}
             viewBox="0 0 512 512"
           >
             <path

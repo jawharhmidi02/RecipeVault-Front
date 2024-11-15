@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import SelectInterface from "../SelectInterface/SelectInterface";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import countries from "@/lib/countries";
@@ -8,12 +8,13 @@ import difficulties from "@/lib/difficulties";
 import { cn } from "@/lib/utils";
 import ScrollableSelect from "../ScrollableSelect/ScrollableSelect";
 
-const FilterInterface = () => {
+const FilterInterface = ({ fetchRecipes }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   let search = searchParams.get("search") || "";
-  let sortOption = searchParams.get("sortOption") || "name";
+  let sortOption = searchParams.get("sortOption") || "alpha";
   const [difficulty, setDifficulty] = useState(
     searchParams.get("difficutly") || "",
   );
@@ -28,8 +29,17 @@ const FilterInterface = () => {
   const changeSortOption = (option) => {
     sortOption = option;
   };
+
+  useEffect(() => {
+    if (!isPending) {
+      if (fetchRecipes) {
+        fetchRecipes();
+      }
+    }
+  }, [isPending]);
+
   return (
-    <div className="grid grid-cols-1 place-content-start md:place-items-start gap-6 md:grid-cols-2 lg:grid-cols-3 min-[1500px]:grid-cols-5">
+    <div className="grid grid-cols-1 place-content-start gap-6 md:grid-cols-2 md:place-items-start lg:grid-cols-3 min-[1500px]:grid-cols-5">
       <div className="flex flex-row items-center justify-center gap-4">
         <span className="text-nowrap text-xl font-semibold">Sort By:</span>
         <SelectInterface
@@ -39,7 +49,7 @@ const FilterInterface = () => {
           }}
           values={[
             ["date", "Date"],
-            ["name", "Name"],
+            ["alpha", "Name"],
           ]}
         />
       </div>
@@ -85,7 +95,7 @@ const FilterInterface = () => {
         />
       </div>
 
-      <div className="flex flex-row items-center justify-center place-self-center gap-4 min-[900px]:col-span-2 min-[1500px]:col-span-5">
+      <div className="flex flex-row items-center justify-center gap-4 place-self-center min-[900px]:col-span-2 min-[1500px]:col-span-5">
         <button
           type="button"
           onClick={() => {
@@ -102,9 +112,11 @@ const FilterInterface = () => {
         </button>
         <button
           onClick={() => {
-            router.push(
-              `${pathname}?search=${search}&sortOption=${sortOption}&sortOrder=${sortOrder}&cuisine=${cuisine}&ingredientsLocation=${ingredientsLocation}&category=${category}&difficulty=${difficulty}`,
-            );
+            startTransition(() => {
+              router.push(
+                `${pathname}?search=${search}&sortOption=${sortOption}&sortOrder=${sortOrder}&cuisine=${cuisine}&ingredientsLocation=${ingredientsLocation}&category=${category}&difficulty=${difficulty}`,
+              );
+            });
           }}
           type="button"
           className="w-[200px] self-center justify-self-center rounded-lg bg-[var(--theme1)] px-3.5 py-2 text-xl font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[var(--theme2)]"

@@ -1,53 +1,227 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useParams, useRouter } from "next/navigation";
-import React, { Suspense } from "react";
+import { act, useEffect, useRef, useState, useTransition } from "react";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
+import { ToastAction } from "@radix-ui/react-toast";
 
 const page = () => {
   const searchParams = useParams();
   const id = searchParams.id;
   const router = useRouter();
+  const [user, setUser] = useState({});
+  const [userLiked, setUserLiked] = useState(false);
+  const [recipe, setRecipe] = useState({});
+  const [signedIn, setSignedIn] = useState(false);
+  const [CanLike, setCanLike] = useState(false);
+  const [loadingRecipe, setLoadingRecipe] = useState(true);
+  const [loadingPage, setLoadingPage] = useState(false);
+  const [isPendingPage, startTransitionPage] = useTransition();
+
+  // const recipe = {
+  //   id: "455048ce-38c3-4e0e-b5d0-3f47c54f7e9f",
+  //   title: "Grilled Salmon",
+  //   steps: ["3abi", "meow"],
+  //   description:
+  //     " Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptatem accusamus aspernatur, dicta voluptas inventore non illo dolorem impedit provident illum cumque fugit nihil accusantium ut sit atque, deleniti minus. Quia minus culpa delectus, cupiditate voluptatem id! Sed repellendus corporis maiores rerum quis? Vero voluptates soluta, ea consectetur eligendi rem! Iusto assumenda quam deleniti unde velit reprehenderit culpa. Saepe reprehenderit eveniet enim minus ducimus, nobis modi nostrum suscipit omnis perspiciatis totam rerum corrupti, est nisi corporis veritatis ut odio. Rerum, enim dolor? Hic excepturi deleniti perferendis sed! Ipsam commodi nobis molestiae dicta harum quam neque nesciunt! Illum, voluptatibus itaque! Porro?",
+  //   ingredientsLocation: "Tunis",
+  //   cuisineLocation: "Brazil",
+  //   ingredients: ["Tomato"],
+  //   is_approved: false,
+  //   is_rejected: false,
+  //   rejection_reason: null,
+  //   approvedAt: null,
+  //   user: {
+  //     dialogues: [],
+  //     email: "lafiraed04@gmail.com",
+  //     id: "dee658f7-0f25-4b13-9729-e0b8282a57f3",
+  //     full_name: "Lafi Raed",
+  //     phone: "+21650974080",
+  //     role: "client",
+  //     nonce: null,
+  //   },
+  //   img: "https://www.shutterstock.com/image-photo/fried-salmon-steak-cooked-green-600nw-2489026949.jpg",
+  //   tags: ["tag5", "tag2"],
+  //   type: "Starter",
+  //   difficulty: "Easy",
+  //   prepTime: 2,
+  //   bakingTime: 10,
+  //   restingTime: 0,
+  //   likes: 0,
+  // };
+
   const redirectToUser = (userId) => {
-    router.push(`/profile/${userId}`);
+    startTransitionPage(() => {
+      router.push(`/profile/${userId}`);
+    });
   };
-  const recipe = {
-    id: "455048ce-38c3-4e0e-b5d0-3f47c54f7e9f",
-    title: "Grilled Salmon",
-    steps: ["3abi", "meow"],
-    description:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptatem accusamus aspernatur, dicta voluptas inventore non illo dolorem impedit provident illum cumque fugit nihil accusantium ut sit atque, deleniti minus. Quia minus culpa delectus, cupiditate voluptatem id! Sed repellendus corporis maiores rerum quis? Vero voluptates soluta, ea consectetur eligendi rem! Iusto assumenda quam deleniti unde velit reprehenderit culpa. Saepe reprehenderit eveniet enim minus ducimus, nobis modi nostrum suscipit omnis perspiciatis totam rerum corrupti, est nisi corporis veritatis ut odio. Rerum, enim dolor? Hic excepturi deleniti perferendis sed! Ipsam commodi nobis molestiae dicta harum quam neque nesciunt! Illum, voluptatibus itaque! Porro?",
-    ingredientsLocation: "Tunis",
-    cuisineLocation: "Brazil",
-    ingredients: ["Tomato"],
-    is_approved: false,
-    is_rejected: false,
-    rejection_reason: null,
-    approvedAt: null,
-    user: {
-      dialogues: [],
-      email: "lafiraed04@gmail.com",
-      id: "dee658f7-0f25-4b13-9729-e0b8282a57f3",
-      full_name: "Lafi Raed",
-      phone: "+21650974080",
-      role: "client",
-      nonce: null,
-    },
-    img: "https://www.shutterstock.com/image-photo/fried-salmon-steak-cooked-green-600nw-2489026949.jpg",
-    tags: ["tag5", "tag2"],
-    type: "Starter",
-    difficulty: "Easy",
-    prepTime: 2,
-    bakingTime: 10,
-    restingTime: 0,
-    likes: 0,
+
+  const checkUserAndHisLikes = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/account`,
+        {
+          method: "GET",
+          headers: {
+            access_token: Cookies.get("access_token"),
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const data = await response.json();
+      if (data.data === null) {
+        throw new Error(data.message);
+      }
+      setUser(data.data);
+      setSignedIn(true);
+      setCanLike(true);
+      const responseLikes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/recipelikes/user/${data.data.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const dataLikes = await responseLikes.json();
+      if (dataLikes.data === null) {
+        throw new Error(dataLikes.message);
+      }
+      setUserLiked(dataLikes.data.some((like) => like.recipe.id === id));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const fetchRecipes = async () => {
+    setLoadingRecipe(true);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/recipes/byid/${id}`,
+        {
+          method: "GET",
+        },
+      );
+      const data = await res.json();
+      if (data.data === null) {
+        throw new Error(data.message);
+      }
+      setRecipe(data.data);
+
+      setLoadingRecipe(false);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Something went wrong, Please Try Again!",
+        variant: "destructive",
+      });
+      setLoadingRecipe(false);
+    }
+    setLoadingRecipe(false);
+  };
+
+  const dis_likeRecipe = async () => {
+    if (!loadingRecipe) {
+      if (!signedIn) {
+        toast({
+          title: "Oops!",
+          description: "You need to Register First!",
+          variant: "warning",
+          action: (
+            <ToastAction
+              className="rounded-md border-2 border-white px-4 py-2 transition-colors duration-300 hover:bg-white hover:text-yellow-400"
+              altText="Register"
+              onClick={() => {
+                startTransitionPage(() => {
+                  router.push("/sign-up");
+                });
+              }}
+            >
+              Register!
+            </ToastAction>
+          ),
+        });
+        return;
+      }
+      if (CanLike) {
+        try {
+          setCanLike(false);
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/recipelikes`,
+            {
+              method: "POST",
+              headers: {
+                access_token: Cookies.get("access_token"),
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                recipe: { id },
+              }),
+            },
+          );
+          const data = await response.json();
+          if (data.data === null) {
+            throw new Error(data.message);
+          }
+          if (data.message === "Recipe like created successfully") {
+            setUserLiked(true);
+            setRecipe({ ...recipe, likes: recipe.likes + 1 });
+            toast({
+              title: "Success",
+              description: "Recipe Liked Successfully",
+              variant: "success",
+              duration: 3500,
+            });
+          } else {
+            setUserLiked(false);
+            setRecipe({ ...recipe, likes: recipe.likes - 1 });
+            toast({
+              title: "Success",
+              description: "Recipe Disliked Successfully",
+              variant: "success",
+              duration: 3500,
+            });
+          }
+          setCanLike(true);
+        } catch (error) {
+          console.log(error);
+          toast({
+            title: "Error",
+            description: "Something went wrong, Please Try Again!",
+            variant: "destructive",
+          });
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    setLoadingPage(isPendingPage);
+  }, [isPendingPage]);
+
+  useEffect(() => {
+    checkUserAndHisLikes();
+    fetchRecipes();
+  }, []);
+
   return (
     <div className="mx-auto flex w-full items-center justify-center">
-      <div className="flex w-full max-w-[800px] flex-col gap-4 mx-5">
+      {loadingPage && (
+        <div className="justify-cente fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
+          <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
+        </div>
+      )}
+      <div className="mx-5 flex w-full max-w-[800px] flex-col gap-4">
         <div className="flex flex-row items-center gap-2">
           <div
             onClick={() => {
-              router.push("/recipes");
+              startTransitionPage(() => {
+                router.push("/recipes");
+              });
             }}
             className="font-light text-neutral-500 transition-all duration-100 hover:cursor-pointer hover:text-neutral-800"
           >
@@ -56,22 +230,38 @@ const page = () => {
           <div className="flex items-end justify-end">
             <i className="fa-solid fa-chevron-right text-[12px] font-thin text-neutral-400"></i>
           </div>
-          <div className="text-neutral-900">{recipe.title}</div>
+          {loadingRecipe ? (
+            <Skeleton className="h-4 w-[100px] bg-neutral-300" />
+          ) : (
+            <div className="text-neutral-900">{recipe.title}</div>
+          )}
         </div>
-        <img
-          src={recipe.img}
-          alt="meal"
-          className="rounded-xl object-cover"
-        ></img>
+        {loadingRecipe ? (
+          <Skeleton className={"h-[400px] w-full bg-neutral-300"} />
+        ) : (
+          <img
+            src={recipe.img}
+            alt="meal"
+            className="rounded-xl object-cover"
+          ></img>
+        )}
         <div className="flex flex-row items-center gap-8">
-          <div className="text-3xl font-bold text-neutral-800">
-            {recipe.title}
-          </div>
+          {loadingRecipe ? (
+            <Skeleton className={"h-8 w-[200px] bg-neutral-300"} />
+          ) : (
+            <div className="text-3xl font-bold text-neutral-800">
+              {recipe.title}
+            </div>
+          )}
           <div className="flex w-fit flex-row items-center gap-2">
             <div className="relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="peer z-10 size-10 opacity-100 transition-all peer-hover:opacity-0"
+                className={cn(
+                  "peer z-10 size-10 opacity-100 transition-all peer-hover:opacity-0",
+                  loadingRecipe && !CanLike && "cursor-pointer",
+                  signedIn && userLiked && "opacity-0",
+                )}
                 viewBox="0 0 512 512"
               >
                 <path
@@ -81,10 +271,14 @@ const page = () => {
               </svg>
               <svg
                 onClick={() => {
-                  // code when like button pressed
+                  dis_likeRecipe();
                 }}
                 xmlns="http://www.w3.org/2000/svg"
-                className="duration-50 peer absolute -left-[1px] -top-[1px] size-[42px] opacity-0 transition-all hover:cursor-pointer hover:opacity-100"
+                className={cn(
+                  "duration-50 peer absolute -left-[1px] -top-[1px] size-[42px] opacity-0 transition-all hover:cursor-pointer hover:opacity-100",
+                  loadingRecipe && !CanLike && "cursor-pointer",
+                  signedIn && userLiked && "opacity-100",
+                )}
                 viewBox="0 0 512 512"
               >
                 <path
@@ -93,9 +287,13 @@ const page = () => {
                 />
               </svg>
             </div>
-            <div className="text-lg font-bold text-neutral-500">
-              {recipe.likes}
-            </div>
+            {loadingRecipe ? (
+              <Skeleton className={"h-8 w-8 bg-neutral-300"} />
+            ) : (
+              <div className="text-lg font-bold text-neutral-500">
+                {recipe.likes}
+              </div>
+            )}
           </div>
         </div>
 
@@ -109,65 +307,90 @@ const page = () => {
               <i className="fa-solid fa-user text-5xl text-neutral-400"></i>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
-              <div
-                onClick={() => redirectToUser(recipe.user.id)}
-                className="text-xl font-semibold text-neutral-800 transition-all duration-100 hover:cursor-pointer hover:text-[var(--theme2)]"
-              >
-                {recipe.user.full_name}
-              </div>
-              <div
-                className={cn(
-                  "hidden",
-                  recipe.user.role == "client" && "block",
-                )}
-              >
-                <div className="font-light text-neutral-500">Normal User</div>
-              </div>
-              <div className="font-light text-neutral-500">
-                {recipe.user.email}
-              </div>
+              {loadingRecipe ? (
+                <Skeleton className={"h-5 w-[100px] bg-neutral-300"} />
+              ) : (
+                <div
+                  onClick={() => redirectToUser(recipe.user.id)}
+                  className="text-xl font-semibold text-neutral-800 transition-all duration-100 hover:cursor-pointer hover:text-[var(--theme2)]"
+                >
+                  {recipe.user.full_name}
+                </div>
+              )}
+              {loadingRecipe ? (
+                <Skeleton className={"h-5 w-[100px] bg-neutral-300"} />
+              ) : (
+                <div
+                  className={cn(
+                    "block",
+                    // recipe.user.role == "client" && "block",
+                  )}
+                >
+                  <div className="font-light text-neutral-500">
+                    {recipe.user.role === "client"
+                      ? "Verified by a Specialist"
+                      : "A Specialist"}
+                  </div>
+                </div>
+              )}
+              {loadingRecipe ? (
+                <Skeleton className={"h-5 w-[160px] bg-neutral-300"} />
+              ) : (
+                <div className="font-light text-neutral-500">
+                  {recipe.user.email}
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="">{`"${recipe.description}"`}</div>
+          {loadingRecipe ? (
+            <div className="flex flex-col gap-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <Skeleton key={index} className={"h-6 w-full bg-neutral-300"} />
+              ))}
+              <Skeleton className={"h-6 w-[40%] bg-neutral-300"} />
+            </div>
+          ) : (
+            <div className="">{`${recipe.description}`}</div>
+          )}
         </div>
         <div className="mb-4 mt-4 h-[1px] w-full bg-neutral-300"></div>
-        <div className="grid grid-cols-2 min-[500px]:grid-cols-4 gap-y-10 bg-neutral-200 rounded-xl py-6 px-4">
+        <div className="grid grid-cols-2 gap-y-10 rounded-xl bg-neutral-200 px-4 py-6 min-[500px]:grid-cols-4">
           <div className="flex flex-col items-center justify-center gap-4">
-            <div>
-              Difficulty
-            </div>
-            <div className="font-semibold text-lg">
-              { recipe.difficulty }
-            </div>
-
+            <div>Difficulty</div>
+            {loadingRecipe ? (
+              <Skeleton className={"h-12 w-12 bg-neutral-300"} />
+            ) : (
+              <div className="text-lg font-semibold">{recipe.difficulty}</div>
+            )}
           </div>
           <div className="flex flex-col items-center justify-center gap-4">
-            <div>
-              Preparation
-            </div>
-            <div className="font-semibold text-lg">
-              40 Min
-            </div>
-
+            <div>Preparation</div>
+            {loadingRecipe ? (
+              <Skeleton className={"h-12 w-12 bg-neutral-300"} />
+            ) : (
+              <div className="text-lg font-semibold">{recipe.prepTime} Min</div>
+            )}
           </div>
           <div className="flex flex-col items-center justify-center gap-4">
-            <div>
-              Baking
-            </div>
-            <div className="font-semibold text-lg">
-              20 Min
-            </div>
-
+            <div>Baking</div>
+            {loadingRecipe ? (
+              <Skeleton className={"h-12 w-12 bg-neutral-300"} />
+            ) : (
+              <div className="text-lg font-semibold">
+                {recipe.bakingTime} Min
+              </div>
+            )}
           </div>
           <div className="flex flex-col items-center justify-center gap-4">
-            <div>
-              Resting
-            </div>
-            <div className="font-semibold text-lg">
-              10 Min
-            </div>
-
+            <div>Resting</div>
+            {loadingRecipe ? (
+              <Skeleton className={"h-12 w-12 bg-neutral-300"} />
+            ) : (
+              <div className="text-lg font-semibold">
+                {recipe.restingTime} Min
+              </div>
+            )}
           </div>
         </div>
       </div>

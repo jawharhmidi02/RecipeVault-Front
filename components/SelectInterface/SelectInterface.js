@@ -14,7 +14,7 @@ import { useSearchParams } from "next/navigation";
 
 const SelectInterface = ({ placeHolder, changeSortOption, values }) => {
   const useParams = useSearchParams();
-  let optionParam = useParams.get("sortOption") || "name";
+  let optionParam = useParams.get("sortOption") || "alpha";
 
   const [value, setValue] = useState(optionParam)
   useEffect(() => {

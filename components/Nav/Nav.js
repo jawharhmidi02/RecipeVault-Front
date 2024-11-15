@@ -38,7 +38,7 @@ const Nav = () => {
   const [loadingPage, setLoadingPage] = useState(true);
   const [isPending, startTransition] = useTransition();
 
-  const check = async () => {
+  const checkUser = async () => {
     try {
       setLoadingUser(true);
 
@@ -68,7 +68,7 @@ const Nav = () => {
   };
 
   useEffect(() => {
-    check();
+    checkUser();
     setLoadingPage(false);
   }, []);
 

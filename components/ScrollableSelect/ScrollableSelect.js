@@ -17,16 +17,22 @@ const ScrollableSelect = ({
   placeHolder,
   items,
   border,
-  bg
+  bg,
 }) => {
   return (
     <Select value={state} onValueChange={setState}>
-      <SelectTrigger className={cn("border-neutral-300 bg-transparent focus:ring-[var(--theme2)]", border, bg)}>
-        <SelectValue placeholder={placeHolder} />
+      <SelectTrigger
+        className={cn(
+          "w-full border-neutral-300 bg-transparent text-left focus:ring-[var(--theme2)]",
+          border,
+          bg,
+        )}
+      >
+        <SelectValue placeholder={placeHolder} className="text-left" />
       </SelectTrigger>
       <SelectContent className="bg-white">
         <SelectGroup>
-          <SelectLabel>{ label }</SelectLabel>
+          <SelectLabel>{label}</SelectLabel>
           {items.map((item, index) => (
             <SelectItem
               className="hover:cursor-pointer"
