@@ -59,8 +59,21 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           Recipes
         </a>
       </div>
-      <div className={cn("link text-neutral-700")}>
-        <a className="hover:cursor-pointer">Page 2</a>
+      <div className={cn("link text-neutral-700", pathname.includes("about") && "active")}>
+        <a
+          onClick={() => {
+            setLoadingPage(true);
+            startTransition(() => {
+              router.push("/about");
+            });
+            setTimeout(() => {
+              closeButton?.current.click();
+            }, 500);
+          }}
+          className="hover:cursor-pointer"
+        >
+          About
+        </a>
       </div>
       <div className={cn("link text-neutral-700")}>
         <a className="hover:cursor-pointer">Page 3</a>
