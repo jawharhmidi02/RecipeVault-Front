@@ -18,10 +18,13 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
         if (accepted) {
           openRecipe(recipe.id);
         }
+        if(!recipe.isAccepted && !recipe.isRejected){
+          router.push(`/profile/verify/${recipe.id}`)
+        }
       }}
       className={cn(
         "flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200",
-        accepted && "hover:scale-[1.03] hover:cursor-pointer",
+        (accepted || (!recipe.isAccepted && !recipe.isRejected) ) && "hover:scale-[1.03] hover:cursor-pointer",
       )}
     >
       <div className="relative overflow-hidden rounded-t-xl">
@@ -30,7 +33,7 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
           alt={recipe.title}
           className={cn(
             "h-[200px] w-full rounded-t-xl object-cover transition-all duration-200",
-            accepted && "hover:scale-110",
+            (accepted || (!recipe.isAccepted && !recipe.isRejected)) && "hover:scale-110",
           )}
         />
         <div

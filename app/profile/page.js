@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import RecipeCard from "@/components/RecipeCard/RecipeCard";
 import PendingRecipes from "@/components/PendingRecipes/PendingRecipes";
 import RejectedRecipes from "@/components/RejectedRecipes/RejectedRecipes";
+import RecipeRequests from "@/components/RecipeRequests/RecipeRequests";
 
 const page = () => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const page = () => {
 
   const user = {
     fullName: "Lafi Raed",
-    role: "client",
+    role: "specialist",
     email: "lafiraed04@gmail.com",
   };
 
@@ -203,7 +204,7 @@ const page = () => {
             onClick={() => setMenuState("Pending Recipes")}
             className={cn(
               "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
-              user.role != "client" && hidden,
+              user.role != "client" && "hidden",
             )}
           >
             <span className="hidden font-light sm:block">Pending Recipes</span>
@@ -218,7 +219,7 @@ const page = () => {
             onClick={() => setMenuState("Rejected Recipes")}
             className={cn(
               "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
-              user.role != "client" && hidden,
+              user.role != "client" && "hidden",
             )}
           >
             <span className="hidden font-light sm:block">Rejected Recipes</span>
@@ -230,17 +231,32 @@ const page = () => {
             ></div>
           </div>
           <div
-            onClick={() => setMenuState("Requests")}
+            onClick={() => setMenuState("Recipe Requests")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role != "specialist" && "hidden",
+            )}
+          >
+            <span className="hidden font-light sm:block">Recipe Requests</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Recipe Requests" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+          <div
+            onClick={() => setMenuState("Application Requests")}
             className={cn(
               "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
               user.role != "admin" && "hidden",
             )}
           >
-            <span className="hidden font-light sm:block">Requests</span>
+            <span className="hidden font-light sm:block">Application Requests</span>
             <div
               className={cn(
                 "h-1.5 w-full bg-stone-300",
-                menuState == "Requests" && "bg-[var(--theme2)]",
+                menuState == "Application Requests" && "bg-[var(--theme2)]",
               )}
             ></div>
           </div>
@@ -297,6 +313,20 @@ const page = () => {
         </div>
 
         {/* REJECTED RECIPES COMP DONE */}
+
+        {/* RECIPE REQUESTS COMP BELOW  */}
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Recipe Requests" && "hidden",
+          )}
+        >
+          <RecipeRequests user={user} />
+        </div>
+
+
+        {/* RECIPE REQUESTS COMP DONE */}
 
 
       </div>
