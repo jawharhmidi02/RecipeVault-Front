@@ -13,50 +13,69 @@ const page = () => {
   const router = useRouter();
   const [user, setUser] = useState({});
   const [userLiked, setUserLiked] = useState(false);
-  // const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState({});
   const [signedIn, setSignedIn] = useState(false);
   const [CanLike, setCanLike] = useState(false);
   const [loadingRecipe, setLoadingRecipe] = useState(true);
   const [loadingPage, setLoadingPage] = useState(false);
   const [isPendingPage, startTransitionPage] = useTransition();
 
-  const recipe = {
-    id: "455048ce-38c3-4e0e-b5d0-3f47c54f7e9f",
-    title: "Grilled Salmon",
-    steps: [
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-    ],
-    description:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptatem accusamus aspernatur, dicta voluptas inventore non illo dolorem impedit provident illum cumque fugit nihil accusantium ut sit atque, deleniti minus. Quia minus culpa delectus, cupiditate voluptatem id! Sed repellendus corporis maiores rerum quis? Vero voluptates soluta, ea consectetur eligendi rem! Iusto assumenda quam deleniti unde velit reprehenderit culpa. Saepe reprehenderit eveniet enim minus ducimus, nobis modi nostrum suscipit omnis perspiciatis totam rerum corrupti, est nisi corporis veritatis ut odio. Rerum, enim dolor? Hic excepturi deleniti perferendis sed! Ipsam commodi nobis molestiae dicta harum quam neque nesciunt! Illum, voluptatibus itaque! Porro?",
-    ingredientsLocation: "Tunis",
-    cuisineLocation: "Brazil",
-    ingredients: ["1:1/2:tbsp:salt", "2:1/4:cup:milk"],
-    is_approved: false,
-    is_rejected: false,
-    rejection_reason: null,
-    approvedAt: null,
-    user: {
-      dialogues: [],
-      email: "lafiraed04@gmail.com",
-      id: "dee658f7-0f25-4b13-9729-e0b8282a57f3",
-      full_name: "Lafi Raed",
-      phone: "+21650974080",
-      role: "client",
-      nonce: null,
-    },
-    img: "https://www.shutterstock.com/image-photo/fried-salmon-steak-cooked-green-600nw-2489026949.jpg",
-    tags: ["tag5", "tag2", "Tag4", "Tag3", "Tag10", "Tag11", "Tag8", "Tag8", "Tag8", "Tag8","Tag8", "Tag8", "Tag8", "Tag8","Tag8" ,"Tag8" ,"Tag8" ,"Tag8" ],
-    type: "Starter",
-    difficulty: "Easy",
-    prepTime: 59,
-    bakingTime: 130,
-    restingTime: 166,
-    likes: 0,
-    utensils: ["pan", "hotpot", "butterknife", "cup", "spoon", "fork"],
-  };
+  // const recipe = {
+  //   id: "455048ce-38c3-4e0e-b5d0-3f47c54f7e9f",
+  //   title: "Grilled Salmon",
+  //   steps: [
+  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
+  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
+  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
+  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
+  //   ],
+  //   description:
+  //     " Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptatem accusamus aspernatur, dicta voluptas inventore non illo dolorem impedit provident illum cumque fugit nihil accusantium ut sit atque, deleniti minus. Quia minus culpa delectus, cupiditate voluptatem id! Sed repellendus corporis maiores rerum quis? Vero voluptates soluta, ea consectetur eligendi rem! Iusto assumenda quam deleniti unde velit reprehenderit culpa. Saepe reprehenderit eveniet enim minus ducimus, nobis modi nostrum suscipit omnis perspiciatis totam rerum corrupti, est nisi corporis veritatis ut odio. Rerum, enim dolor? Hic excepturi deleniti perferendis sed! Ipsam commodi nobis molestiae dicta harum quam neque nesciunt! Illum, voluptatibus itaque! Porro?",
+  //   ingredientsLocation: "Tunis",
+  //   cuisineLocation: "Brazil",
+  //   ingredients: ["1:1/2:tbsp:salt", "2:1/4:cup:milk"],
+  //   is_approved: false,
+  //   is_rejected: false,
+  //   rejection_reason: null,
+  //   approvedAt: null,
+  //   user: {
+  //     dialogues: [],
+  //     email: "lafiraed04@gmail.com",
+  //     id: "dee658f7-0f25-4b13-9729-e0b8282a57f3",
+  //     full_name: "Lafi Raed",
+  //     phone: "+21650974080",
+  //     role: "client",
+  //     nonce: null,
+  //   },
+  //   img: "https://www.shutterstock.com/image-photo/fried-salmon-steak-cooked-green-600nw-2489026949.jpg",
+  //   tags: [
+  //     "tag5",
+  //     "tag2",
+  //     "Tag4",
+  //     "Tag3",
+  //     "Tag10",
+  //     "Tag11",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //     "Tag8",
+  //   ],
+  //   type: "Starter",
+  //   difficulty: "Easy",
+  //   prepTime: 59,
+  //   bakingTime: 130,
+  //   restingTime: 166,
+  //   likes: 0,
+  //   utensils: ["pan", "hotpot", "butterknife", "cup", "spoon", "fork"],
+  // };
 
   const parseTime = (minutes) => {
     return [Math.floor(minutes / 60), minutes % 60];
@@ -135,6 +154,8 @@ const page = () => {
         throw new Error(data.message);
       }
       setRecipe(data.data);
+
+      console.log(data.data);
 
       setLoadingRecipe(false);
     } catch (error) {
@@ -484,7 +505,7 @@ const page = () => {
             Ingredients
           </div>
           <div className="flex flex-col gap-1">
-            {recipe.ingredients.map((ing, index) => (
+            {recipe.ingredients?.map((ing, index) => (
               <div className="flex flex-row gap-4" key={index}>
                 <div className="w-24 text-start">
                   {parseAmount(ing)}{" "}
@@ -505,7 +526,7 @@ const page = () => {
           </div>
           {recipe.utensils && (
             <div className="">
-              {recipe.utensils.map((utensil, index) => (
+              {recipe.utensils?.map((utensil, index) => (
                 <span key={index}>{index == 0 ? utensil : `, ${utensil}`}</span>
               ))}
             </div>
@@ -513,7 +534,7 @@ const page = () => {
         </div>
         <div className="mb-4 mt-4 h-[1px] w-full bg-neutral-300"></div>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-          {recipe.steps.map((step, index) => (
+          {recipe.steps?.map((step, index) => (
             <div key={index} className="flex flex-col gap-4">
               <div className="text-lg font-semibold min-[500px]:text-xl">{`Step ${index + 1}/${recipe.steps.length}`}</div>
               <div className="font-light text-neutral-600">{step}</div>
@@ -527,7 +548,7 @@ const page = () => {
         <div className="flex flex-col gap-4">
           <div className="text-lg font-semibold min-[500px]:text-2xl">Tags</div>
           <div className="flex flex-wrap gap-2">
-            {recipe.tags.map((tag, index) => (
+            {recipe.tags?.map((tag, index) => (
               <div
                 key={index}
                 onClick={() => {
