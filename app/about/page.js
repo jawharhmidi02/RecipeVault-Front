@@ -147,14 +147,19 @@ const page = () => {
         </div>
       </div>
 
-      <span className="font-lato mt-5 border-b-2 border-[var(--theme1)] pb-2 text-center text-4xl font-semibold">
+      <span
+        className="font-lato mt-5 border-b-2 border-[var(--theme1)] pb-2 text-center text-4xl font-semibold"
+        id="faq"
+      >
         FAQ
       </span>
       <div className="mx-5 flex w-10/12 flex-col gap-3 sm:max-w-[800px]">
         <Accordion type="single" collapsible className="w-full">
           {faqCards.map((item, index) => (
             <AccordionItem value={`item-${index}`} key={index}>
-              <AccordionTrigger>{item.question}</AccordionTrigger>
+              <AccordionTrigger className="hover:no-underline">
+                {item.question}
+              </AccordionTrigger>
               <AccordionContent className="text-neutral-600">
                 {item.answer}
               </AccordionContent>

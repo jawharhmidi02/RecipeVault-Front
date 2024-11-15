@@ -48,7 +48,7 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           onClick={() => {
             setLoadingPage(true);
             startTransition(() => {
-              router.push("/recipes?search=");
+              router.push("/recipes");
             });
             setTimeout(() => {
               closeButton?.current.click();
@@ -59,7 +59,12 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           Recipes
         </a>
       </div>
-      <div className={cn("link text-neutral-700", pathname.includes("about") && "active")}>
+      <div
+        className={cn(
+          "link text-neutral-700",
+          pathname.includes("about") && "active",
+        )}
+      >
         <a
           onClick={() => {
             setLoadingPage(true);
@@ -75,7 +80,12 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           About
         </a>
       </div>
-      <div className={cn("link text-neutral-700", pathname.includes("contact") && "active")}>
+      <div
+        className={cn(
+          "link text-neutral-700",
+          pathname.includes("contact") && "active",
+        )}
+      >
         <a
           onClick={() => {
             setLoadingPage(true);
@@ -91,7 +101,12 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           Contact
         </a>
       </div>
-      <div className={cn("link text-neutral-700", pathname.includes("apply-form") && "active")}>
+      <div
+        className={cn(
+          "link text-neutral-700",
+          pathname.includes("apply-form") && "active",
+        )}
+      >
         <a
           onClick={() => {
             setLoadingPage(true);
@@ -107,7 +122,6 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           Form
         </a>
       </div>
-      
     </div>
   );
 };

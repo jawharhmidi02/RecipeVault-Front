@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useTransition } from "react";
 
-const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
+const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending }) => {
   const [loadingPage, setLoadingPage] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -15,16 +15,21 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
   return (
     <div
       onClick={() => {
+        if (pending) {
+          return;
+        }
         if (accepted) {
           openRecipe(recipe.id);
-        }
-        if(!recipe.isAccepted && !recipe.isRejected){
-          router.push(`/profile/verify/${recipe.id}`)
+        } else {
+          if (!recipe.is_approved && !recipe.is_rejected) {
+            router.push(`/profile/verify/${recipe.id}`);
+          }
         }
       }}
       className={cn(
         "flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200",
-        (accepted || (!recipe.isAccepted && !recipe.isRejected) ) && "hover:scale-[1.03] hover:cursor-pointer",
+        (accepted || (!recipe.is_approved && !recipe.is_rejected)) &&
+          "hover:scale-[1.03] hover:cursor-pointer",
       )}
     >
       <div className="relative overflow-hidden rounded-t-xl">
@@ -33,7 +38,8 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
           alt={recipe.title}
           className={cn(
             "h-[200px] w-full rounded-t-xl object-cover transition-all duration-200",
-            (accepted || (!recipe.isAccepted && !recipe.isRejected)) && "hover:scale-110",
+            (accepted || (!recipe.is_approved && !recipe.is_rejected)) &&
+              "hover:scale-110",
           )}
         />
         <div
@@ -85,15 +91,10 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
           </span>{" "}
           {recipe.ingredientsLocation}
         </div>
-        <div className={cn("flex flex-col gap-2", !recipe.reason && "hidden")}>
+        <div className={cn("flex flex-col gap-2", !recipe.rejection_reason && "hidden")}>
           <div className="font-semibold text-rose-600">Rejection Reason:</div>
-          <div
-            className={cn(
-              "font-light text-neutral-600",
-              
-            )}
-          >
-            {recipe.reason}
+          <div className={cn("font-light text-neutral-600")}>
+            {recipe.rejection_reason}
           </div>
         </div>
       </div>

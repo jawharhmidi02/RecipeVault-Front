@@ -7,11 +7,11 @@ const page = () => {
 
       <div className="mx-10 flex w-full flex-col items-center justify-center gap-10 self-center">
         <div className="flex w-full flex-row items-center justify-center gap-3">
-          <div className="xxsm:w-12 xsm:w-14 h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20"></div>
+          <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20"></div>
           <span className="font-lato text-center text-5xl font-bold text-neutral-800 sm:text-6xl">
             Terms & Conditions
           </span>
-          <div className="xxsm:w-12 xsm:w-14 h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20"></div>
+          <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20"></div>
         </div>
         <div className="font-lato flex w-full max-w-[1300px] flex-col justify-center gap-6 text-neutral-600">
           <span className="text-center">
@@ -31,7 +31,7 @@ const page = () => {
             knowledge and passion for food, making it accessible to all.
           </span>
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">1. Introduction</h2>
+            <h2 className="text-lg font-semibold">1. Introduction</h2>
             <p>
               Welcome to our Recipe Sharing Site. By accessing or using this
               website, you agree to these Terms and Conditions. Please read them
@@ -40,7 +40,7 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">2. Acceptance of Terms</h2>
+            <h2 className="text-lg font-semibold">2. Acceptance of Terms</h2>
             <p>
               By using our platform, you acknowledge that you have read,
               understood, and agree to be bound by these Terms and Conditions
@@ -49,7 +49,7 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">3. Use of the Platform</h2>
+            <h2 className="text-lg font-semibold">3. Use of the Platform</h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 This site provides a platform for users to share, discover, and
@@ -64,7 +64,7 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">4. User Responsibilities</h2>
+            <h2 className="text-lg font-semibold">4. User Responsibilities</h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 You are responsible for the content you post, including recipes,
@@ -78,7 +78,9 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">5. Content Ownership and License</h2>
+            <h2 className="text-lg font-semibold">
+              5. Content Ownership and License
+            </h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 You retain ownership of the recipes and images you upload.
@@ -94,7 +96,7 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">6. Intellectual Property</h2>
+            <h2 className="text-lg font-semibold">6. Intellectual Property</h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 All site content, including the design, logo, and code, is the
@@ -107,8 +109,8 @@ const page = () => {
             </ul>
           </section>
 
-          <section className="mb-6">
-            <h2 className="font-semibold text-lg">7. Privacy</h2>
+          <section className="mb-6" id="privacy">
+            <h2 className="text-lg font-semibold">7. Privacy</h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 Your privacy is important to us. Please review our Privacy
@@ -123,7 +125,9 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">8. Limitation of Liability</h2>
+            <h2 className="text-lg font-semibold">
+              8. Limitation of Liability
+            </h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 The Recipe Sharing Site is not responsible for any damages
@@ -138,7 +142,7 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">9. Modifications to Terms</h2>
+            <h2 className="text-lg font-semibold">9. Modifications to Terms</h2>
             <ul className="ml-4 list-inside list-disc">
               <li>
                 We reserve the right to update these Terms and Conditions at any
@@ -148,7 +152,7 @@ const page = () => {
           </section>
 
           <section className="mb-6">
-            <h2 className="font-semibold text-lg">10. Governing Law</h2>
+            <h2 className="text-lg font-semibold">10. Governing Law</h2>
             <p>These Terms and Conditions are governed by the laws.</p>
           </section>
         </div>

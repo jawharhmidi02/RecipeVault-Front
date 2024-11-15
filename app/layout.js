@@ -9,7 +9,8 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Recipe Vault",
-  description: "...",
+  description:
+    "RecipeVault offers a vibrant community platform where culinary enthusiasts can discover, share, and explore a wide variety of recipes from around the world. Join us to find inspiration for every meal and connect with others who share your passion for cooking.",
 };
 
 export default function RootLayout({ children }) {

@@ -8,6 +8,9 @@ import RecipeCard from "@/components/RecipeCard/RecipeCard";
 import PendingRecipes from "@/components/PendingRecipes/PendingRecipes";
 import RejectedRecipes from "@/components/RejectedRecipes/RejectedRecipes";
 import RecipeRequests from "@/components/RecipeRequests/RecipeRequests";
+import { toast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
+import SkeletonRecipeCard from "@/components/RecipeCard/SkeletonRecipeCard";
 
 const page = () => {
   const router = useRouter();
@@ -17,86 +20,88 @@ const page = () => {
   const [loadingPage, setLoadingPage] = useState(true);
   const [isPending, startTransition] = useTransition();
   const [menuState, setMenuState] = useState("Your Recipes");
-  // const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
+  const [recipes, setRecipes] = useState([]);
+  const [loadingRecipes, setLoadingRecipes] = useState(true);
 
-  const user = {
-    fullName: "Lafi Raed",
-    role: "specialist",
-    email: "lafiraed04@gmail.com",
-  };
+  // const user = {
+  //   fullName: "Lafi Raed",
+  //   role: "specialist",
+  //   email: "lafiraed04@gmail.com",
+  // };
 
-  const recipes = [
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-    {
-      title: "Grilled Salmon",
-      img: "/images/Recipe1.jpg",
-      cuisineLocation: "Brazil",
-      ingredientsLocation: "Tunis",
-      likes: 1500,
-    },
-  ];
+  // const recipes = [
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  //   {
+  //     title: "Grilled Salmon",
+  //     img: "/images/Recipe1.jpg",
+  //     cuisineLocation: "Brazil",
+  //     ingredientsLocation: "Tunis",
+  //     likes: 1500,
+  //   },
+  // ];
 
   const logout = () => {
     Cookies.remove("access_token");
@@ -125,17 +130,66 @@ const page = () => {
 
       setLoadingUser(false);
       setSigned(true);
-      // setUser(data.data);
+      setUser(data.data);
+      fetchUserRecipes();
     } catch (error) {
       setLoadingUser(false);
+      toast({
+        title: "Error",
+        description: "Something went wrong, Please Try Again!",
+        variant: "destructive",
+      });
     }
     setLoadingUser(false);
+  };
+
+  const fetchUserRecipes = async () => {
+    setLoadingRecipes(true);
+    if (user.id) {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/recipes/byuserid/${user.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        const data = await response.json();
+        if (data.data === null) {
+          throw new Error(data.message);
+        }
+        setRecipes(data.data.data);
+        setLoadingRecipes(false);
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Error",
+          description: "Something went wrong, Please Try Again!",
+          variant: "destructive",
+        });
+        setLoadingRecipes(false);
+      }
+      setLoadingRecipes(false);
+    }
   };
 
   useEffect(() => {
     fetchUser();
     setLoadingPage(false);
   }, []);
+
+  const openRecipe = (id) => {
+    startTransition(() => {
+      router.push(`/recipes/${id}`);
+    });
+  };
+
+  useEffect(() => {
+    fetchUserRecipes();
+  }, [user]);
 
   useEffect(() => {
     setLoadingPage(isPending);
@@ -155,7 +209,7 @@ const page = () => {
           </div>
           <div className="flex flex-col justify-center gap-4">
             <div className="text-2xl font-semibold text-neutral-800 sm:text-3xl">
-              {user.fullName}
+              {user.full_name}
             </div>
 
             <div
@@ -165,9 +219,7 @@ const page = () => {
               )}
             >
               <div className="text-xl font-light text-neutral-500">
-                {user.role === "client"
-                  ? "Verified by a Specialist"
-                  : "A Specialist"}
+                {user.role === "client" ? "Normal User" : "Specialist"}
               </div>
             </div>
 
@@ -175,14 +227,14 @@ const page = () => {
               {user.email}
             </div>
           </div>
-          {/* <button
+          <button
             className="h-fit rounded-lg border-2 border-transparent bg-[var(--theme2)] px-6 py-3 font-bold text-[#ffffff] transition-all duration-100 hover:border-rose-500 hover:bg-rose-100 hover:text-rose-500"
             onClick={() => {
               logout();
             }}
           >
             Log Out
-          </button> */}
+          </button>
         </div>
 
         {/* PROFILE MENU BELOW */}
@@ -252,7 +304,9 @@ const page = () => {
               user.role != "admin" && "hidden",
             )}
           >
-            <span className="hidden font-light sm:block">Application Requests</span>
+            <span className="hidden font-light sm:block">
+              Application Requests
+            </span>
             <div
               className={cn(
                 "h-1.5 w-full bg-stone-300",
@@ -280,14 +334,33 @@ const page = () => {
             menuState != "Your Recipes" && "hidden",
           )}
         >
-          {recipes.map((recipe, index) => (
-            <RecipeCard key={index} recipe={recipe} accepted={true} />
-          ))}
+          {loadingRecipes ? (
+            Array.from({ length: 6 }, (_, index) => (
+              <SkeletonRecipeCard key={index} />
+            ))
+          ) : recipes.length === 0 ? (
+            <div className="flex w-full flex-col items-center justify-center gap-4">
+              <div className="text-2xl font-semibold text-neutral-800">
+                No Recipes Found
+              </div>
+            </div>
+          ) : (
+            recipes.map((recipe, index) => (
+              <RecipeCard
+                key={index}
+                recipe={recipe}
+                accepted={true}
+                openRecipe={(id) => {
+                  openRecipe(id);
+                }}
+              />
+            ))
+          )}
         </div>
 
         {/* YOUR RECIPES COMPONENT DONE */}
 
-          {/* PENDING RECIPES COMP BELOW */}
+        {/* PENDING RECIPES COMP BELOW */}
 
         <div
           className={cn(
@@ -295,13 +368,12 @@ const page = () => {
             menuState != "Pending Recipes" && "hidden",
           )}
         >
-          <PendingRecipes user={user} />
+          {user.role === "client" && <PendingRecipes user={user} />}
         </div>
 
         {/* PENDING RECIPES COMP DONE */}
 
         {/* REJECTED RECIPES COMP BELOW */}
-
 
         <div
           className={cn(
@@ -309,7 +381,7 @@ const page = () => {
             menuState != "Rejected Recipes" && "hidden",
           )}
         >
-          <RejectedRecipes user={user} />
+          {user.role === "client" && <RejectedRecipes user={user} />}
         </div>
 
         {/* REJECTED RECIPES COMP DONE */}
@@ -322,13 +394,10 @@ const page = () => {
             menuState != "Recipe Requests" && "hidden",
           )}
         >
-          <RecipeRequests user={user} />
+          {user.role === "specialist" && <RecipeRequests user={user} />}
         </div>
 
-
         {/* RECIPE REQUESTS COMP DONE */}
-
-
       </div>
     </div>
   );
