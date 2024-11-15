@@ -143,7 +143,7 @@ const Recipes = () => {
   return (
     <div className="mx-auto flex w-full items-center justify-center">
       {loadingPage && (
-        <div className="justify-cente fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
           <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
         </div>
       )}
@@ -291,6 +291,7 @@ const Recipes = () => {
                   <RecipeCard
                     key={index}
                     recipe={recipe}
+                    accepted={true}
                     openRecipe={(id) => {
                       openRecipe(id);
                     }}

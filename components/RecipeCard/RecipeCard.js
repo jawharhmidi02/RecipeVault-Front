@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useTransition } from "react";
 
-const RecipeCard = ({ recipe, openRecipe, liked }) => {
+const RecipeCard = ({ recipe, openRecipe, liked, accepted }) => {
   const [loadingPage, setLoadingPage] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -15,17 +15,30 @@ const RecipeCard = ({ recipe, openRecipe, liked }) => {
   return (
     <div
       onClick={() => {
-        openRecipe(recipe.id);
+        if (accepted) {
+          openRecipe(recipe.id);
+        }
       }}
-      className="flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer"
+      className={cn(
+        "flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200",
+        accepted && "hover:scale-[1.03] hover:cursor-pointer",
+      )}
     >
       <div className="relative overflow-hidden rounded-t-xl">
         <img
           src={recipe.img}
           alt={recipe.title}
-          className="h-[200px] w-full rounded-t-xl object-cover transition-all duration-200 hover:scale-110"
+          className={cn(
+            "h-[200px] w-full rounded-t-xl object-cover transition-all duration-200",
+            accepted && "hover:scale-110",
+          )}
         />
-        <div className="absolute bottom-2 right-3 flex flex-row items-center justify-center gap-1 rounded-xl bg-white px-2 py-[3px]">
+        <div
+          className={cn(
+            "absolute bottom-2 right-3 flex flex-row items-center justify-center gap-1 rounded-xl bg-white px-2 py-[3px]",
+            !accepted && "hidden",
+          )}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className={cn(
@@ -68,6 +81,17 @@ const RecipeCard = ({ recipe, openRecipe, liked }) => {
             Made In:
           </span>{" "}
           {recipe.ingredientsLocation}
+        </div>
+        <div className={cn("flex flex-col gap-2", !recipe.reason && "hidden")}>
+          <div className="font-semibold text-rose-600">Rejection Reason:</div>
+          <div
+            className={cn(
+              "font-light text-neutral-600",
+              
+            )}
+          >
+            {recipe.reason}
+          </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import RecipeCard from "@/components/RecipeCard/RecipeCard";
+import PendingRecipes from "@/components/PendingRecipes/PendingRecipes";
+import RejectedRecipes from "@/components/RejectedRecipes/RejectedRecipes";
 
 const page = () => {
   const router = useRouter();
@@ -12,7 +15,87 @@ const page = () => {
   const [signed, setSigned] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
   const [isPending, startTransition] = useTransition();
-  const [user, setUser] = useState({});
+  const [menuState, setMenuState] = useState("Your Recipes");
+  // const [user, setUser] = useState({});
+
+  const user = {
+    fullName: "Lafi Raed",
+    role: "client",
+    email: "lafiraed04@gmail.com",
+  };
+
+  const recipes = [
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+    {
+      title: "Grilled Salmon",
+      img: "/images/Recipe1.jpg",
+      cuisineLocation: "Brazil",
+      ingredientsLocation: "Tunis",
+      likes: 1500,
+    },
+  ];
 
   const logout = () => {
     Cookies.remove("access_token");
@@ -41,7 +124,7 @@ const page = () => {
 
       setLoadingUser(false);
       setSigned(true);
-      setUser(data.data);
+      // setUser(data.data);
     } catch (error) {
       setLoadingUser(false);
     }
@@ -58,21 +141,165 @@ const page = () => {
   }, [isPending]);
 
   return (
-    <div>
+    <div className="mx-auto flex w-full items-center justify-center">
       {loadingPage && (
-        <div className="justify-cente fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
           <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
         </div>
       )}
-      Profile Page
-      <button
-        className="rounded-lg bg-[var(--theme1)] px-5 py-2 text-white transition-all duration-300 hover:-translate-y-4 hover:translate-x-4 hover:rotate-90 hover:scale-110"
-        onClick={() => {
-          logout();
-        }}
-      >
-        LogOut
-      </button>
+      <div className="mx-6 mt-12 flex w-full max-w-[900px] flex-col items-center gap-8">
+        <div className="flex w-full flex-row gap-6">
+          <div className="grid size-[130px] place-items-center rounded-full bg-neutral-200 shadow-md sm:size-[200px]">
+            <i className="fa-solid fa-user text-6xl text-neutral-400 sm:text-7xl"></i>
+          </div>
+          <div className="flex flex-col justify-center gap-4">
+            <div className="text-2xl font-semibold text-neutral-800 sm:text-3xl">
+              {user.fullName}
+            </div>
+
+            <div
+              className={cn(
+                "block",
+                // recipe.user.role == "client" && "block",
+              )}
+            >
+              <div className="text-xl font-light text-neutral-500">
+                {user.role === "client"
+                  ? "Verified by a Specialist"
+                  : "A Specialist"}
+              </div>
+            </div>
+
+            <div className="text-xl font-light text-neutral-500">
+              {user.email}
+            </div>
+          </div>
+          {/* <button
+            className="h-fit rounded-lg border-2 border-transparent bg-[var(--theme2)] px-6 py-3 font-bold text-[#ffffff] transition-all duration-100 hover:border-rose-500 hover:bg-rose-100 hover:text-rose-500"
+            onClick={() => {
+              logout();
+            }}
+          >
+            Log Out
+          </button> */}
+        </div>
+
+        {/* PROFILE MENU BELOW */}
+
+        <div className="flex w-full max-w-[900px] flex-row items-center justify-center gap-2 px-5 min-[900px]:px-0">
+          <div
+            onClick={() => setMenuState("Your Recipes")}
+            className="flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0"
+          >
+            <span className="hidden font-light sm:block">Your Recipes</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Your Recipes" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+          <div
+            onClick={() => setMenuState("Pending Recipes")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role != "client" && hidden,
+            )}
+          >
+            <span className="hidden font-light sm:block">Pending Recipes</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Pending Recipes" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+          <div
+            onClick={() => setMenuState("Rejected Recipes")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role != "client" && hidden,
+            )}
+          >
+            <span className="hidden font-light sm:block">Rejected Recipes</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Rejected Recipes" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+          <div
+            onClick={() => setMenuState("Requests")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role != "admin" && "hidden",
+            )}
+          >
+            <span className="hidden font-light sm:block">Requests</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Requests" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+        </div>
+
+        {/* PROFILE MENU DONE */}
+
+        {/* MENU TITLE */}
+
+        <div className="text-4xl font-semibold text-[var(--theme1)]">
+          {menuState}
+        </div>
+
+        {/* MENU TITLE DONE */}
+
+        {/* YOUR RECIPES COMPONENT BELOW */}
+
+        <div
+          className={cn(
+            "grid w-full gap-6 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+            menuState != "Your Recipes" && "hidden",
+          )}
+        >
+          {recipes.map((recipe, index) => (
+            <RecipeCard key={index} recipe={recipe} accepted={true} />
+          ))}
+        </div>
+
+        {/* YOUR RECIPES COMPONENT DONE */}
+
+          {/* PENDING RECIPES COMP BELOW */}
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Pending Recipes" && "hidden",
+          )}
+        >
+          <PendingRecipes user={user} />
+        </div>
+
+        {/* PENDING RECIPES COMP DONE */}
+
+        {/* REJECTED RECIPES COMP BELOW */}
+
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Rejected Recipes" && "hidden",
+          )}
+        >
+          <RejectedRecipes user={user} />
+        </div>
+
+        {/* REJECTED RECIPES COMP DONE */}
+
+
+      </div>
     </div>
   );
 };

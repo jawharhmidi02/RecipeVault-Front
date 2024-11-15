@@ -63,6 +63,17 @@ const page = () => {
     return final;
   };
 
+  const removeDuplicateTags = (tags) => {
+    let arr = [...tags];
+    let final = arr.filter((item, index) => arr.indexOf(item) === index);
+    return final
+  }
+
+  const removeDuplicateUtensils = (utls) => {
+    let arr = [...utls];
+    let final = arr.filter((item, index) => arr.indexOf(item) === index);
+  }
+
   const verifyInformation = async () => {
     if (step == 1) {
       if (nameInput.current.value == "") {
@@ -178,10 +189,10 @@ const page = () => {
                 restingTime: restTime,
                 ingredients: ings,
                 steps: recipeSteps,
-                utensils: utensilsList,
+                utensils: removeDuplicateUtensils(utensilsList),
                 difficulty: difficulty.value.trim(),
                 type: category.value.trim(),
-                tags: tags,
+                tags: removeDuplicateTags(tags),
                 ingredientsLocation: ingredientsLocation,
                 cuisineLocation: cuisine,
               }),
