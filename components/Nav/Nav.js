@@ -79,7 +79,7 @@ const Nav = () => {
   return (
     <div
       className={cn(
-        "mb-10 flex w-full flex-row items-center justify-between bg-white px-5 pb-4 pt-4 md:px-10",
+        "mb-10 flex w-full flex-row items-center justify-between bg-white  p-2 min-[500px]:px-5 pb-4 pt-4 md:px-10",
         pathname.includes("create") && "mb-0",
       )}
     >
@@ -112,7 +112,7 @@ const Nav = () => {
       </div>
       <div className="flex flex-row gap-3">
         {!pathname.includes("recipes") && (
-          <div className="mr-1 hidden flex-row items-center gap-1 rounded-md border px-2 py-2 min-[600px]:flex min-[800px]:mr-4">
+          <div className="mr-1 hidden flex-row items-center gap-1 rounded-md border px-2 py-2 min-[880px]:flex min-[800px]:mr-4">
             <i className="fa-solid fa-magnifying-glass text-md px-2 text-neutral-500"></i>
             <input
               placeholder={"Search for recipes"}
@@ -139,7 +139,7 @@ const Nav = () => {
         {!pathname.includes("recipes") && (
           <Dialog>
             <DialogTrigger>
-              <div className="flex items-center justify-center rounded-md p-2 transition-all duration-200 active:scale-105 active:bg-zinc-100 min-[600px]:hidden">
+              <div className="flex items-center justify-center rounded-md p-2 transition-all duration-200 active:scale-105 active:bg-zinc-100 min-[880px]:hidden">
                 <i className="fa-solid fa-magnifying-glass text-2xl"></i>
               </div>
             </DialogTrigger>
@@ -264,6 +264,12 @@ const Nav = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        <div onClick={()=>{
+          // LOG OUT FUNCTIONALITY 
+        }} className="flex items-center justify-center md:py-1 md:px-4 rounded-full transition-all duration-200 hover:cursor-pointer bg-transparent md:hover:bg-zinc-100 md:hover:scale-110">
+          <i class="fa-solid fa-arrow-right-from-bracket text-2xl text-neutral-800"></i>
+        </div>
 
         <Sheet>
           <SheetTrigger asChild>
