@@ -154,7 +154,7 @@ const page = () => {
         <Accordion type="single" collapsible className="w-full">
           {faqCards.map((item, index) => (
             <AccordionItem value={`item-${index}`} key={index}>
-              <AccordionTrigger>{item.question}</AccordionTrigger>
+              <AccordionTrigger className="hover:no-underline">{item.question}</AccordionTrigger>
               <AccordionContent className="text-neutral-600">
                 {item.answer}
               </AccordionContent>
