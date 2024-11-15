@@ -219,9 +219,7 @@ const page = () => {
               )}
             >
               <div className="text-xl font-light text-neutral-500">
-                {user.role === "client"
-                  ? "Verified by a Specialist"
-                  : "A Specialist"}
+                {user.role === "client" ? "Normal User" : "Specialist"}
               </div>
             </div>
 
