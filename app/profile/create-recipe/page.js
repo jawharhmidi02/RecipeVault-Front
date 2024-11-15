@@ -10,6 +10,8 @@ import utensils from "@/lib/utensils";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import countries from "@/lib/countries";
+import { Scroll } from "lucide-react";
 
 const page = () => {
   const { toast } = useToast();
@@ -41,6 +43,8 @@ const page = () => {
   const [catRadio, setCatRadio] = useState(2);
   const tagInput = useRef("");
   const [tags, setTags] = useState([]);
+  const [cuisine, setCuisine] = useState("");
+  const [ingredientsLocation, setIngredientsLocation] = useState("");
   const router = useRouter();
 
   const parseIngredients = (items) => {
@@ -68,6 +72,13 @@ const page = () => {
           duration: 2000,
         });
         return false;
+      } else if (cuisine == "") {
+        toast({
+          description: "You need to choose a cuisine!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
       } else if (!fileInput.current.files[0]) {
         toast({
           description: "You need to choose an Image!",
@@ -82,6 +93,13 @@ const page = () => {
       if (ingredients.length == 0) {
         toast({
           description: "You need at least one ingredient to continue!",
+          variant: "destructive",
+          duration: 2000,
+        });
+        return false;
+      } else if (ingredientsLocation == "") {
+        toast({
+          description: "You need to choose an ingredient location!",
           variant: "destructive",
           duration: 2000,
         });
@@ -164,8 +182,8 @@ const page = () => {
                 difficulty: difficulty.value.trim(),
                 type: category.value.trim(),
                 tags: tags,
-                ingredientsLocation: "Tunisia",
-                cuisineLocation: "USA",
+                ingredientsLocation: ingredientsLocation,
+                cuisineLocation: cuisine,
               }),
             },
           );
@@ -450,6 +468,24 @@ const page = () => {
 
             <div className="flex flex-col gap-2">
               <span className="text-[14px] tracking-wider text-neutral-600">
+                CUISINE
+              </span>
+              <span className="text-[13px] font-light text-neutral-500">
+                Where does this dish originate from?
+              </span>
+              <ScrollableSelect
+                state={cuisine}
+                setState={setCuisine}
+                label="Country"
+                placeHolder="Select a cuisine.."
+                items={countries}
+              />
+            </div>
+
+            {/* Cuisine choice done */}
+
+            <div className="flex flex-col gap-2">
+              <span className="text-[14px] tracking-wider text-neutral-600">
                 PORTION
               </span>
               <span className="text-[13px] font-light text-neutral-500">
@@ -665,6 +701,22 @@ const page = () => {
             Add an Ingredient
           </span>
           <div className="flex w-full flex-col gap-12 rounded-xl bg-white px-6 py-8 shadow-md sm:px-16 sm:py-10">
+            <div className="flex flex-col gap-4">
+              <span className="text-[14px] tracking-wider text-neutral-600">
+                Ingredients Location <font className="text-rose-500"> *</font>
+              </span>
+              <span className="text-[13px] font-light text-neutral-500">
+                Where do the ingredients that you used to create this dish come
+                from?
+              </span>
+              <ScrollableSelect
+                state={ingredientsLocation}
+                setState={setIngredientsLocation}
+                label="Country"
+                placeHolder="Select a Country.."
+                items={countries}
+              />
+            </div>
             <div className="flex w-full flex-col gap-4 md:flex-row">
               <div className="flex flex-col gap-4">
                 <span className="text-[14px] tracking-wider text-neutral-600">
