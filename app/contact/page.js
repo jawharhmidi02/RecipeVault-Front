@@ -37,7 +37,7 @@ const page = () => {
         variant: "destructive",
         duration: 2000,
       });
-      return false;
+      return false
     }
     else if(telephoneInput.current.value.trim() == ""){
       toast({
