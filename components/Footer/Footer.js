@@ -29,10 +29,9 @@ const Footer = () => {
           <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
         </div>
       )}
-      <div className="container mx-auto px-6">
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
-          {/* Left Side: Project Name */}
-          <div className="mb-4 font-ubuntu sm:col-span-2 md:col-span-1">
+      <div className="mx-auto px-6">
+        <div className="grid gap-8 sm:grid-cols-2 min-[950px]:grid-cols-4">
+          <div className="mb-4 font-ubuntu sm:col-span-2 min-[950px]:col-span-1">
             <h2
               className="text-center text-3xl font-bold hover:cursor-pointer"
               onClick={() => {
@@ -43,7 +42,7 @@ const Footer = () => {
             >
               Recipe<span className="text-[var(--theme1)]">Vault</span>
             </h2>
-            <p className="mt-4 max-w-xs text-center text-neutral-500">
+            <p className="mx-auto mt-4 max-w-screen-sm text-center text-neutral-500">
               RecipeVault offers a vibrant community platform where culinary
               enthusiasts can discover, share, and explore a wide variety of
               recipes from around the world. Join us to find inspiration for
@@ -51,7 +50,7 @@ const Footer = () => {
               cooking.
             </p>
             {/* Social Media Icons */}
-            <div className="mb-5 mt-4 flex max-w-xs justify-center space-x-6">
+            <div className="mb-5 mt-4 flex justify-center space-x-6">
               <a
                 href="#"
                 className="transition-colors duration-300 hover:text-[var(--theme2)]"
@@ -229,7 +228,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-mask h-[1px] w-full bg-black"></div>
+        <div className="border-mask mt-8 h-[1px] w-full bg-black min-[950px]:mt-0"></div>
         <div className="py-3 text-center text-black">
           Copyright © 2024{" "}
           <a className="text-lg font-bold hover:cursor-pointer">
