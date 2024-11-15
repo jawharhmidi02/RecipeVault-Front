@@ -49,7 +49,26 @@ const page = () => {
       nonce: null,
     },
     img: "https://www.shutterstock.com/image-photo/fried-salmon-steak-cooked-green-600nw-2489026949.jpg",
-    tags: ["tag5", "tag2", "Tag4", "Tag3", "Tag10", "Tag11", "Tag8", "Tag8", "Tag8", "Tag8","Tag8", "Tag8", "Tag8", "Tag8","Tag8" ,"Tag8" ,"Tag8" ,"Tag8" ],
+    tags: [
+      "tag5",
+      "tag2",
+      "Tag4",
+      "Tag3",
+      "Tag10",
+      "Tag11",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+      "Tag8",
+    ],
     type: "Starter",
     difficulty: "Easy",
     prepTime: 59,
@@ -58,6 +77,24 @@ const page = () => {
     likes: 0,
     utensils: ["pan", "hotpot", "butterknife", "cup", "spoon", "fork"],
   };
+
+  const acceptRecipe = () => {
+    // ACCEPT RECIPE CODE
+  }
+
+  const rejectRecipe = () => {
+    if(rejectionInput.current.value == ""){
+      toast({
+        description: "You need to state a rejection reason!",
+        variant: "destructive",
+        duration: 2000,
+      });
+      return false;
+    }
+    else{
+      // RECIPE REJECTION CODE
+    }
+  }
 
   const parseTime = (minutes) => {
     return [Math.floor(minutes / 60), minutes % 60];
@@ -543,21 +580,37 @@ const page = () => {
         </div>
         <div className="mb-4 mt-4 h-[1px] w-full bg-neutral-300"></div>
         <div className="flex flex-col gap-4">
-        <span className="text-[14px] tracking-wider text-neutral-600">
-                Rejection Reason
-              </span>
-              <span className="text-light text-[13px] text-neutral-600">
-                Tell us why this recipe is ineligible to be accepted.
-              </span>
-              <textarea
-                className="h-[150px] rounded-md border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
-                maxLength={500}
-                placeholder="E.g not even animals would eat this type of food."
-                ref={rejectionInput}
-              ></textarea>
-              <span className="border-neutral-700 text-end text-[12px] font-light">
-                500 Chars max
-              </span>
+          <span className="text-[14px] tracking-wider text-neutral-600">
+            Rejection Reason
+          </span>
+          <span className="text-light text-[13px] text-neutral-600">
+            Tell us why this recipe is ineligible to be accepted.
+          </span>
+          <textarea
+            className="h-[150px] rounded-md border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
+            maxLength={500}
+            placeholder="E.g not even animals would eat this type of food."
+            ref={rejectionInput}
+          ></textarea>
+          <span className="border-neutral-700 text-end text-[12px] font-light">
+            500 Chars max
+          </span>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <button
+              onClick={()=>{rejectRecipe()}}
+              type="button"
+              className="rounded-lg border-2 border-transparent bg-rose-600 px-4 py-2 text-xl font-semibold text-[#ffffff] transition-all duration-200 hover:cursor-pointer hover:border-rose-600 hover:bg-rose-100 hover:text-rose-600"
+            >
+              Reject
+            </button>
+            <button
+              onClick={()=>{acceptRecipe()}}
+              type="button"
+              className="rounded-lg border-2 border-transparent bg-emerald-500 px-4 py-2 text-xl font-semibold text-[#ffffff] transition-all duration-200 hover:cursor-pointer hover:border-emerald-500 hover:bg-emerald-100 hover:text-emerald-500"
+            >
+              Accept
+            </button>
+          </div>
         </div>
       </div>
     </div>
