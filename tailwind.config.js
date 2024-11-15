@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+  			xsm: '544px',
+  			xxsm: '380px'
+  		},
       fontFamily: {
         ubuntu: ['Ubuntu'],
         geist: ['Geist'],
