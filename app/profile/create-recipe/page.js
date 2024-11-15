@@ -9,6 +9,7 @@ import units from "@/lib/units";
 import utensils from "@/lib/utensils";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const page = () => {
   const { toast } = useToast();
@@ -39,18 +40,26 @@ const page = () => {
   const recipeDescriptionInput = useRef("");
   const [catRadio, setCatRadio] = useState(2);
   const tagInput = useRef("");
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState([]);
   const router = useRouter();
 
   const parseIngredients = (items) => {
     let final = [];
     items.map((item) => {
-      final.push(item.amount + ":" + item.secondAmount + ":" + item.unit + ":" + item.ingredient)
-    })
-    return final
-  }
+      final.push(
+        item.amount +
+          ":" +
+          item.secondAmount +
+          ":" +
+          item.unit +
+          ":" +
+          item.ingredient,
+      );
+    });
+    return final;
+  };
 
-  const verifyInformation = () => {
+  const verifyInformation = async () => {
     if (step == 1) {
       if (nameInput.current.value == "") {
         toast({
@@ -77,55 +86,144 @@ const page = () => {
           duration: 2000,
         });
         return false;
-      }
-      else{
+      } else {
         setStep(step + 1);
       }
     } else if (step == 3) {
-      if (recipeSteps.length == 0){
+      if (recipeSteps.length == 0) {
         toast({
           description: "You need at least 1 step to submit your recipe!",
           variant: "destructive",
           duration: 2000,
         });
         return false;
-      }
-      else if(utensilsList.length == 0){
+      } else if (utensilsList.length == 0) {
         toast({
           description: "You need at least 1 utensil to submit your recipe!",
           variant: "destructive",
           duration: 2000,
         });
         return false;
+      } else {
+        setStep(step + 1);
       }
-      else{
-        setStep(step + 1)
-      }
-    }
-    else{
-      if(recipeDescriptionInput.current.value == ""){
+    } else {
+      if (recipeDescriptionInput.current.value == "") {
         toast({
           description: "Your meal needs a description!",
           variant: "destructive",
           duration: 2000,
         });
         return false;
-      }
-      else{
+      } else {
         toast({
           description: "Your meal has been submitted!",
           variant: "success",
           duration: 2000,
         });
-        // SUBMIT RECIPE HERE !!
-        
-        const difficulty =  document.querySelector("input[name='difficulty']:checked");
-        const category = document.querySelector("input[name='category']:checked");
+
+        const difficulty = document.querySelector(
+          "input[name='difficulty']:checked",
+        );
+        const category = document.querySelector(
+          "input[name='category']:checked",
+        );
         const prepTime = prepHour * 60 + prepMin;
         const bakeTime = bakeHour * 60 + bakeMin;
         const restTime = restHour * 60 + restMin;
         const ings = parseIngredients(ingredients);
-        
+        const file = fileInput.current.files[0];
+        const formData = new FormData();
+
+        formData.append("file", file);
+
+        toast({
+          description: "Uploading Recipe, Please Wait!",
+          variant: "default",
+          duration: 4000,
+        });
+
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/recipes`,
+            {
+              method: "POST",
+              headers: {
+                access_token: Cookies.get("access_token"),
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title: nameInput.current.value.trim(),
+                description: recipeDescriptionInput.current.value.trim(),
+                prepTime: prepTime,
+                bakingTime: bakeTime,
+                restingTime: restTime,
+                ingredients: ings,
+                steps: recipeSteps,
+                utensils: utensilsList,
+                difficulty: difficulty.value.trim(),
+                type: category.value.trim(),
+                tags: tags,
+                ingredientsLocation: "Tunisia",
+                cuisineLocation: "USA",
+              }),
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to upload recipe");
+          }
+          const data = await response.json();
+          if (data.statusCode === 201) {
+            const responsePhoto = await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/recipes/uploadphoto/${data.data.id}`,
+              {
+                method: "POST",
+                headers: {
+                  access_token: Cookies.get("access_token"),
+                },
+                body: formData,
+              },
+            );
+
+            if (!responsePhoto.ok) {
+              throw new Error("Failed to upload recipe");
+            }
+            const dataPhoto = await responsePhoto.json();
+            if (dataPhoto.statusCode !== 201) {
+              throw new Error(dataPhoto.message);
+            }
+            toast({
+              description: "Recipe Uploaded!",
+              variant: "success",
+              duration: 4000,
+            });
+            location.href = "/recipes";
+          } else {
+            toast({
+              description: "Something went wrong!",
+              variant: "destructive",
+              duration: 4000,
+            });
+            if (data.statusCode === 401) {
+              toast({
+                description: "Unauthorized!",
+                variant: "destructive",
+                duration: 4000,
+              });
+              Cookies.remove("access_token");
+              location.href = "/sign-in";
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          toast({
+            title: "Error!",
+            description: "Something went wrong!",
+            variant: "destructive",
+            duration: 6000,
+          });
+        }
       }
     }
   };
@@ -187,17 +285,16 @@ const page = () => {
   };
 
   const addTag = () => {
-    if (tagInput.current.value == ""){
+    if (tagInput.current.value == "") {
       toast({
         description: "Tags can't be empty!",
         variant: "destructive",
         duration: 2000,
       });
-    }
-    else{
+    } else {
       setTags([...tags, tagInput.current.value]);
     }
-  }
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="sticky top-0 z-20 mb-6 flex items-center justify-center border-b border-b-zinc-100 bg-white pt-3 sm:border-t sm:border-t-zinc-100">
@@ -374,12 +471,12 @@ const page = () => {
               </span>
               <div className="flex flex-row gap-2">
                 <div>
-                  <label htmlFor="easy">
+                  <label htmlFor="Easy">
                     <input
                       type="radio"
-                      id="easy"
+                      id="Easy"
                       name="difficulty"
-                      value="easy"
+                      value="Easy"
                       className="hidden"
                       defaultChecked
                       onChange={() => {
@@ -397,11 +494,11 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="medium">
+                  <label htmlFor="Medium">
                     <input
                       type="radio"
-                      id="medium"
-                      value="medium"
+                      id="Medium"
+                      value="Medium"
                       name="difficulty"
                       className="hidden"
                       onChange={() => {
@@ -419,11 +516,11 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="hard">
+                  <label htmlFor="Hard">
                     <input
                       type="radio"
-                      id="hard"
-                      value="hard"
+                      id="Hard"
+                      value="Hard"
                       name="difficulty"
                       className="hidden"
                       onChange={() => {
@@ -731,7 +828,7 @@ const page = () => {
                 STEP DESCRIPTION <font className="text-rose-500"> *</font>
               </span>
               <span className="text-[15px] text-neutral-500">
-                Each recipe step should be helpful, easy to understand, and
+                Each recipe step should be helpful, Easy to understand, and
                 focus on clear actions related to the recipe. As an example,
                 here's the final step for our Rigatoni with broccoli and
                 sausage: Add broccoli, rigatoni, pasta water, chili flakes,
@@ -926,7 +1023,7 @@ const page = () => {
               <textarea
                 className="h-[200px] rounded-md border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
                 maxLength={500}
-                placeholder="This is my favourite dessert, exactly how my Grandma used to make it. Try it with whipped cream on top!"
+                placeholder="This is my favourite Desert, exactly how my Grandma used to make it. Try it with whipped cream on top!"
                 ref={recipeDescriptionInput}
               ></textarea>
               <span className="border-neutral-700 text-end text-[12px] font-light">
@@ -950,12 +1047,12 @@ const page = () => {
               </span>
               <div className="grid grid-cols-1 gap-4 min-[450px]:grid-cols-2 min-[550px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 <div>
-                  <label htmlFor="starter">
+                  <label htmlFor="Starter">
                     <input
                       type="radio"
-                      id="starter"
+                      id="Starter"
                       name="category"
-                      value="starter"
+                      value="Starter"
                       className="hidden"
                       onChange={() => {
                         setCatRadio(1);
@@ -972,12 +1069,12 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="main">
+                  <label htmlFor="Main">
                     <input
                       type="radio"
-                      id="main"
+                      id="Main"
                       name="category"
-                      value="main"
+                      value="Main"
                       className="hidden"
                       defaultChecked
                       onChange={() => {
@@ -995,12 +1092,12 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="dessert">
+                  <label htmlFor="Desert">
                     <input
                       type="radio"
-                      id="dessert"
+                      id="Desert"
                       name="category"
-                      value="dessert"
+                      value="Desert"
                       className="hidden"
                       onChange={() => {
                         setCatRadio(3);
@@ -1017,12 +1114,12 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="snack">
+                  <label htmlFor="Snack">
                     <input
                       type="radio"
-                      id="snack"
+                      id="Snack"
                       name="category"
-                      value="snack"
+                      value="Snack"
                       className="hidden"
                       onChange={() => {
                         setCatRadio(4);
@@ -1039,12 +1136,12 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="breakfast">
+                  <label htmlFor="Breakfast">
                     <input
                       type="radio"
-                      id="breakfast"
+                      id="Breakfast"
                       name="category"
-                      value="breakfast"
+                      value="Breakfast"
                       className="hidden"
                       onChange={() => {
                         setCatRadio(5);
@@ -1061,12 +1158,12 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="beverage">
+                  <label htmlFor="Beverage">
                     <input
                       type="radio"
-                      id="beverage"
+                      id="Beverage"
                       name="category"
-                      value="beverage"
+                      value="Beverage"
                       className="hidden"
                       onChange={() => {
                         setCatRadio(6);
@@ -1168,9 +1265,7 @@ const page = () => {
                 <div className="text-center text-xl font-semibold">
                   You have no tags on your list.
                 </div>
-                <div className="text-center font-light">
-                  Tags are optional.
-                </div>
+                <div className="text-center font-light">Tags are optional.</div>
               </div>
             </div>
           )}
