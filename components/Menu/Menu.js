@@ -75,12 +75,39 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           About
         </a>
       </div>
-      <div className={cn("link text-neutral-700")}>
-        <a className="hover:cursor-pointer">Page 3</a>
+      <div className={cn("link text-neutral-700", pathname.includes("contact") && "active")}>
+        <a
+          onClick={() => {
+            setLoadingPage(true);
+            startTransition(() => {
+              router.push("/contact");
+            });
+            setTimeout(() => {
+              closeButton?.current.click();
+            }, 500);
+          }}
+          className="hover:cursor-pointer"
+        >
+          Contact
+        </a>
       </div>
-      <div className={cn("link text-neutral-700")}>
-        <a className="hover:cursor-pointer">Page 4</a>
+      <div className={cn("link text-neutral-700", pathname.includes("apply-form") && "active")}>
+        <a
+          onClick={() => {
+            setLoadingPage(true);
+            startTransition(() => {
+              router.push("/apply-form");
+            });
+            setTimeout(() => {
+              closeButton?.current.click();
+            }, 500);
+          }}
+          className="hover:cursor-pointer"
+        >
+          Form
+        </a>
       </div>
+      
     </div>
   );
 };
