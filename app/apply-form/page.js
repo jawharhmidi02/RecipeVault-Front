@@ -94,12 +94,12 @@ const page = () => {
             variant: "success",
             duration: 5000,
           });
-          // nameInput.current.value = "";
-          // emailInput.current.value = "";
-          // telephoneInput.current.value = "";
-          // reasonInput.current.value = "";
-          // setResumeFileName("");
-          // resumeInput.current.value = "";
+          nameInput.current.value = "";
+          emailInput.current.value = "";
+          telephoneInput.current.value = "";
+          reasonInput.current.value = "";
+          setResumeFileName("");
+          resumeInput.current.value = "";
         }
         setLoading(false);
       } catch (error) {
@@ -215,7 +215,7 @@ const page = () => {
               disabled={loading}
               className={cn(
                 "w-fit self-center rounded-sm border-2 border-[#ffffff] bg-[var(--theme1)] px-10 py-2.5 text-xl text-[#ffffff] transition-all duration-200 hover:border-[var(--theme1)] hover:bg-[#ffffff] hover:text-[var(--theme1)] active:scale-95",
-                loading && "pointer-events-none cursor-not-allowed opacity-50",
+                loading && "pointer-events-none hover:cursor-not-allowed opacity-50",
               )}
               type="button"
             >

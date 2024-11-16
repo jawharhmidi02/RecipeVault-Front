@@ -32,7 +32,6 @@ const page = () => {
         },
       );
       const responseData = await response.json();
-      console.log(responseData);
 
       if (responseData.statusCode !== 200) {
         if (responseData.message === "Email not found") {
@@ -110,7 +109,7 @@ const page = () => {
               }}
               className={cn(
                 "font-lato w-full max-w-[400px] rounded-full border-2 border-[#ffffff] border-[var(--theme1)] bg-[var(--theme1)] py-3 text-[#ffffff] outline-none transition-colors duration-200 hover:bg-[var(--hover-theme2)] hover:text-[var(--theme1)]",
-                loading && "cursor-not-allowed",
+                loading && "hover:cursor-not-allowed",
               )}
             >
               {loading ? (

@@ -39,9 +39,8 @@ const page = () => {
       });
       return false;
     } else if (telephoneInput.current.value.trim() == "") {
-      return false
-    }
-    else if(telephoneInput.current.value.trim() == ""){
+      return false;
+    } else if (telephoneInput.current.value.trim() == "") {
       toast({
         description: "Verify the Phone Number!",
         variant: "destructive",
@@ -80,7 +79,6 @@ const page = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           nameInput.current.value = "";
           emailInput.current.value = "";
           telephoneInput.current.value = "";
@@ -112,11 +110,11 @@ const page = () => {
       <div className="mx-5 flex w-full max-w-[1300px] flex-col gap-20 sm:mx-10 xl:mx-28">
         <div className="flex w-full flex-col items-center justify-center gap-2 self-center">
           <div className="flex w-full flex-row items-center justify-center gap-3">
-            <div className="xxsm:w-12 xsm:w-14 h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20 xl:w-24"></div>
+            <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20 xl:w-24"></div>
             <span className="font-lato text-center text-5xl font-bold text-neutral-800 sm:text-6xl md:text-7xl">
               Contact
             </span>
-            <div className="xxsm:w-12 xsm:w-14 h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20 xl:w-24"></div>
+            <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20 xl:w-24"></div>
           </div>
           <span className="font-lato text-center text-lg text-slate-700 sm:text-xl md:text-2xl lg:text-3xl">
             Reach Out
