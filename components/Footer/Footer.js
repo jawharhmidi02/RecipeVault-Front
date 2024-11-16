@@ -42,7 +42,7 @@ const Footer = () => {
             >
               Recipe<span className="text-[var(--theme1)]">Vault</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-screen-sm text-center text-neutral-500">
+            <p className="mx-auto mt-4 max-w-screen-sm text-center text-neutral-800">
               RecipeVault offers a vibrant community platform where culinary
               enthusiasts can discover, share, and explore a wide variety of
               recipes from around the world. Join us to find inspiration for
