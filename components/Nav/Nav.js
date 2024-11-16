@@ -69,6 +69,7 @@ const Nav = () => {
 
   const logout = () => {
     Cookies.remove("access_token");
+    setLoadingPage(true);
     location.href = "/sign-in";
   };
 
@@ -85,7 +86,7 @@ const Nav = () => {
     <div
       className={cn(
         "mb-10 flex w-full flex-row items-center justify-between bg-white p-2 pb-4 pt-4 min-[500px]:px-5 md:px-10",
-        pathname.includes("create") || pathname == "/" && "mb-0",
+        pathname.includes("create") || (pathname == "/" && "mb-0"),
       )}
     >
       {loadingPage && (
