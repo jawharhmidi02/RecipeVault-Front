@@ -66,13 +66,13 @@ const page = () => {
   const removeDuplicateTags = (tags) => {
     let arr = [...tags];
     let final = arr.filter((item, index) => arr.indexOf(item) === index);
-    return final
-  }
+    return final;
+  };
 
   const removeDuplicateUtensils = (utls) => {
     let arr = [...utls];
     let final = arr.filter((item, index) => arr.indexOf(item) === index);
-  }
+  };
 
   const verifyInformation = async () => {
     if (step == 1) {
@@ -227,7 +227,7 @@ const page = () => {
               variant: "success",
               duration: 4000,
             });
-            location.href = "/recipes";
+            location.href = "/profile";
           } else {
             toast({
               description: "Something went wrong!",
