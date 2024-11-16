@@ -10,6 +10,7 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending }) => {
 
   useEffect(() => {
     setLoadingPage(isPending);
+    console.log(recipe)
   }, [isPending]);
 
   return (

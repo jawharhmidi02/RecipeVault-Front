@@ -176,7 +176,7 @@ const page = () => {
           <div
             className="flex w-full flex-col items-center justify-between gap-2 pt-8 sm:pt-0"
           >
-            <span className="hidden font-light sm:block">Your Recipes</span>
+            <span className="hidden font-light sm:block">Recipes</span>
             <div
               className={cn(
                 "h-1.5 w-full bg-[var(--theme2)]",

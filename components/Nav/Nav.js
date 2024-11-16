@@ -85,7 +85,7 @@ const Nav = () => {
     <div
       className={cn(
         "mb-10 flex w-full flex-row items-center justify-between bg-white p-2 pb-4 pt-4 min-[500px]:px-5 md:px-10",
-        pathname.includes("create") && "mb-0",
+        pathname.includes("create") || pathname == "/" && "mb-0",
       )}
     >
       {loadingPage && (
@@ -160,7 +160,7 @@ const Nav = () => {
                   <button
                     onClick={() => {
                       setTimeout(() => {
-                        closeDialog.current.click();
+                        closeDialog.current?.click();
                       }, 500);
                       setLoadingPage(true);
 

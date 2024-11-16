@@ -127,7 +127,7 @@ const page = () => {
             </span>
             <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20 xl:w-24"></div>
           </div>
-          <span className="font-lato text-center text-lg text-slate-700 sm:text-xl md:text-2xl lg:text-3xl">
+          <span className="font-lato text-center mb-10 text-lg text-slate-700 sm:text-xl md:text-2xl lg:text-3xl">
             As a nutrition specialist
           </span>
           <div className="flex w-full flex-col gap-4 rounded-sm border-[1px] border-neutral-100 bg-white p-4 shadow-sm drop-shadow-sm">
