@@ -87,7 +87,11 @@ export default function Home() {
         signed={signed}
         user={user}
       />
-      <FeaturedRecipes/>
+      <FeaturedRecipes
+        ChangeUrl={(url) => {
+          ChangeUrl(url);
+        }}
+      />
     </div>
   );
 }

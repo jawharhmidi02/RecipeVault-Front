@@ -200,26 +200,6 @@ const Nav = () => {
             <TooltipTrigger asChild>
               <div
                 onClick={() => {
-                  console.log("notification Bar");
-                }}
-                className={cn(
-                  "flex-row items-center gap-2 rounded-lg px-2 transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:bg-zinc-100",
-                  signed ? "flex" : "hidden",
-                )}
-              >
-                <i className="fa-regular fa-bell text-2xl min-[500px]:text-xl"></i>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Notifications</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div
-                onClick={() => {
                   if (!loadingUser) {
                     if (signed) {
                       setLoadingPage(true);

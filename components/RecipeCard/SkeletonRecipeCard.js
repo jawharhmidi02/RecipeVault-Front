@@ -3,9 +3,14 @@ import "./RecipeCard.css";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const SkeletonRecipeCard = () => {
+const SkeletonRecipeCard = ({ className }) => {
   return (
-    <div className="flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer">
+    <div
+      className={cn(
+        "flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200 hover:scale-[1.03] hover:cursor-pointer",
+        className,
+      )}
+    >
       <div className="relative overflow-hidden rounded-t-xl">
         <Skeleton className="h-[200px] w-full rounded-t-xl" />
       </div>

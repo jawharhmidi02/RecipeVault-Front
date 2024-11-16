@@ -67,7 +67,7 @@ const page = () => {
       setCanLike(true);
 
       const responseLikes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/recipelikes/user/${data.data.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/recipelikes/user/${data.data.id}?limit=999`,
         {
           method: "GET",
           headers: {
@@ -79,7 +79,9 @@ const page = () => {
       if (dataLikes.data === null) {
         throw new Error(dataLikes.message);
       }
-      setUserLiked(dataLikes.data.some((like) => like.recipe.id === id));
+      console.log(dataLikes);
+
+      setUserLiked(dataLikes.data.data.some((like) => like.recipe.id === id));
     } catch (error) {
       console.log(error);
     }
@@ -316,7 +318,7 @@ const page = () => {
         <div className="flex flex-col gap-8">
           <div className="flex flex-row gap-6">
             <div
-              onClick={() => redirectToUser(recipe.user.id)}
+              onClick={() => redirectToUser(recipe.user?.id)}
               className="grid place-items-center rounded-full bg-neutral-200 p-8 shadow-md transition-all duration-200 hover:scale-105 hover:cursor-pointer"
             >
               <i className="fa-solid fa-user text-5xl text-neutral-400"></i>
@@ -326,10 +328,10 @@ const page = () => {
                 <Skeleton className={"h-5 w-[100px] bg-neutral-300"} />
               ) : (
                 <div
-                  onClick={() => redirectToUser(recipe.user.id)}
+                  onClick={() => redirectToUser(recipe.user?.id)}
                   className="text-xl font-semibold text-neutral-800 transition-all duration-100 hover:cursor-pointer hover:text-[var(--theme2)]"
                 >
-                  {recipe.user.full_name}
+                  {recipe.user?.full_name}
                 </div>
               )}
               {loadingRecipe ? (
@@ -338,11 +340,11 @@ const page = () => {
                 <div
                   className={cn(
                     "block",
-                    // recipe.user.role == "client" && "block",
+                    // recipe.user?.role == "client" && "block",
                   )}
                 >
                   <div className="font-light text-neutral-500">
-                    {recipe.user.role === "client"
+                    {recipe.user?.role === "client"
                       ? "Verified by a Specialist"
                       : "A Specialist"}
                   </div>
@@ -352,7 +354,7 @@ const page = () => {
                 <Skeleton className={"h-5 w-[160px] bg-neutral-300"} />
               ) : (
                 <div className="font-light text-neutral-500">
-                  {recipe.user.email}
+                  {recipe.user?.email}
                 </div>
               )}
             </div>
