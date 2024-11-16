@@ -100,7 +100,7 @@ const page = () => {
           </div>
 
           <div
-            className="flex flex-row gap-1 font-ubuntu text-7xl font-semibold hover:cursor-pointer min-[500px]:flex-col min-[500px]:gap-0"
+            className="flex flex-row gap-1 font-ubuntu text-5xl min-[500px]:text-7xl font-semibold hover:cursor-pointer min-[500px]:flex-col min-[500px]:gap-0"
             onClick={() => {
               setLoadingPage(true);
 
@@ -157,10 +157,10 @@ const page = () => {
         <Accordion type="single" collapsible className="w-full">
           {faqCards.map((item, index) => (
             <AccordionItem value={`item-${index}`} key={index}>
-              <AccordionTrigger className="hover:no-underline">
+              <AccordionTrigger className="text-start hover:no-underline">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-neutral-600">
+              <AccordionContent className="text-start text-neutral-600">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>
