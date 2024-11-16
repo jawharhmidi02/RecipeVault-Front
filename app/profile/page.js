@@ -349,7 +349,7 @@ const page = () => {
                 <SkeletonRecipeCard key={index} />
               ))
             ) : recipes.length === 0 ? (
-              <div className="col-span-3 flex w-full flex-col items-center justify-center gap-4">
+              <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center flex w-full flex-col items-center justify-center gap-4">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <div>
                     <svg
@@ -390,7 +390,7 @@ const page = () => {
                       className={cn(
                         "rounded-md px-3 py-2 transition-all duration-200 hover:cursor-pointer",
                         CurrentPage === 1
-                          ? "bg-gray-300 text-gray-500 hover:cursor-not-allowed"
+                          ? " hover:cursor-not-allowed"
                           : "bg-white text-black hover:bg-[#fbbf24] hover:text-white",
                       )}
                       onClick={() => handlePageChange(CurrentPage - 1)}
@@ -450,7 +450,7 @@ const page = () => {
                       className={cn(
                         "rounded-md px-3 py-2 transition-all duration-200 hover:cursor-pointer",
                         CurrentPage === totalPages
-                          ? "bg-gray-300 text-gray-500 hover:cursor-not-allowed"
+                          ? " hover:cursor-not-allowed"
                           : "bg-white text-black hover:bg-[#fbbf24] hover:text-white",
                       )}
                       onClick={() => handlePageChange(CurrentPage + 1)}

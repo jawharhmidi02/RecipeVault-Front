@@ -8,6 +8,7 @@ import HowItWorks from "@/components/HowItWorks/HowItWorks";
 import LookingFor from "@/components/LookingFor/LookingFor";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import FeaturedRecipes from "@/components/FeaturedRecipes/FeaturedRecipes";
 
 export default function Home() {
   const [loadingPage, setLoadingPage] = useState(true);
@@ -86,6 +87,7 @@ export default function Home() {
         signed={signed}
         user={user}
       />
+      <FeaturedRecipes/>
     </div>
   );
 }
