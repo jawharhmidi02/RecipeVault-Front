@@ -78,7 +78,7 @@ export default function Home() {
         loading={loadingUser}
         signed={signed}
       />
-      <HowItWorks />
+      <FeaturedRecipes/>
       <LookingFor
         ChangeUrl={(url) => {
           ChangeUrl(url);
@@ -87,11 +87,8 @@ export default function Home() {
         signed={signed}
         user={user}
       />
-      <FeaturedRecipes
-        ChangeUrl={(url) => {
-          ChangeUrl(url);
-        }}
-      />
+      
+      <HowItWorks />
     </div>
   );
 }

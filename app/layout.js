@@ -6,6 +6,7 @@ import "/public/assets/fontawesome/css/brands.css";
 import "/public/assets/fontawesome/css/solid.css";
 import "/public/assets/fontawesome/css/all.css";
 import { Toaster } from "@/components/ui/toaster";
+import FastLinks from "@/components/FastLinks/FastLinks";
 
 export const metadata = {
   title: "Recipe Vault",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
         <>{children}</>
         <Footer />
         <Toaster />
+        <FastLinks/>
       </body>
     </html>
   );

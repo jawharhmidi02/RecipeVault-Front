@@ -25,14 +25,14 @@ const HowItWorks = () => {
   return (
     <div className="mx-auto mt-10 flex w-full max-w-[1400px] flex-col items-center justify-center gap-10">
       <div className="flex w-full flex-col items-center justify-center gap-2 self-center">
-        <div className="flex w-full flex-row items-center justify-center gap-3">
-          <div className="h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20"></div>
-          <span className="font-lato text-center xxsm:text-3xl xsm:text-5xl font-bold text-neutral-800 sm:text-6xl">
+      <div className="flex w-full flex-row items-center justify-center gap-3">
+          <div className="h-[2px] w-8 bg-[var(--theme1)] md:w-16"></div>
+          <span className="font-lato text-center font-bold text-neutral-800 text-2xl xsm:text-4xl">
             Recipe Journey
           </span>
-          <div className="h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20"></div>
+          <div className="h-[2px] w-8 bg-[var(--theme1)] md:w-16"></div>
         </div>
-        <span className="font-lato text-center text-lg text-slate-700 sm:text-xl md:text-2xl lg:text-3xl">
+        <span className="font-lato text-center text-lg text-slate-700 sm:text-xl md:text-2xl">
           What to do
         </span>
       </div>

@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <footer
       className={cn(
-        "mt-10 bg-white pt-10 font-sans",
+        "mt-20 bg-white pt-10 font-sans",
         pathname.includes("create") && "hidden",
       )}
     >
@@ -42,7 +42,7 @@ const Footer = () => {
             >
               Recipe<span className="text-[var(--theme1)]">Vault</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-screen-sm text-center text-neutral-500">
+            <p className="mx-auto mt-4 max-w-screen-sm text-center text-neutral-700">
               RecipeVault offers a vibrant community platform where culinary
               enthusiasts can discover, share, and explore a wide variety of
               recipes from around the world. Join us to find inspiration for

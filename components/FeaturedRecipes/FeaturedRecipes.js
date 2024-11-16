@@ -57,8 +57,8 @@ const FeaturedRecipes = ({ ChangeUrl }) => {
   }, []);
 
   return (
-    <section className="recipes">
-      <div className="flex w-full flex-col items-center justify-center gap-2 self-center">
+    <section className="mt-7">
+      <div className="flex w-full flex-col items-center justify-center gap-2 self-center mb-7">
         <div className="flex w-full flex-row items-center justify-center gap-3">
           <div className="h-[2px] w-8 bg-[var(--theme1)] md:w-16"></div>
           <span className="font-lato text-center text-2xl font-bold text-neutral-800 xsm:text-4xl">
@@ -72,34 +72,20 @@ const FeaturedRecipes = ({ ChangeUrl }) => {
         <div className="w-full max-w-screen-xl px-10">
           <Carousel>
             <CarouselContent className="-ml-1">
-              {loadingRecipes
-                ? Array.from({ length: 8 }, (_, index) => (
-                    <CarouselItem
-                      key={index}
-                      className="flex w-full pl-1 min-[500px]:basis-1/2 md:basis-1/3 min-[940px]:basis-1/4 lg:basis-1/5"
-                    >
-                      <div className="flex w-full p-2">
-                        <SkeletonRecipeCard key={index} className="w-full" />
-                      </div>
-                    </CarouselItem>
-                  ))
-                : recipes.map((recipe, index) => (
-                    <CarouselItem
-                      key={index}
-                      className="flex w-full pl-1 min-[500px]:basis-1/2 md:basis-1/3 min-[940px]:basis-1/4 lg:basis-1/5"
-                    >
-                      <div className="flex w-full p-2">
-                        <RecipeCard
-                          className="w-full"
-                          recipe={recipe}
-                          accepted={true}
-                          openRecipe={(id) => {
-                            ChangeUrl(`/recipes/${id}`);
-                          }}
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
+              {recipes.map((recipe, index) => (
+                <CarouselItem
+                  key={index}
+                  className="flex w-full pl-1 min-[500px]:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                >
+                  <div className="flex w-full p-2">
+                    <RecipeCard
+                      className="w-full"
+                      recipe={recipe}
+                      accepted={true}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
             </CarouselContent>
             <CarouselPrevious className="-left-8 border-0 text-xl" />
             <CarouselNext className="-right-8 border-0 text-xl" />
