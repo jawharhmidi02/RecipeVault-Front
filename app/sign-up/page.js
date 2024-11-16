@@ -1,11 +1,9 @@
 "use client";
 import AccountDecoration from "@/components/AccountDecoration/AccountDecoration";
-import { useState } from "react";
+import { useRef, useState, useEffect, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import Cookies from "js-cookie";
-import { useRef } from "react";
 
 const page = () => {
   const [loading, setLoading] = useState(false);
@@ -71,7 +69,9 @@ const page = () => {
         duration: 2500,
       });
 
-      router.push("/sign-in");
+      startTransition(() => {
+        router.push("/sign-in");
+      });
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -87,11 +87,23 @@ const page = () => {
     }
     setLoading(false);
   };
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setLoadingPage(isPending);
+  }, [isPending]);
+
   return (
     <div className="mx-auto mt-10 flex h-full w-full items-center justify-center">
+      {loadingPage && (
+        <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
+          <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
+        </div>
+      )}
       <div
         className={cn(
-          "xsm:mx-10 mx-4 grid w-full max-w-[580px] grid-cols-1 min-[800px]:max-w-[1200px] min-[800px]:grid-cols-2",
+          "mx-4 grid w-full max-w-[580px] grid-cols-1 xsm:mx-10 min-[800px]:max-w-[1200px] min-[800px]:grid-cols-2",
         )}
       >
         <div className="flex flex-col justify-center rounded-t-3xl bg-white px-8 py-10 shadow-md drop-shadow-md min-[800px]:rounded-l-3xl min-[800px]:rounded-tr-none lg:py-14 xl:py-20">
@@ -184,6 +196,9 @@ const page = () => {
           accountText="Already have an account?"
           signText="Sign In"
           url="./sign-in"
+          startTransition={(fn) => {
+            startTransition(fn);
+          }}
         />
       </div>
     </div>
