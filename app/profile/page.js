@@ -127,9 +127,15 @@ const page = () => {
     setLoadingPage(false);
   }, []);
 
-  const openRecipe = (id) => {
+  const openRecipe = (url) => {
     startTransition(() => {
-      router.push(`/recipes/${id}`);
+      router.push(`/recipes/${url}`);
+    });
+  };
+
+  const openURL = (url) => {
+    startTransition(() => {
+      router.push(url);
     });
   };
 
@@ -323,12 +329,27 @@ const page = () => {
               menuState != "Your Recipes" && "hidden",
             )}
           >
-            {/* {loadingRecipes ? (
+            <div
+              onClick={() => {
+                openURL("/profile/create-recipe");
+              }}
+              className="flex h-full min-h-[250px] flex-col items-center justify-center rounded-xl bg-amber-50 px-4 shadow-md transition-all duration-200 hover:scale-105 hover:cursor-pointer"
+            >
+              <div className="flex flex-col items-center justify-center gap-5">
+                <div className="grid size-[40px] place-items-center rounded-full border-2 border-[var(--theme2)] text-2xl font-bold text-[var(--theme2)]">
+                  <div>+</div>
+                </div>
+                <div className="font-semibold text-[var(--theme2)]">
+                  Create a new recipe
+                </div>
+              </div>
+            </div>
+            {loadingRecipes ? (
               Array.from({ length: limit }, (_, index) => (
                 <SkeletonRecipeCard key={index} />
               ))
             ) : recipes.length === 0 ? (
-              <div className="col-span-full flex w-full flex-col items-center justify-center gap-4">
+              <div className="col-span-3 flex w-full flex-col items-center justify-center gap-4">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <div>
                     <svg
@@ -354,28 +375,13 @@ const page = () => {
                   key={index}
                   recipe={recipe}
                   accepted={true}
-                  openRecipe={(id) => {
-                    openRecipe(id);
+                  openRecipe={(url) => {
+                    openRecipe(url);
                   }}
                 />
               ))
-            )} */}
+            )}
 
-            <div onClick={()=>{
-              //
-            }} className="px-4 h-[250px] flex flex-col items-center justify-center rounded-xl shadow-md hover:cursor-pointer transition-all duration-200 hover:scale-105 bg-amber-50">
-              <div className="flex flex-col gap-5 justify-center items-center">
-                <div className="grid place-items-center size-[40px] border-2 text-2xl rounded-full text-[var(--theme2)] border-[var(--theme2)] font-bold">
-                  <div>+</div>
-
-                </div>
-                <div className="font-semibold text-[var(--theme2)]">
-                  Create a new recipe
-                </div>
-
-              </div>
-              
-            </div>
             {!loadingRecipes && recipes.length > 0 && (
               <Pagination className="col-span-full">
                 <PaginationContent className="flex items-center justify-center gap-2">
@@ -506,7 +512,14 @@ const page = () => {
             menuState != "Liked Recipes" && "hidden",
           )}
         >
-          {user.role !== "admin" && <LikedRecipes user={user} />}
+          {user.role !== "admin" && (
+            <LikedRecipes
+              user={user}
+              openRecipe={(url) => {
+                openRecipe(url);
+              }}
+            />
+          )}
         </div>
 
         {/* LIKED RECIPES COMP DONE */}

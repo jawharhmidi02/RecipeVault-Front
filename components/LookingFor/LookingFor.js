@@ -34,7 +34,7 @@ const LookingFor = ({ ChangeUrl, loading, signed, user }) => {
               console.log(user);
               console.log("signed");
               console.log(signed);
-              
+
               if (signed) {
                 if (user.role === "specialist") {
                   toast({
@@ -52,7 +52,7 @@ const LookingFor = ({ ChangeUrl, loading, signed, user }) => {
                 return;
               }
               toast({
-                title: "You must be Registered to Create a Recipe!",
+                title: "You must be Registered to Apply!",
                 description: "Please Register to Continue.",
                 variant: "default",
               });
