@@ -146,7 +146,7 @@ const PendingRecipes = ({ user }) => {
                 className={cn(
                   "rounded-md px-3 py-2 transition-all duration-200 hover:cursor-pointer",
                   CurrentPage === 1
-                    ? "bg-gray-300 text-gray-500 hover:cursor-not-allowed"
+                    ? " hover:cursor-not-allowed"
                     : "bg-white text-black hover:bg-[#fbbf24] hover:text-white",
                 )}
                 onClick={() => handlePageChange(CurrentPage - 1)}
@@ -206,7 +206,7 @@ const PendingRecipes = ({ user }) => {
                 className={cn(
                   "rounded-md px-3 py-2 transition-all duration-200 hover:cursor-pointer",
                   CurrentPage === totalPages
-                    ? "bg-gray-300 text-gray-500 hover:cursor-not-allowed"
+                    ? " hover:cursor-not-allowed"
                     : "bg-white text-black hover:bg-[#fbbf24] hover:text-white",
                 )}
                 onClick={() => handlePageChange(CurrentPage + 1)}

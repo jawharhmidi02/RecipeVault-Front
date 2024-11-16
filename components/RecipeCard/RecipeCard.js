@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useTransition } from "react";
 
-const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending }) => {
+const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending, className }) => {
   const [loadingPage, setLoadingPage] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -29,7 +29,7 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending }) => {
       className={cn(
         "flex flex-col gap-2 rounded-xl bg-white shadow-md transition-all duration-200",
         (accepted || (!recipe.is_approved && !recipe.is_rejected)) &&
-          "hover:scale-[1.03] hover:cursor-pointer",
+          "hover:scale-[1.03] hover:cursor-pointer", className
       )}
     >
       <div className="relative overflow-hidden rounded-t-xl">
