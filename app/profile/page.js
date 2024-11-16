@@ -21,6 +21,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import LikedRecipes from "@/components/LikedRecipes/LikedRecipes";
 
 const page = () => {
   const router = useRouter();
@@ -270,6 +271,22 @@ const page = () => {
             ></div>
           </div>
           <div
+            onClick={() => setMenuState("Liked Recipes")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role === "admin" && "hidden",
+            )}
+          >
+            <span className="hidden font-light sm:block">Liked Recipes</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Liked Recipes" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+
+          <div
             onClick={() => setMenuState("Application Requests")}
             className={cn(
               "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
@@ -306,7 +323,7 @@ const page = () => {
               menuState != "Your Recipes" && "hidden",
             )}
           >
-            {loadingRecipes ? (
+            {/* {loadingRecipes ? (
               Array.from({ length: limit }, (_, index) => (
                 <SkeletonRecipeCard key={index} />
               ))
@@ -342,7 +359,23 @@ const page = () => {
                   }}
                 />
               ))
-            )}
+            )} */}
+
+            <div onClick={()=>{
+              //
+            }} className="px-4 h-[250px] flex flex-col items-center justify-center rounded-xl shadow-md hover:cursor-pointer transition-all duration-200 hover:scale-105 bg-amber-50">
+              <div className="flex flex-col gap-5 justify-center items-center">
+                <div className="grid place-items-center size-[40px] border-2 text-2xl rounded-full text-[var(--theme2)] border-[var(--theme2)] font-bold">
+                  <div>+</div>
+
+                </div>
+                <div className="font-semibold text-[var(--theme2)]">
+                  Create a new recipe
+                </div>
+
+              </div>
+              
+            </div>
             {!loadingRecipes && recipes.length > 0 && (
               <Pagination className="col-span-full">
                 <PaginationContent className="flex items-center justify-center gap-2">
@@ -464,6 +497,19 @@ const page = () => {
         </div>
 
         {/* RECIPE REQUESTS COMP DONE */}
+
+        {/* LIKED RECIPES COMP BELOW */}
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Liked Recipes" && "hidden",
+          )}
+        >
+          {user.role !== "admin" && <LikedRecipes user={user} />}
+        </div>
+
+        {/* LIKED RECIPES COMP DONE */}
 
         {/* APPLICATION REQUESTS COMP BELOW */}
 
