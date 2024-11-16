@@ -1,49 +1,102 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import RequestCard from "../RequestCard/RequestCard";
+import { toast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
+import SkeletonRequestCard from "../RequestCard/SkeletonRequestCard";
 
 const ApplicationRequests = ({ user }) => {
-  const requests = [
-    // {
-    //   id: 1234567,
-    //   fullName: "Lafi Raed",
-    //   email: "lafiraed04@gmail.com",
-    //   telephone: "56 620 075",
-    //   reason:
-    //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
-    //   resume: "/images/RaedLafiResume.pdf",
-    // },
-    // {
-    //   id: 1234567,
-    //   fullName: "Lafi Raed",
-    //   email: "lafiraed04@gmail.com",
-    //   telephone: "56 620 075",
-    //   reason:
-    //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
-    //   resume: "/images/RaedLafiResume.pdf",
-    // },
-    // {
-    //   id: 1234567,
-    //   fullName: "Lafi Raed",
-    //   email: "lafiraed04@gmail.com",
-    //   telephone: "56 620 075",
-    //   reason:
-    //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
-    //   resume: "/images/RaedLafiResume.pdf",
-    // },
-    // {
-    //   id: 1234567,
-    //   fullName: "Lafi Raed",
-    //   email: "lafiraed04@gmail.com",
-    //   telephone: "56 620 075",
-    //   reason:
-    //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
-    //   resume: "/images/RaedLafiResume.pdf",
-    // },
-  ];
+  const [requests, setRequests] = useState([]);
+  const [Loadingrequests, setLoadingRequests] = useState(true);
+
+  // const requests = [
+  //   {
+  //     id: 1234567,
+  //     full_name: "Lafi Raed",
+  //     email: "lafiraed04@gmail.com",
+  //     telephone: "56 620 075",
+  //     description:
+  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
+  //     cv_pdf: "/images/RaedLafiResume.pdf",
+  //   },
+  //   {
+  //     id: 1234567,
+  //     full_name: "Lafi Raed",
+  //     email: "lafiraed04@gmail.com",
+  //     telephone: "56 620 075",
+  //     description:
+  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
+  //     cv_pdf: "/images/RaedLafiResume.pdf",
+  //   },
+  //   {
+  //     id: 1234567,
+  //     full_name: "Lafi Raed",
+  //     email: "lafiraed04@gmail.com",
+  //     telephone: "56 620 075",
+  //     description:
+  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
+  //     cv_pdf: "/images/RaedLafiResume.pdf",
+  //   },
+  //   {
+  //     id: 1234567,
+  //     full_name: "Lafi Raed",
+  //     email: "lafiraed04@gmail.com",
+  //     telephone: "56 620 075",
+  //     description:
+  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, cupiditate dolores sed obcaecati illum vitae fuga tempora voluptatibus dolore ipsa porro est ratione fugit? Corrupti optio nihil quisquam voluptatum consequuntur.",
+  //     cv_pdf: "/images/RaedLafiResume.pdf",
+  //   },
+  // ];
+
+  const fetchRequests = async () => {
+    setLoadingRequests(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/forms`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          access_token: Cookies.get("access_token"),
+        },
+      });
+
+      const data = await response.json();
+      if (data.data === null) {
+        throw new Error(data.message);
+      }
+      if (data.statusCode === 401) {
+        toast({
+          title: "Error",
+          description: "Please Login Again!",
+          variant: "destructive",
+        });
+        setLoadingRequests(false);
+        return;
+      }
+      setLoadingRequests(false);
+      setRequests(data.data);
+    } catch (error) {
+      setLoadingRequests(false);
+
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Something went wrong, Please Try Again!",
+        variant: "destructive",
+      });
+    }
+    setLoadingRequests(false);
+  };
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
   return (
     <div className={cn("grid w-full gap-6 min-[750px]:grid-cols-2")}>
-      {requests.length == 0 ? (
+      {Loadingrequests ? (
+        Array.from({ length: 4 }).map((_, index) => (
+          <SkeletonRequestCard key={index} />
+        ))
+      ) : requests.length == 0 ? (
         <div className="col-span-full flex w-full flex-col items-center justify-center gap-4">
           <div className="flex flex-col items-center justify-center gap-4">
             <div>
@@ -60,14 +113,20 @@ const ApplicationRequests = ({ user }) => {
               </svg>
             </div>
             <div className="text-2xl font-semibold text-neutral-800">
-              No Requests Found 
+              No Requests Found
             </div>
           </div>
         </div>
       ) : (
         <>
           {requests.map((request, index) => (
-            <RequestCard request={request} key={index} />
+            <RequestCard
+              request={request}
+              key={index}
+              fetchRequests={() => {
+                fetchRequests();
+              }}
+            />
           ))}
         </>
       )}

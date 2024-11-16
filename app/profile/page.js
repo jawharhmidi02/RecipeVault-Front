@@ -25,85 +25,6 @@ const page = () => {
   const [recipes, setRecipes] = useState([]);
   const [loadingRecipes, setLoadingRecipes] = useState(true);
 
-  // const user = {
-  //   fullName: "Lafi Raed",
-  //   role: "specialist",
-  //   email: "lafiraed04@gmail.com",
-  // };
-
-  // const recipes = [
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  //   {
-  //     title: "Grilled Salmon",
-  //     img: "/images/Recipe1.jpg",
-  //     cuisineLocation: "Brazil",
-  //     ingredientsLocation: "Tunis",
-  //     likes: 1500,
-  //   },
-  // ];
-
   const parseRole = (role) => {
     if (role === "admin") {
       return "Admin";
@@ -137,6 +58,10 @@ const page = () => {
       setLoadingUser(false);
       setSigned(true);
       setUser(data.data);
+      if (data.data.role === "admin") {
+        setMenuState("Application Requests");
+      }
+
       fetchUserRecipes();
     } catch (error) {
       setLoadingUser(false);
@@ -235,7 +160,10 @@ const page = () => {
         <div className="flex w-full max-w-[900px] flex-row items-center justify-center gap-2 px-5 min-[900px]:px-0">
           <div
             onClick={() => setMenuState("Your Recipes")}
-            className={cn("flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0", user.role === "admin" && "hidden",)}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role === "admin" && "hidden",
+            )}
           >
             <span className="hidden font-light sm:block">Your Recipes</span>
             <div

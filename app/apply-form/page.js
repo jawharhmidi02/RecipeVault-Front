@@ -94,12 +94,12 @@ const page = () => {
             variant: "success",
             duration: 5000,
           });
-          // nameInput.current.value = "";
-          // emailInput.current.value = "";
-          // telephoneInput.current.value = "";
-          // reasonInput.current.value = "";
-          // setResumeFileName("");
-          // resumeInput.current.value = "";
+          nameInput.current.value = "";
+          emailInput.current.value = "";
+          telephoneInput.current.value = "";
+          reasonInput.current.value = "";
+          setResumeFileName("");
+          resumeInput.current.value = "";
         }
         setLoading(false);
       } catch (error) {
