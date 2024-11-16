@@ -235,7 +235,7 @@ const Nav = () => {
                 }}
                 className={cn(
                   "flex flex-row items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:bg-zinc-100",
-                  loadingUser && "cursor-not-allowed",
+                  loadingUser && "hover:cursor-not-allowed",
                 )}
               >
                 <i className="fa-regular fa-user text-2xl min-[500px]:text-xl"></i>
