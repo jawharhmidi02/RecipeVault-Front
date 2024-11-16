@@ -67,6 +67,7 @@ const page = () => {
           variant: "success",
           duration: 2500,
         });
+        setLoadingPage(true);
         document.location.href = "/";
         setLoading(false);
       } else {

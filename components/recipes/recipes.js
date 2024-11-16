@@ -288,6 +288,7 @@ const Recipes = () => {
               <button
                 type="button"
                 onClick={() => {
+                  setLoadingPage(true);
                   location.href = "/recipes";
                 }}
                 className="flex items-center justify-center rounded-lg bg-[var(--theme1)] px-3 py-2.5 transition-all duration-200 hover:scale-105 hover:bg-[var(--theme2)]"

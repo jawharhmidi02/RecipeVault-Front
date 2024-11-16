@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import ScrollableSelect from "@/components/ScrollableSelect/ScrollableSelect";
 import hours from "@/lib/hours";
@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import countries from "@/lib/countries";
-import { Scroll } from "lucide-react";
 
 const page = () => {
   const { toast } = useToast();
@@ -46,6 +45,12 @@ const page = () => {
   const [cuisine, setCuisine] = useState("");
   const [ingredientsLocation, setIngredientsLocation] = useState("");
   const router = useRouter();
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setLoadingPage(isPending);
+  }, [isPending]);
 
   const parseIngredients = (items) => {
     let final = [];
@@ -227,7 +232,9 @@ const page = () => {
               variant: "success",
               duration: 4000,
             });
-            location.href = "/profile";
+            startTransition(() => {
+              router.push("/profile");
+            });
           } else {
             toast({
               description: "Something went wrong!",
@@ -240,6 +247,7 @@ const page = () => {
                 variant: "destructive",
                 duration: 4000,
               });
+              setLoadingPage(true);
               Cookies.remove("access_token");
               location.href = "/sign-in";
             }
@@ -324,8 +332,14 @@ const page = () => {
       setTags([...tags, tagInput.current.value]);
     }
   };
+
   return (
     <div className="flex flex-col gap-4">
+      {loadingPage && (
+        <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
+          <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
+        </div>
+      )}
       <div className="sticky top-0 z-20 mb-6 flex items-center justify-center border-b border-b-zinc-100 bg-white pt-3 sm:border-t sm:border-t-zinc-100">
         <div className="flex w-full max-w-[800px] flex-row items-center justify-center gap-2 px-5">
           <div className="flex w-full flex-col items-center justify-between gap-2 pt-8 sm:pt-0">
