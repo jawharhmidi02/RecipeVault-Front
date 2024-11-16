@@ -3,12 +3,12 @@ import React from "react";
 
 const LookingFor = () => {
   return (
-    <div className="my-[70px] flex flex-col items-center justify-center gap-5 bg-white px-[20px] py-[50px] md:flex-row">
+    <div className="my-[70px] flex flex-col items-center justify-center gap-5 bg-white px-[20px] py-[50px] min-[1180px]:flex-row">
       <div>
         <img
           src="/images/LookingFor1.webp"
           alt="line"
-          className="size-[400px] object-cover rounded-lg shadow-lg drop-shadow-lg"
+          className="min-[1180px]:size-[400px] max-w-[700px] w-full h-[400px] object-cover rounded-lg shadow-lg drop-shadow-lg"
         />
       </div>
       <div className="flex flex-col">
@@ -38,7 +38,7 @@ const LookingFor = () => {
         <img
           src="/images/LookingFor2.webp"
           alt="line"
-          className="size-[400px] object-cover rounded-lg shadow-lg drop-shadow-lg"
+          className="min-[1180px]:size-[400px] max-w-[700px] w-full h-[400px] object-cover rounded-lg shadow-lg drop-shadow-lg"
         />
       </div>
     </div>
