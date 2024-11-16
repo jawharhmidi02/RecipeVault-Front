@@ -346,7 +346,7 @@ const page = () => {
 
             <div onClick={()=>{
               //
-            }} className="px-4 py-10 flex flex-col items-center justify-center rounded-xl shadow-md hover:cursor-pointer transition-all duration-200 hover:scale-105 bg-amber-50">
+            }} className="px-4 h-[250px] flex flex-col items-center justify-center rounded-xl shadow-md hover:cursor-pointer transition-all duration-200 hover:scale-105 bg-amber-50">
               <div className="flex flex-col gap-5 justify-center items-center">
                 <div className="grid place-items-center size-[40px] border-2 text-2xl rounded-full text-[var(--theme2)] border-[var(--theme2)] font-bold">
                   <div>+</div>
