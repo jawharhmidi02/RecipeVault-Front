@@ -144,7 +144,7 @@ const Recipes = () => {
       setUser(data.data);
 
       const responseLikes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/recipelikes/user/${data.data.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/recipelikes/user/${data.data.id}?limit=999`,
         {
           method: "GET",
           headers: {
@@ -156,7 +156,8 @@ const Recipes = () => {
       if (dataLikes.data === null) {
         throw new Error(dataLikes.message);
       }
-      setUserLikes(dataLikes.data);
+
+      setUserLikes(dataLikes.data.data);
     } catch (error) {
       console.log(error);
     }
