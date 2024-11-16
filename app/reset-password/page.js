@@ -32,7 +32,6 @@ const page = () => {
         },
       );
       const responseData = await response.json();
-      console.log(responseData);
 
       if (responseData.statusCode !== 200) {
         if (responseData.message === "Email not found") {

@@ -71,16 +71,6 @@ const Recipes = () => {
     for (let i = startPage; i <= endPage; i++) {
       newPages.push(i);
     }
-    console.log("CurrentPage");
-    console.log(CurrentPage);
-    console.log("totalPages");
-    console.log(totalPages);
-    console.log("newPages");
-    console.log(newPages);
-    console.log("startPage");
-    console.log(startPage);
-    console.log("endPage");
-    console.log(endPage);
 
     setPages(newPages);
   };

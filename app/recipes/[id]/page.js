@@ -155,8 +155,6 @@ const page = () => {
       }
       setRecipe(data.data);
 
-      console.log(data.data);
-
       setLoadingRecipe(false);
     } catch (error) {
       console.log(error);
