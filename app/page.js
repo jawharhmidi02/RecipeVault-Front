@@ -63,6 +63,7 @@ export default function Home() {
   useEffect(() => {
     setLoadingPage(isPending);
   }, [isPending]);
+
   return (
     <div className="mx-auto flex w-full flex-col">
       {loadingPage && (

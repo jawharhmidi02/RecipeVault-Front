@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import Cookies from "js-cookie";
+import SocketNotifications from "@/hooks/SocketNotifications";
 
 const Nav = () => {
   const searchInputPC = useRef("");
@@ -86,9 +87,10 @@ const Nav = () => {
     <div
       className={cn(
         "mb-10 flex w-full flex-row items-center justify-between bg-white p-2 pb-4 pt-4 min-[500px]:px-5 md:px-10",
-        (pathname.includes("create") || (pathname == "/" )) && "mb-0",
+        (pathname.includes("create") || pathname == "/") && "mb-0",
       )}
     >
+      <SocketNotifications user={user} />
       {loadingPage && (
         <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
           <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
