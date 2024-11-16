@@ -39,7 +39,6 @@ const LikedRecipes = ({ user, openRecipe }) => {
         setTotalItems(data.data.totalItems);
         setTotalPages(data.data.totalPages);
         setCurrentPage(Number(data.data.currentPage));
-        console.log(data.data.data);
 
         setLikedRecipes(data.data.data);
         setLoadingRecipes(false);
