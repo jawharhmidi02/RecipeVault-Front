@@ -11,6 +11,7 @@ import RecipeRequests from "@/components/RecipeRequests/RecipeRequests";
 import { toast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonRecipeCard from "@/components/RecipeCard/SkeletonRecipeCard";
+import ApplicationRequests from "@/components/ApplicationRequests/ApplicationRequests";
 
 const page = () => {
   const router = useRouter();
@@ -220,7 +221,6 @@ const page = () => {
             <div
               className={cn(
                 "block",
-                // recipe.user.role == "client" && "block",
               )}
             >
               <div className="text-xl font-light text-neutral-500">
@@ -317,7 +317,7 @@ const page = () => {
 
         {/* MENU TITLE */}
 
-        <div className="text-4xl font-semibold text-[var(--theme1)]">
+        <div className="text-4xl font-semibold text-center text-[var(--theme1)]">
           {menuState}
         </div>
 
@@ -410,6 +410,21 @@ const page = () => {
         </div>
 
         {/* RECIPE REQUESTS COMP DONE */}
+
+
+        {/* APPLICATION REQUESTS COMP BELOW */}
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Application Requests" && "hidden",
+          )}
+        >
+          {user.role === "admin" && <ApplicationRequests user={user}/>}
+        </div>
+
+        {/* APPLICATION REQUESTS COMP DONE */}
+
       </div>
     </div>
   );
