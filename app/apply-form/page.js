@@ -1,6 +1,8 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import Cookies from "js-cookie";
 
 const page = () => {
   const resumeInput = useRef(null);
@@ -9,6 +11,7 @@ const page = () => {
   const emailInput = useRef(null);
   const telephoneInput = useRef(null);
   const reasonInput = useRef(null);
+  const [loading, setLoading] = useState(false);
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -17,7 +20,7 @@ const page = () => {
       );
   };
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (nameInput.current.value.trim() == "") {
       toast({
         description: "You need to enter a name!",
@@ -56,15 +59,60 @@ const page = () => {
         duration: 2000,
       });
       return false;
-    }
-    else{
-      toast({
-        description: "Your application form has been submitted!",
-        variant: "success",
-        duration: 5000,
-      });
+    } else {
+      const formData = new FormData();
+      formData.append("full_name", nameInput.current.value.trim());
+      formData.append("email", emailInput.current.value.trim());
+      formData.append("telephone", telephoneInput.current.value.trim());
+      formData.append("description", reasonInput.current.value.trim());
+      formData.append("file", resumeInput.current.files[0]);
 
-      // SEND FORM CODE 
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/forms`,
+          {
+            method: "POST",
+            headers: {
+              access_token: Cookies.get("access_token"),
+            },
+            body: formData,
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const data = await response.json();
+        if (data.statusCode !== 201) {
+          throw new Error(data.message);
+        }
+
+        if (data.statusCode === 201) {
+          toast({
+            description: "Your application form has been submitted!",
+            variant: "success",
+            duration: 5000,
+          });
+          // nameInput.current.value = "";
+          // emailInput.current.value = "";
+          // telephoneInput.current.value = "";
+          // reasonInput.current.value = "";
+          // setResumeFileName("");
+          // resumeInput.current.value = "";
+        }
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        toast({
+          title: "Error!",
+          description: "Something went wrong!",
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
+      setLoading(false);
     }
   };
 
@@ -73,11 +121,11 @@ const page = () => {
       <div className="mx-5 flex w-full max-w-[1300px] flex-col gap-20 sm:mx-10 xl:mx-28">
         <div className="flex w-full flex-col items-center justify-center gap-2 self-center">
           <div className="flex w-full flex-row items-center justify-center gap-3">
-            <div className="xxsm:w-12 xsm:w-14 h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20 xl:w-24"></div>
+            <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20 xl:w-24"></div>
             <span className="font-lato text-center text-5xl font-bold text-neutral-800 sm:text-6xl md:text-7xl">
               Apply
             </span>
-            <div className="xxsm:w-12 xsm:w-14 h-[2px] w-10 bg-[var(--theme1)] md:w-16 lg:w-20 xl:w-24"></div>
+            <div className="h-[2px] w-10 bg-[var(--theme1)] xxsm:w-12 xsm:w-14 md:w-16 lg:w-20 xl:w-24"></div>
           </div>
           <span className="font-lato text-center text-lg text-slate-700 sm:text-xl md:text-2xl lg:text-3xl">
             As a nutrition specialist
@@ -164,10 +212,20 @@ const page = () => {
               onClick={() => {
                 handleApply();
               }}
-              className="w-fit self-center rounded-sm border-2 border-[#ffffff] bg-[var(--theme1)] px-10 py-2.5 text-xl text-[#ffffff] transition-all duration-200 hover:border-[var(--theme1)] hover:bg-[#ffffff] hover:text-[var(--theme1)] active:scale-95"
+              disabled={loading}
+              className={cn(
+                "w-fit self-center rounded-sm border-2 border-[#ffffff] bg-[var(--theme1)] px-10 py-2.5 text-xl text-[#ffffff] transition-all duration-200 hover:border-[var(--theme1)] hover:bg-[#ffffff] hover:text-[var(--theme1)] active:scale-95",
+                loading && "pointer-events-none cursor-not-allowed opacity-50",
+              )}
               type="button"
             >
-              Apply
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
+                </div>
+              ) : (
+                "Apply"
+              )}
             </button>
           </div>
         </div>

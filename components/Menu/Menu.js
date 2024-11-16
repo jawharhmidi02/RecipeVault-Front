@@ -4,7 +4,7 @@ import { useEffect, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import "./Menu.css";
 
-const Menu = ({ orientation, closeButton, setLoadingPage }) => {
+const Menu = ({ orientation, closeButton, setLoadingPage, user }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -101,27 +101,29 @@ const Menu = ({ orientation, closeButton, setLoadingPage }) => {
           Contact
         </a>
       </div>
-      <div
-        className={cn(
-          "link text-neutral-700",
-          pathname.includes("apply-form") && "active",
-        )}
-      >
-        <a
-          onClick={() => {
-            setLoadingPage(true);
-            startTransition(() => {
-              router.push("/apply-form");
-            });
-            setTimeout(() => {
-              closeButton?.current.click();
-            }, 500);
-          }}
-          className="hover:cursor-pointer"
+      {user && user.role === "client" && (
+        <div
+          className={cn(
+            "link text-neutral-700",
+            pathname.includes("apply-form") && "active",
+          )}
         >
-          Form
-        </a>
-      </div>
+          <a
+            onClick={() => {
+              setLoadingPage(true);
+              startTransition(() => {
+                router.push("/apply-form");
+              });
+              setTimeout(() => {
+                closeButton?.current.click();
+              }, 500);
+            }}
+            className="hover:cursor-pointer"
+          >
+            Form
+          </a>
+        </div>
+      )}
     </div>
   );
 };

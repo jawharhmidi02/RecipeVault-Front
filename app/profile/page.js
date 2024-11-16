@@ -103,21 +103,15 @@ const page = () => {
   //   },
   // ];
 
-  const logout = () => {
-    Cookies.remove("access_token");
-    location.href = "/sign-in";
-  };
   const parseRole = (role) => {
-    if(role === "admin"){
+    if (role === "admin") {
       return "Admin";
-    }
-    else if(role === "client"){
+    } else if (role === "client") {
       return "Normal User ";
+    } else {
+      return "Specialist";
     }
-    else{
-      return "Specialist"
-    }
-  }
+  };
 
   const fetchUser = async () => {
     try {
@@ -238,14 +232,6 @@ const page = () => {
               {user.email}
             </div>
           </div>
-          <button
-            className="h-fit rounded-lg border-2 border-transparent bg-[var(--theme2)] px-6 py-3 font-bold text-[#ffffff] transition-all duration-100 hover:border-rose-500 hover:bg-rose-100 hover:text-rose-500"
-            onClick={() => {
-              logout();
-            }}
-          >
-            Log Out
-          </button>
         </div>
 
         {/* PROFILE MENU BELOW */}
@@ -351,7 +337,7 @@ const page = () => {
             ))
           ) : recipes.length === 0 ? (
             <div className="col-span-full flex w-full flex-col items-center justify-center gap-4">
-              <div className="flex flex-col justify-center items-center gap-4">
+              <div className="flex flex-col items-center justify-center gap-4">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -67,6 +67,11 @@ const Nav = () => {
     setLoadingUser(false);
   };
 
+  const logout = () => {
+    Cookies.remove("access_token");
+    location.href = "/sign-in";
+  };
+
   useEffect(() => {
     checkUser();
     setLoadingPage(false);
@@ -79,7 +84,7 @@ const Nav = () => {
   return (
     <div
       className={cn(
-        "mb-10 flex w-full flex-row items-center justify-between bg-white  p-2 min-[500px]:px-5 pb-4 pt-4 md:px-10",
+        "mb-10 flex w-full flex-row items-center justify-between bg-white p-2 pb-4 pt-4 min-[500px]:px-5 md:px-10",
         pathname.includes("create") && "mb-0",
       )}
     >
@@ -104,6 +109,7 @@ const Nav = () => {
           <div>Vault</div>
         </div>
         <Menu
+          user={user}
           orientation="row"
           setLoadingPage={(boolean) => {
             setLoadingPage(boolean);
@@ -112,7 +118,7 @@ const Nav = () => {
       </div>
       <div className="flex flex-row gap-3">
         {!pathname.includes("recipes") && (
-          <div className="mr-1 hidden flex-row items-center gap-1 rounded-md border px-2 py-2 min-[880px]:flex min-[800px]:mr-4">
+          <div className="mr-1 hidden flex-row items-center gap-1 rounded-md border px-2 py-2 min-[800px]:mr-4 min-[880px]:flex">
             <i className="fa-solid fa-magnifying-glass text-md px-2 text-neutral-500"></i>
             <input
               placeholder={"Search for recipes"}
@@ -264,12 +270,23 @@ const Nav = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-
-        <div onClick={()=>{
-          // LOG OUT FUNCTIONALITY 
-        }} className="flex items-center justify-center md:py-1 md:px-4 rounded-full transition-all duration-200 hover:cursor-pointer bg-transparent md:hover:bg-zinc-100 md:hover:scale-110">
-          <i class="fa-solid fa-arrow-right-from-bracket text-2xl text-neutral-800"></i>
-        </div>
+        {signed && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  onClick={() => {
+                    logout();
+                  }}
+                  className="flex items-center justify-center rounded-full bg-transparent transition-all duration-200 hover:cursor-pointer md:px-4 md:py-1 md:hover:scale-110 md:hover:bg-zinc-100"
+                >
+                  <i className="fa-solid fa-arrow-right-from-bracket text-2xl text-neutral-800"></i>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>Log out</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
 
         <Sheet>
           <SheetTrigger asChild>
@@ -280,6 +297,7 @@ const Nav = () => {
           <SheetContent className="w-[220px] bg-white">
             <DialogTitle></DialogTitle>
             <Menu
+              user={user}
               orientation="col"
               closeButton={closeButton}
               setLoadingPage={(boolean) => {
