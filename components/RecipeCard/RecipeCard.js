@@ -10,7 +10,6 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending }) => {
 
   useEffect(() => {
     setLoadingPage(isPending);
-    console.log(recipe)
   }, [isPending]);
 
   return (
@@ -92,7 +91,12 @@ const RecipeCard = ({ recipe, openRecipe, liked, accepted, pending }) => {
           </span>{" "}
           {recipe.ingredientsLocation}
         </div>
-        <div className={cn("flex flex-col gap-2", !recipe.rejection_reason && "hidden")}>
+        <div
+          className={cn(
+            "flex flex-col gap-2",
+            !recipe.rejection_reason && "hidden",
+          )}
+        >
           <div className="font-semibold text-rose-600">Rejection Reason:</div>
           <div className={cn("font-light text-neutral-600")}>
             {recipe.rejection_reason}
