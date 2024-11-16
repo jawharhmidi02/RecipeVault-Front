@@ -218,11 +218,7 @@ const page = () => {
               {user.full_name}
             </div>
 
-            <div
-              className={cn(
-                "block",
-              )}
-            >
+            <div className={cn("block")}>
               <div className="text-xl font-light text-neutral-500">
                 {parseRole(user.role)}
               </div>
@@ -239,7 +235,7 @@ const page = () => {
         <div className="flex w-full max-w-[900px] flex-row items-center justify-center gap-2 px-5 min-[900px]:px-0">
           <div
             onClick={() => setMenuState("Your Recipes")}
-            className="flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0"
+            className={cn("flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0", user.role === "admin" && "hidden",)}
           >
             <span className="hidden font-light sm:block">Your Recipes</span>
             <div
@@ -317,58 +313,59 @@ const page = () => {
 
         {/* MENU TITLE */}
 
-        <div className="text-4xl font-semibold text-center text-[var(--theme1)]">
+        <div className="text-center text-4xl font-semibold text-[var(--theme1)]">
           {menuState}
         </div>
 
         {/* MENU TITLE DONE */}
 
         {/* YOUR RECIPES COMPONENT BELOW */}
-
-        <div
-          className={cn(
-            "grid w-full gap-6 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-            menuState != "Your Recipes" && "hidden",
-          )}
-        >
-          {loadingRecipes ? (
-            Array.from({ length: 6 }, (_, index) => (
-              <SkeletonRecipeCard key={index} />
-            ))
-          ) : recipes.length === 0 ? (
-            <div className="col-span-full flex w-full flex-col items-center justify-center gap-4">
-              <div className="flex flex-col items-center justify-center gap-4">
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="80"
-                    height="80"
-                    fill="#262626"
-                    className="bi bi-slash-circle"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708" />
-                  </svg>
-                </div>
-                <div className="text-2xl font-semibold text-neutral-800">
-                  No Recipes Found
+        {user.role != "admin" && (
+          <div
+            className={cn(
+              "grid w-full gap-6 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+              menuState != "Your Recipes" && "hidden",
+            )}
+          >
+            {loadingRecipes ? (
+              Array.from({ length: 6 }, (_, index) => (
+                <SkeletonRecipeCard key={index} />
+              ))
+            ) : recipes.length === 0 ? (
+              <div className="col-span-full flex w-full flex-col items-center justify-center gap-4">
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="80"
+                      height="80"
+                      fill="#262626"
+                      className="bi bi-slash-circle"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                      <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708" />
+                    </svg>
+                  </div>
+                  <div className="text-2xl font-semibold text-neutral-800">
+                    No Recipes Found
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            recipes.map((recipe, index) => (
-              <RecipeCard
-                key={index}
-                recipe={recipe}
-                accepted={true}
-                openRecipe={(id) => {
-                  openRecipe(id);
-                }}
-              />
-            ))
-          )}
-        </div>
+            ) : (
+              recipes.map((recipe, index) => (
+                <RecipeCard
+                  key={index}
+                  recipe={recipe}
+                  accepted={true}
+                  openRecipe={(id) => {
+                    openRecipe(id);
+                  }}
+                />
+              ))
+            )}
+          </div>
+        )}
 
         {/* YOUR RECIPES COMPONENT DONE */}
 
@@ -411,7 +408,6 @@ const page = () => {
 
         {/* RECIPE REQUESTS COMP DONE */}
 
-
         {/* APPLICATION REQUESTS COMP BELOW */}
 
         <div
@@ -420,11 +416,10 @@ const page = () => {
             menuState != "Application Requests" && "hidden",
           )}
         >
-          {user.role === "admin" && <ApplicationRequests user={user}/>}
+          {user.role === "admin" && <ApplicationRequests user={user} />}
         </div>
 
         {/* APPLICATION REQUESTS COMP DONE */}
-
       </div>
     </div>
   );
