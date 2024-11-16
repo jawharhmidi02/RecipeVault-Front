@@ -652,7 +652,9 @@ const page = () => {
               <div
                 key={index}
                 onClick={() => {
-                  router.push(`/recipes?search=${tag}`);
+                  startTransitionPage(() => {
+                    router.push(`/recipes?search=${tag}`);
+                  });
                 }}
                 className="group grid place-items-center rounded-lg bg-neutral-200 px-3 py-2 transition-all duration-200 hover:cursor-pointer hover:bg-[var(--theme1)]"
               >
