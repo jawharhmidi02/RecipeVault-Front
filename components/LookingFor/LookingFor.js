@@ -19,15 +19,17 @@ const LookingFor = ({ ChangeUrl, loading, signed, user }) => {
           You can apply here
         </div>
         <div className="mt-2 max-w-[600px] text-center text-neutral-500">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt quo
-          corporis, non, tempora sint veniam optio, ab in delectus amet enim
-          vitae earum illo repellat laborum sed reprehenderit inventore.
-          Dignissimos cum placeat laudantium doloremque impedit officiis eos
-          sunt. Aspernatur, unde.
+          Are you passionate about health, wellness, and food? Help us ensure
+          that every recipe on our platform meets high nutritional standards. As
+          a Nutrition Specialist, you will review recipe submissions, evaluate
+          their nutritional value, and provide feedback or recommendations for
+          improvement. Your expertise will guide our community towards
+          healthier, balanced meals. Apply now to make a meaningful impact on
+          the culinary world!
         </div>
         <div className="mb-6 mt-3 flex w-full items-center justify-center">
           <button
-            className="w-fit self-center rounded-sm border-2 border-[#ffffff] bg-[var(--theme1)] px-6 py-2 text-xl text-[#ffffff] transition-all duration-200 hover:border-[var(--theme1)] hover:bg-[#ffffff] hover:text-[var(--theme1)] active:scale-95"
+            className="w-fit self-center rounded-md border-2 border-[#ffffff] bg-[var(--theme1)] px-6 py-2 text-xl text-[#ffffff] transition-all duration-200 hover:border-[var(--theme1)] hover:bg-[#ffffff] hover:text-[var(--theme1)] active:scale-95"
             type="button"
             onClick={() => {
               console.log("user");
