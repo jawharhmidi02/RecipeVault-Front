@@ -21,6 +21,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import LikedRecipes from "@/components/LikedRecipes/LikedRecipes";
 
 const page = () => {
   const router = useRouter();
@@ -270,6 +271,22 @@ const page = () => {
             ></div>
           </div>
           <div
+            onClick={() => setMenuState("Liked Recipes")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role === "admin" && "hidden",
+            )}
+          >
+            <span className="hidden font-light sm:block">Liked Recipes</span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Liked Recipes" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+
+          <div
             onClick={() => setMenuState("Application Requests")}
             className={cn(
               "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
@@ -480,6 +497,19 @@ const page = () => {
         </div>
 
         {/* RECIPE REQUESTS COMP DONE */}
+
+        {/* LIKED RECIPES COMP BELOW */}
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Liked Recipes" && "hidden",
+          )}
+        >
+          {user.role !== "admin" && <LikedRecipes user={user} />}
+        </div>
+
+        {/* LIKED RECIPES COMP DONE */}
 
         {/* APPLICATION REQUESTS COMP BELOW */}
 
