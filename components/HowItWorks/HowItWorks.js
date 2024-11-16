@@ -7,18 +7,19 @@ const HowItWorks = () => {
       title: "Cooks Submit Recipes",
       logo: "fa-solid fa-user",
       description:
-        "Create an account, upload your recipe with details and photos.",
+        "Create an account to join our community of culinary enthusiasts. Share your favorite recipes by uploading detailed instructions, ingredient lists, preparation tips, and high-quality photos. Whether you’re a home cook or a seasoned chef, this is your chance to showcase your unique creations and inspire others in the kitchen.",
     },
     {
       title: "Nutritionists Review Recipes",
       logo: "fa-solid fa-cheese",
       description:
-        "Experts ensure your recipe is healthy, balanced, and complete.",
+        "Our team of professional nutritionists carefully reviews each submission to ensure your recipes meet high standards for health and balance. They analyze the nutritional content and suggest any necessary adjustments to make your dish wholesome and diet-friendly. This ensures that every recipe shared promotes well-being while retaining its deliciousness.",
     },
     {
       title: "Approved Recipes Go Live",
       logo: "fa-solid fa-utensils",
-      description: "Share your culinary creations with the world!",
+      description:
+        "Once your recipe has been approved, it will be published on the platform for the world to see. Inspire fellow food lovers, get feedback, and build your reputation as a culinary expert. Share your love for cooking and connect with a community that values creativity, health, and flavor.",
     },
   ];
   return (
