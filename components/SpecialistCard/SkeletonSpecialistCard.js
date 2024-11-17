@@ -1,6 +1,7 @@
 import React from "react";
+import { Skeleton } from "../ui/skeleton";
 
-const SpecialistCard = ({ specialist }) => {
+const SkeletonSpecialistCard = () => {
   return (
     <div className="flex flex-col gap-3 rounded-lg bg-white px-8 py-6 shadow-md">
       <div className="group flex flex-col gap-1">
@@ -8,7 +9,7 @@ const SpecialistCard = ({ specialist }) => {
           FULLNAME
         </div>
         <div className="rounded-lg p-2 text-lg transition-all duration-200 md:group-hover:bg-zinc-100">
-          {specialist.full_name}
+          <Skeleton className={"h-5 w-[120px] bg-neutral-300"} />
         </div>
       </div>
       <div className="group flex flex-col gap-1">
@@ -16,7 +17,7 @@ const SpecialistCard = ({ specialist }) => {
           EMAIL
         </div>
         <div className="rounded-lg p-2 text-lg transition-all duration-200 md:group-hover:bg-zinc-100">
-          {specialist.email}
+          <Skeleton className={"h-5 w-[200px] bg-neutral-300"} />
         </div>
       </div>
       <div className="group flex flex-col gap-1">
@@ -24,7 +25,7 @@ const SpecialistCard = ({ specialist }) => {
           TELEPHONE
         </div>
         <div className="rounded-lg p-2 text-lg transition-all duration-200 md:group-hover:bg-zinc-100">
-          {specialist.phone}
+          <Skeleton className={"h-5 w-[120px] bg-neutral-300"} />
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2">
@@ -33,15 +34,15 @@ const SpecialistCard = ({ specialist }) => {
             RECIPES ACCEPTED
           </div>
           <div className="rounded-lg p-2 text-lg transition-all duration-200 md:group-hover:bg-green-100">
-            {specialist.acceptions}
+            <Skeleton className={"h-8 w-8 bg-neutral-300"} />
           </div>
         </div>
         <div className="group flex flex-col gap-1">
-          <div className="text-sm font-light tracking-wider text-rose-500">
+          <div className="text-sm font-light tracking-wider text-rose-600">
             RECIPES REJECTED
           </div>
           <div className="rounded-lg p-2 text-lg transition-all duration-200 md:group-hover:bg-rose-100">
-            {specialist.rejections}
+            <Skeleton className={"h-8 w-8 bg-neutral-300"} />
           </div>
         </div>
       </div>
@@ -49,4 +50,4 @@ const SpecialistCard = ({ specialist }) => {
   );
 };
 
-export default SpecialistCard;
+export default SkeletonSpecialistCard;
