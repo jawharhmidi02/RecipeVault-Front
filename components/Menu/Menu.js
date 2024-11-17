@@ -119,7 +119,7 @@ const Menu = ({ orientation, closeButton, setLoadingPage, user }) => {
             }}
             className="hover:cursor-pointer"
           >
-            Form
+            Apply
           </a>
         </div>
       )}
