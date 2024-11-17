@@ -32,6 +32,16 @@ const SocketNotifications = ({ user, openURL }) => {
           title: "Notification!",
           description: data.message,
           status: "info",
+          action: (
+            <button
+              className="rounded-lg border-2 border-black bg-transparent px-3 py-2 text-lg font-medium transition-all duration-200 hover:cursor-pointer hover:bg-zinc-100"
+              onClick={() => {
+                openURL(`/recipes/${data.recipeId}`);
+              }}
+            >
+              Open Recipe
+            </button>
+          ),
         });
       });
 
@@ -43,21 +53,48 @@ const SocketNotifications = ({ user, openURL }) => {
           status: "info",
           action: (
             <button
+              className="rounded-lg border-2 border-white bg-transparent px-3 py-2 text-lg font-medium transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-yellow-400"
               onClick={() => {
                 openURL(`/recipes/${data.recipeId}`);
               }}
-            ></button>
+            >
+              Open Recipe
+            </button>
           ),
         });
       });
 
       ioSocket.on("receiveNotificationForAcceptedSpecialist", (data) => {
         playNotificationSound();
-        toast({
-          title: "Notification!",
-          description: data.message,
-          status: "info",
-        });
+
+        let countdown = 5;
+
+        const startCountdown = () => {
+          if (countdown > 0) {
+            toast({
+              id: "notification-toast",
+              title: "Notification!",
+              description: `${data.message}. Reloading in ${countdown} seconds...`,
+              variant: "warning",
+              action: (
+                <button
+                  className="rounded-lg border-2 border-white bg-transparent px-3 py-2 text-lg font-medium transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-yellow-400"
+                  onClick={() => {
+                    location.href = "/";
+                  }}
+                >
+                  Reload Now!
+                </button>
+              ),
+            });
+            countdown--;
+            setTimeout(startCountdown, 1300);
+          } else {
+            location.href = "/";
+          }
+        };
+
+        startCountdown();
       });
 
       return () => {
