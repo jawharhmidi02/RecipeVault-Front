@@ -1,7 +1,7 @@
 import React from 'react'
 import SpecialistCard from '../SpecialistCard/SpecialistCard'
 
-const SpecialistsOverview = () => {
+const SpecialistsOverview = ({ user }) => {
 
     const specialists = [
         {
