@@ -1,4 +1,3 @@
-// components/Footer.js
 "use client";
 import React from "react";
 import { FaFacebook, FaYoutube, FaTwitter } from "react-icons/fa";

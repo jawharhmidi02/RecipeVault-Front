@@ -62,7 +62,6 @@ const page = () => {
       });
       return false;
     } else {
-      // SEND MESSAGE CODE
       toast({
         description: "Sending message...",
         variant: "default",

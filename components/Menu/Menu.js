@@ -32,7 +32,6 @@ const Menu = ({ orientation, closeButton, setLoadingPage, user }) => {
               closeButton?.current.click();
             }, 500);
           }}
-          // href="/"
           className="hover:cursor-pointer"
         >
           Home
