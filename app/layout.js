@@ -18,6 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/images/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -34,7 +35,7 @@ export default function RootLayout({ children }) {
         <>{children}</>
         <Footer />
         <Toaster />
-        <FastLinks/>
+        <FastLinks />
       </body>
     </html>
   );
