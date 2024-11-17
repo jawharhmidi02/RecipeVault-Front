@@ -88,16 +88,16 @@ const page = () => {
           duration: 2000,
         });
         return false;
-      } else if (cuisine == "") {
+      } else if (!fileInput.current.files[0]) {
         toast({
-          description: "You need to choose a cuisine!",
+          description: "You need to choose an Image!",
           variant: "destructive",
           duration: 2000,
         });
         return false;
-      } else if (!fileInput.current.files[0]) {
+      } else if (cuisine == "") {
         toast({
-          description: "You need to choose an Image!",
+          description: "You need to choose a cuisine!",
           variant: "destructive",
           duration: 2000,
         });
