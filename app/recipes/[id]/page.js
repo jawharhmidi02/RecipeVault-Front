@@ -124,7 +124,7 @@ const page = () => {
           variant: "warning",
           action: (
             <ToastAction
-              className="rounded-md border-2 border-white px-4 py-2 transition-colors duration-300 hover:bg-white hover:text-yellow-400"
+              className="rounded-md border-2 border-white px-4 py-2 transition-colors duration-300 md:hover:bg-white md:hover:text-yellow-400"
               altText="Register"
               onClick={() => {
                 startTransitionPage(() => {
@@ -275,7 +275,7 @@ const page = () => {
                   }}
                   xmlns="http://www.w3.org/2000/svg"
                   className={cn(
-                    "duration-50 peer absolute -left-[1px] -top-[1px] size-[30px] opacity-0 transition-all hover:cursor-pointer hover:opacity-100 min-[500px]:size-[38px]",
+                    "duration-50 peer absolute -left-[1px] -top-[1px] size-[30px] opacity-0 transition-all hover:cursor-pointer md:hover:opacity-100 min-[500px]:size-[38px]",
                     loadingRecipe && !CanLike && "cursor-pointer",
                     signedIn && userLiked && "opacity-100",
                   )}

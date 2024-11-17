@@ -222,7 +222,7 @@ const page = () => {
           variant: "warning",
           action: (
             <ToastAction
-              className="rounded-md border-2 border-white px-4 py-2 transition-colors duration-300 hover:bg-white hover:text-yellow-400"
+              className="rounded-md border-2 border-white px-4 py-2 transition-colors duration-300 md:hover:bg-white md:hover:text-yellow-400"
               altText="Register"
               onClick={() => {
                 startTransitionPage(() => {
