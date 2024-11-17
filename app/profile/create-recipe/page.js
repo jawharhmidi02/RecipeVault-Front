@@ -1100,7 +1100,7 @@ const page = () => {
               <textarea
                 className="h-[200px] rounded-md border border-neutral-700 bg-[var(--bg)] px-5 py-3 outline-[var(--theme2)]"
                 maxLength={500}
-                placeholder="This is my favourite Desert, exactly how my Grandma used to make it. Try it with whipped cream on top!"
+                placeholder="This is my favourite Dessert, exactly how my Grandma used to make it. Try it with whipped cream on top!"
                 ref={recipeDescriptionInput}
               ></textarea>
               <span className="border-neutral-700 text-end text-[12px] font-light">
@@ -1169,12 +1169,12 @@ const page = () => {
                   </label>
                 </div>
                 <div>
-                  <label htmlFor="Desert">
+                  <label htmlFor="Dessert">
                     <input
                       type="radio"
-                      id="Desert"
+                      id="Dessert"
                       name="category"
-                      value="Desert"
+                      value="Dessert"
                       className="hidden"
                       onChange={() => {
                         setCatRadio(3);
