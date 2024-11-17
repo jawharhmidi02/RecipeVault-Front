@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { toast } from "./use-toast";
 
-const SocketNotifications = ({ user }) => {
+const SocketNotifications = ({ user, openURL }) => {
   const [socket, setSocket] = useState(null);
   const [loadingPage, setLoadingPage] = useState(false);
 
@@ -27,6 +27,31 @@ const SocketNotifications = ({ user }) => {
       });
 
       ioSocket.on("receiveNotification", (data) => {
+        playNotificationSound();
+        toast({
+          title: "Notification!",
+          description: data.message,
+          status: "info",
+        });
+      });
+
+      ioSocket.on("receiveNotificationForAcceptedRecipe", (data) => {
+        playNotificationSound();
+        toast({
+          title: "Notification!",
+          description: data.message,
+          status: "info",
+          action: (
+            <button
+              onClick={() => {
+                openURL(`/recipes/${data.recipeId}`);
+              }}
+            ></button>
+          ),
+        });
+      });
+
+      ioSocket.on("receiveNotificationForAcceptedSpecialist", (data) => {
         playNotificationSound();
         toast({
           title: "Notification!",

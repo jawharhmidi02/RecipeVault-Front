@@ -74,6 +74,12 @@ const Nav = () => {
     location.href = "/sign-in";
   };
 
+  const openURL = (url) => {
+    startTransition(() => {
+      router.push(url);
+    });
+  };
+
   useEffect(() => {
     checkUser();
     setLoadingPage(false);
@@ -90,7 +96,12 @@ const Nav = () => {
         (pathname.includes("create") || pathname == "/") && "mb-0",
       )}
     >
-      <SocketNotifications user={user} />
+      <SocketNotifications
+        user={user}
+        openURL={(url) => {
+          openURL(url);
+        }}
+      />
       {loadingPage && (
         <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-white/60 backdrop-blur-sm">
           <div className="h-14 w-14 animate-spin rounded-full border-b-4 border-[var(--theme1)]"></div>
