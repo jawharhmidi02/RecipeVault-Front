@@ -22,6 +22,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import LikedRecipes from "@/components/LikedRecipes/LikedRecipes";
+import SpecialistsOverview from "@/components/SpecialistsOverview/SpecialistsOverview";
 
 const page = () => {
   const router = useRouter();
@@ -293,6 +294,24 @@ const page = () => {
           </div>
 
           <div
+            onClick={() => setMenuState("Specialists Overview")}
+            className={cn(
+              "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
+              user.role != "admin" && "hidden",
+            )}
+          >
+            <span className="hidden font-light sm:block">
+            Specialists Overview
+            </span>
+            <div
+              className={cn(
+                "h-1.5 w-full bg-stone-300",
+                menuState == "Specialists Overview" && "bg-[var(--theme2)]",
+              )}
+            ></div>
+          </div>
+
+          <div
             onClick={() => setMenuState("Application Requests")}
             className={cn(
               "flex w-full flex-col items-center justify-between gap-2 pt-8 transition-all duration-100 hover:scale-[1.03] hover:cursor-pointer sm:pt-0",
@@ -523,6 +542,20 @@ const page = () => {
         </div>
 
         {/* LIKED RECIPES COMP DONE */}
+
+
+        {/* Specialists Overview Comp  BELOW */}
+
+        <div
+          className={cn(
+            "flex w-full",
+            menuState != "Specialists Overview" && "hidden",
+          )}
+        >
+          {user.role === "admin" && <SpecialistsOverview user={user} />}
+        </div>
+
+        {/* Specialists overview comp done */}
 
         {/* APPLICATION REQUESTS COMP BELOW */}
 

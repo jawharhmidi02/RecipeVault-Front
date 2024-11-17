@@ -180,21 +180,6 @@ const Footer = () => {
                   </a>
                 </div>
               </li>
-              <li>
-                <div className={cn("link text-neutral-700")}>
-                  <a
-                    onClick={() => {
-                      setLoadingPage(true);
-                      startTransition(() => {
-                        router.push("/apply-form");
-                      });
-                    }}
-                    className="hover:cursor-pointer"
-                  >
-                    Form
-                  </a>
-                </div>
-              </li>
             </ul>
           </div>
 
