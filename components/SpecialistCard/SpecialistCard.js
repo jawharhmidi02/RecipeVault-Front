@@ -29,10 +29,10 @@ const SpecialistCard = ({ specialist }) => {
       </div>
       <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2">
         <div className="flex flex-col gap-1 group">
-          <div className="text-sm font-light tracking-wider text-emerald-500">
+          <div className="text-sm font-light tracking-wider text-green-500">
             RECIPES ACCEPTED
           </div>
-          <div className="rounded-lg  p-2 text-lg transition-all duration-200 md:group-hover:bg-emerald-100">
+          <div className="rounded-lg  p-2 text-lg transition-all duration-200 md:group-hover:bg-green-100">
             {specialist.accepted}
           </div>
         </div>
