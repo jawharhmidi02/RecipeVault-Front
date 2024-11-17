@@ -21,63 +21,6 @@ const page = () => {
   const [isPendingPage, startTransitionPage] = useTransition();
   const rejectionInput = useRef(null);
 
-  // const recipe = {
-  //   id: "455048ce-38c3-4e0e-b5d0-3f47c54f7e9f",
-  //   title: "Grilled Salmon",
-  //   steps: [
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel esse mollitia praesentium doloribus, repellat, fugit dolores obcaecati facilis accusantium minima saepe voluptatum maxime quas eos explicabo eligendi nam perferendis? Aperiam error perspiciatis ipsa sunt repellendus culpa ullam odit hic magni totam dignissimos ratione quisquam eveniet officia, voluptatem maxime dolore. Fugiat?",
-  //   ],
-  //   description:
-  //     " Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptatem accusamus aspernatur, dicta voluptas inventore non illo dolorem impedit provident illum cumque fugit nihil accusantium ut sit atque, deleniti minus. Quia minus culpa delectus, cupiditate voluptatem id! Sed repellendus corporis maiores rerum quis? Vero voluptates soluta, ea consectetur eligendi rem! Iusto assumenda quam deleniti unde velit reprehenderit culpa. Saepe reprehenderit eveniet enim minus ducimus, nobis modi nostrum suscipit omnis perspiciatis totam rerum corrupti, est nisi corporis veritatis ut odio. Rerum, enim dolor? Hic excepturi deleniti perferendis sed! Ipsam commodi nobis molestiae dicta harum quam neque nesciunt! Illum, voluptatibus itaque! Porro?",
-  //   ingredientsLocation: "Tunis",
-  //   cuisineLocation: "Brazil",
-  //   ingredients: ["1:1/2:tbsp:salt", "2:1/4:cup:milk"],
-  //   is_approved: false,
-  //   is_rejected: false,
-  //   rejection_reason: null,
-  //   approvedAt: null,
-  //   user: {
-  //     dialogues: [],
-  //     email: "lafiraed04@gmail.com",
-  //     id: "dee658f7-0f25-4b13-9729-e0b8282a57f3",
-  //     full_name: "Lafi Raed",
-  //     phone: "+21650974080",
-  //     role: "client",
-  //     nonce: null,
-  //   },
-  //   img: "https://www.shutterstock.com/image-photo/fried-salmon-steak-cooked-green-600nw-2489026949.jpg",
-  //   tags: [
-  //     "tag5",
-  //     "tag2",
-  //     "Tag4",
-  //     "Tag3",
-  //     "Tag10",
-  //     "Tag11",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //     "Tag8",
-  //   ],
-  //   type: "Starter",
-  //   difficulty: "Easy",
-  //   prepTime: 59,
-  //   bakingTime: 130,
-  //   restingTime: 166,
-  //   likes: 0,
-  //   utensils: ["pan", "hotpot", "butterknife", "cup", "spoon", "fork"],
-  // };
-
   const acceptRecipe = async () => {
     try {
       const response = await fetch(
@@ -443,12 +386,7 @@ const page = () => {
               {loadingRecipe ? (
                 <Skeleton className={"h-5 w-[100px] bg-neutral-300"} />
               ) : (
-                <div
-                  className={cn(
-                    "block",
-                    // recipe.user.role == "client" && "block",
-                  )}
-                >
+                <div className={cn("block")}>
                   <div className="font-light text-neutral-500">
                     {recipe.user.role === "client"
                       ? "Verified by a Specialist"

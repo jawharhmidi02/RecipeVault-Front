@@ -337,12 +337,7 @@ const page = () => {
               {loadingRecipe ? (
                 <Skeleton className={"h-5 w-[100px] bg-neutral-300"} />
               ) : (
-                <div
-                  className={cn(
-                    "block",
-                    // recipe.user?.role == "client" && "block",
-                  )}
-                >
+                <div className={cn("block")}>
                   <div className="font-light text-neutral-500">
                     {recipe.user?.role === "client"
                       ? "Verified by a Specialist"
